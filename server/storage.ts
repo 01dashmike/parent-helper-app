@@ -19,6 +19,7 @@ export interface IStorage {
   createClass(classData: InsertClass): Promise<Class>;
   updateClass(id: number, classData: Partial<InsertClass>): Promise<Class | undefined>;
   deleteClass(id: number): Promise<boolean>;
+  clearAllClasses(): Promise<void>;
   getFeaturedClasses(): Promise<Class[]>;
   getClassesByCategory(category: string): Promise<Class[]>;
   
@@ -266,6 +267,11 @@ export class MemStorage implements IStorage {
 
   async deleteClass(id: number): Promise<boolean> {
     return this.classes.delete(id);
+  }
+
+  async clearAllClasses(): Promise<void> {
+    this.classes.clear();
+    this.currentClassId = 1;
   }
 
   async getFeaturedClasses(): Promise<Class[]> {

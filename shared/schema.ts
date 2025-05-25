@@ -68,8 +68,8 @@ export const searchSchema = z.object({
   postcode: z.string().min(1, "Postcode is required"),
   ageGroup: z.string().optional(),
   category: z.string().optional(),
-  radius: z.number().default(10),
-  includeInactive: z.boolean().default(false),
+  radius: z.coerce.number().default(10),
+  includeInactive: z.coerce.boolean().default(false),
 });
 
 export type Class = typeof classes.$inferSelect;

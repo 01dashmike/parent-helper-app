@@ -249,6 +249,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/classes/sync", async (req, res) => {
     try {
       const sheetData = await fetchGoogleSheetsData();
+      console.log('Fetched sheet data:', sheetData);
+      
+      // Clear existing data first
+      await storage.clearAllClasses();
       
       // Transform sheet data to our class format
       for (const item of sheetData) {
@@ -257,7 +261,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         const classData = {
           name: item.name,
-          description: `${item.name} class in ${item.town}. ${item.tags ? `Tags: ${item.tags}` : ''}`,
+          description: `${item.name} in ${item.town}. ${item.tags ? `Features: ${item.tags}` : ''}`,
           ageGroupMin: ageRange.min,
           ageGroupMax: ageRange.max,
           price: item.cost.toLowerCase().includes('free') ? null : extractPrice(item.cost),
@@ -279,6 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           isActive: true,
         };
         
+        console.log('Creating class:', classData.name);
         await storage.createClass(classData);
       }
       
