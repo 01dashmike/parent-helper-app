@@ -70,8 +70,31 @@ export const searchSchema = z.object({
   ageGroup: z.string().optional(),
   category: z.string().optional(),
   priceFilter: z.string().optional(),
+  dayOfWeek: z.string().optional(), // Monday, Tuesday, etc.
+  className: z.string().optional(), // Search by class name
   radius: z.coerce.number().default(10),
   includeInactive: z.coerce.boolean().default(false),
+});
+
+// Schema for "List Your Class" form
+export const listClassSchema = z.object({
+  businessName: z.string().min(1, "Business name is required"),
+  contactName: z.string().min(1, "Contact name is required"),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  website: z.string().url().optional().or(z.literal("")),
+  className: z.string().min(1, "Class name is required"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  category: z.string().min(1, "Category is required"),
+  ageGroupMin: z.coerce.number().min(0, "Minimum age is required"),
+  ageGroupMax: z.coerce.number().min(0, "Maximum age is required"),
+  venue: z.string().min(1, "Venue is required"),
+  address: z.string().min(1, "Address is required"),
+  postcode: z.string().min(1, "Postcode is required"),
+  dayOfWeek: z.string().min(1, "Day of week is required"),
+  time: z.string().min(1, "Time is required"),
+  price: z.string().optional(),
+  additionalInfo: z.string().optional(),
 });
 
 export type Class = typeof classes.$inferSelect;
@@ -81,3 +104,4 @@ export type InsertNewsletter = z.infer<typeof insertNewsletterSchema>;
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type SearchParams = z.infer<typeof searchSchema>;
+export type ListClassData = z.infer<typeof listClassSchema>;
