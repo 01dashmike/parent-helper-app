@@ -68,9 +68,17 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
   }
 
   const sortedResults = [...results].sort((a, b) => {
+    // Baby Sensory and Toddler Sense classes ALWAYS first - highest priority
+    const aSensory = a.name.toLowerCase().includes('baby sensory') || a.name.toLowerCase().includes('toddler sense');
+    const bSensory = b.name.toLowerCase().includes('baby sensory') || b.name.toLowerCase().includes('toddler sense');
+    
+    if (aSensory !== bSensory) {
+      return aSensory ? -1 : 1;
+    }
+    
+    // Then apply user's chosen sorting
     switch (sortBy) {
       case "distance":
-        // Mock distance sorting - in production this would use actual coordinates
         return a.id - b.id;
       case "price":
         const aPrice = parseFloat(a.price || "0");
