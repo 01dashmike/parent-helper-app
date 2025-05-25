@@ -38,13 +38,27 @@ export default function ClassCard({ classItem }: ClassCardProps) {
     return imageMap[category] || imageMap.sensory;
   };
 
-  const cardClasses = classItem.isFeatured 
+  // Check if this is a premium sensory class
+  const isPremiumSensory = classItem.name.toLowerCase().includes('baby sensory') || 
+                          classItem.name.toLowerCase().includes('toddler sense');
+
+  const cardClasses = isPremiumSensory
+    ? "bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-2xl p-6 relative premium-sensory-card shadow-lg"
+    : classItem.isFeatured 
     ? "bg-gradient-to-r from-gold-soft/20 to-yellow-100 border-2 border-gold-soft/40 rounded-2xl p-6 relative featured-card"
     : "bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200";
 
   return (
     <div className={cardClasses}>
-      {classItem.isFeatured && (
+      {isPremiumSensory && (
+        <div className="absolute top-4 right-4">
+          <Badge className="bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-xs font-bold shadow-md">
+            <Star className="w-3 h-3 mr-1 fill-current" />
+            PREMIUM SENSORY
+          </Badge>
+        </div>
+      )}
+      {classItem.isFeatured && !isPremiumSensory && (
         <div className="absolute top-4 right-4">
           <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
             <StarFilled className="w-3 h-3 mr-1" />
