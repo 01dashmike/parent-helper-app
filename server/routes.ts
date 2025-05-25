@@ -25,7 +25,7 @@ async function fetchGoogleSheetsData(): Promise<SheetsClassData[]> {
   }
 
   try {
-    const range = 'Sheet1!A2:G1000'; // Assuming headers in row 1
+    const range = 'Classes!A1:G1000'; // Fetch from Classes sheet
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
     
     const response = await fetch(url);
