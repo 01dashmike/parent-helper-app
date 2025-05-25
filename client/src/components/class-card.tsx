@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Baby, MapPin, Clock, Star, Building, Star as StarFilled } from "lucide-react";
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
+import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
 
 interface ClassCardProps {
   classItem: Class;
@@ -11,6 +12,9 @@ interface ClassCardProps {
 export default function ClassCard({ classItem }: ClassCardProps) {
   const isFree = !classItem.price || parseFloat(classItem.price) === 0;
   const price = isFree ? "FREE" : `£${classItem.price}`;
+  
+  // Check if this is a Baby Sensory class
+  const isBabySensory = classItem.name.toLowerCase().includes('baby sensory');
   
   const formatAgeRange = (min: number, max: number) => {
     if (max <= 12) {
@@ -50,6 +54,17 @@ export default function ClassCard({ classItem }: ClassCardProps) {
 
   return (
     <div className={cardClasses}>
+      {/* Baby Sensory Banner Image */}
+      {isBabySensory && (
+        <div className="w-full h-24 mb-4 rounded-t-lg overflow-hidden">
+          <img 
+            src={babySensoryBanner} 
+            alt="Baby Sensory - Precious Early Learning for Babies" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+      
       {classItem.isFeatured && !isPremiumSensory && (
         <div className="absolute top-4 right-4">
           <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
