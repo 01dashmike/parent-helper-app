@@ -59,15 +59,25 @@ export default function ClassCard({ classItem }: ClassCardProps) {
             <h4 className="text-xl font-bold font-poppins text-gray-900 pr-4">
               {classItem.name}
             </h4>
-            <Badge 
-              className={`ml-4 text-sm font-semibold ${
-                isFree 
-                  ? "bg-green-100 text-green-800" 
-                  : "bg-yellow-100 text-yellow-800"
-              }`}
-            >
-              {price}
-            </Badge>
+            <div className="flex gap-2">
+              {/* Popularity Badge */}
+              {classItem.popularity && classItem.popularity > 0 && (
+                <Badge className="bg-coral/10 text-coral text-xs font-semibold">
+                  <Star className="w-3 h-3 mr-1" />
+                  {classItem.popularity}% popular
+                </Badge>
+              )}
+              {/* Price Badge */}
+              <Badge 
+                className={`text-sm font-semibold ${
+                  isFree 
+                    ? "bg-green-100 text-green-800" 
+                    : "bg-yellow-100 text-yellow-800"
+                }`}
+              >
+                {price}
+              </Badge>
+            </div>
           </div>
           
           <p className="text-gray-600 mb-3">
@@ -89,8 +99,17 @@ export default function ClassCard({ classItem }: ClassCardProps) {
             </span>
             {classItem.rating && classItem.reviewCount && (
               <span className="flex items-center">
-                <Star className="w-4 h-4 mr-1 text-coral" />
-                {classItem.rating} ({classItem.reviewCount} reviews)
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <StarFilled 
+                      key={i} 
+                      className={`w-3 h-3 ${i < Math.floor(parseFloat(classItem.rating || "0")) ? 'text-yellow-400' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                </div>
+                <span className="ml-1 text-xs">
+                  {classItem.rating} ({classItem.reviewCount})
+                </span>
               </span>
             )}
           </div>
