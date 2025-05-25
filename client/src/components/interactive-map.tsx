@@ -17,8 +17,11 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
   useEffect(() => {
     if (!mapRef.current || typeof window === "undefined") return;
 
-    // Dynamically import Leaflet
-    import("leaflet").then((L) => {
+    // Dynamically import Leaflet and CSS
+    Promise.all([
+      import("leaflet"),
+      import("leaflet/dist/leaflet.css")
+    ]).then(([L]) => {
       // Clear existing map instance if it exists
       if (mapInstance.current) {
         mapInstance.current.remove();

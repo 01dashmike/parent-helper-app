@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix Leaflet map tile positioning */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.leaflet-tile {
+  pointer-events: auto !important;
+}
+
+.leaflet-tile-pane {
+  position: relative !important;
+}
+
+.leaflet-map-pane {
+  position: relative !important;
+}
+
 :root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
