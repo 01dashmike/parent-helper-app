@@ -10,7 +10,7 @@ export class ImageService {
   private unsplashAccessKey: string;
 
   constructor() {
-    this.unsplashAccessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY || '';
+    this.unsplashAccessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY || 'nDBXNEcDRPBw6fqYhcr5Xd-SgdiNZHwcZcKYJdPqe0U';
   }
 
   async getLocationImage(searchTerm: string): Promise<LocationImage | null> {
