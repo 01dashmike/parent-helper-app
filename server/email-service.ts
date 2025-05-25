@@ -72,8 +72,9 @@ This submission was received through the Parent Helper "List Your Class" form.
     `;
 
     await mailService.send({
-      to: 'notifications@parenthelper.co.uk', // Update this with your verified email
-      from: 'notifications@parenthelper.co.uk', // This should match your verified sender email
+      to: 'notification@parenthelper.co.uk',
+      from: 'notification@parenthelper.co.uk',
+      replyTo: 'notification@parenthelper.co.uk',
       subject: `New Class Submission: ${params.className} - ${params.businessName}`,
       text: textContent,
       html: htmlContent,
