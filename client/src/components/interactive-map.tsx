@@ -21,14 +21,27 @@ export default function InteractiveMap({ classes, fullScreen = false }: Interact
         mapInstance.current.remove();
       }
 
-      // Get class locations for map centering
-      const classLocations = [
-        { name: "Winchester", lat: 51.0632, lng: -1.308, postcode: "SO23" },
-        { name: "Andover", lat: 51.2085, lng: -1.4865, postcode: "SP10" }
-      ];
+      // Calculate map center based on actual class locations
+      let mapCenter = [51.1358, -1.3972]; // Default Hampshire center
+      let zoomLevel = 11;
+      
+      if (classes.length > 0) {
+        const winchesterClasses = classes.filter(c => c.postcode.startsWith('SO23'));
+        const andoverClasses = classes.filter(c => c.postcode.startsWith('SP10'));
+        
+        if (winchesterClasses.length > 0 && andoverClasses.length === 0) {
+          // Only Winchester classes - center on Winchester
+          mapCenter = [51.0632, -1.308];
+          zoomLevel = 13;
+        } else if (andoverClasses.length > 0 && winchesterClasses.length === 0) {
+          // Only Andover classes - center on Andover
+          mapCenter = [51.2085, -1.4865];
+          zoomLevel = 13;
+        }
+        // If both areas have classes, keep the broader Hampshire view
+      }
 
-      // Center map on Hampshire area between Winchester and Andover
-      const map = L.map(mapRef.current!).setView([51.1358, -1.3972], 11);
+      const map = L.map(mapRef.current!).setView(mapCenter, zoomLevel);
       mapInstance.current = map;
 
       // Add tile layer
