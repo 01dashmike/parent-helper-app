@@ -474,6 +474,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Submit class listing
+  app.post("/api/list-class", async (req, res) => {
+    try {
+      const validatedData = listClassSchema.parse(req.body);
+      
+      console.log("Class listing submitted:", validatedData);
+      
+      // Send email notification
+      const emailSent = await sendClassSubmissionNotification({
+        businessName: validatedData.businessName,
+        contactName: validatedData.contactName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        className: validatedData.className,
+        description: validatedData.description,
+        ageRange: `${validatedData.ageGroupMin}-${validatedData.ageGroupMax} years`,
+        dayTime: `${validatedData.dayOfWeek} at ${validatedData.time}`,
+        cost: validatedData.price || 'Not specified',
+        postcode: validatedData.postcode,
+        website: validatedData.website,
+        socialMedia: validatedData.additionalInfo,
+      });
+      
+      if (!emailSent) {
+        console.warn("Failed to send email notification for class submission");
+      }
+      
+      res.json({ 
+        success: true, 
+        message: "Class listing submitted successfully. We'll review your submission and get back to you soon!" 
+      });
+    } catch (error: any) {
+      console.error("Error submitting class listing:", error);
+      res.status(400).json({ 
+        error: error.message || "Failed to submit class listing" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
