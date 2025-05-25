@@ -458,11 +458,33 @@ class DatabaseStorage implements IStorage {
     }
 
     const results = await db.select().from(classes).where(whereCondition);
-    return results.sort((a, b) => {
+    
+    // Apply price filter if specified
+    const filteredResults = params.priceFilter ? results.filter(c => {
+      if (params.priceFilter === 'free') {
+        return !c.price || parseFloat(c.price) === 0;
+      } else if (params.priceFilter === 'paid') {
+        return c.price && parseFloat(c.price) > 0;
+      }
+      return true;
+    }) : results;
+    
+    return filteredResults.sort((a, b) => {
+      // Featured classes always first
       if (a.isFeatured !== b.isFeatured) {
         return a.isFeatured ? -1 : 1;
       }
-      return (b.popularity || 0) - (a.popularity || 0);
+      
+      // Check for Baby Sensory or Toddler Sense classes
+      const aSensory = a.name.toLowerCase().includes('baby sensory') || a.name.toLowerCase().includes('toddler sense');
+      const bSensory = b.name.toLowerCase().includes('baby sensory') || b.name.toLowerCase().includes('toddler sense');
+      
+      if (aSensory !== bSensory) {
+        return aSensory ? -1 : 1;
+      }
+      
+      // Then by rating/popularity
+      return (parseFloat(b.rating || '0') || b.popularity || 0) - (parseFloat(a.rating || '0') || a.popularity || 0);
     });
   }
 
