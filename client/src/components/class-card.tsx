@@ -87,7 +87,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               <Clock className="w-4 h-4 mr-1 text-coral" />
               {classItem.dayOfWeek}s {classItem.time}
             </span>
-            {classItem.rating && classItem.reviewCount && (
+            {classItem.rating && classItem.reviewCount !== null && classItem.reviewCount !== undefined && (
               <span className="flex items-center">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
