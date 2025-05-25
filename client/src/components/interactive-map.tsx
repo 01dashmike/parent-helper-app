@@ -158,26 +158,17 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
   }
 
   return (
-    <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-hidden">
-      <Card className="h-full">
+    <div className="sticky top-6">
+      <Card>
         <CardHeader>
           <CardTitle className="flex items-center text-lg font-bold font-poppins text-gray-900">
             <MapPin className="w-5 h-5 text-coral mr-2" />
             Class Locations
           </CardTitle>
+          <p className="text-sm text-gray-600">Click orange markers for class details</p>
         </CardHeader>
-        <CardContent className="p-0">
-          <div ref={mapRef} className="w-full h-96 relative" style={{ minHeight: '384px' }} />
-          
-          <div className="p-4 space-y-2">
-            <div className="flex items-center text-sm">
-              <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
-              <span>Class Locations</span>
-            </div>
-            <div className="text-xs text-gray-600 mt-2">
-              Click orange markers for class details
-            </div>
-          </div>
+        <CardContent>
+          <div ref={mapRef} className="w-full h-80 rounded-lg border" />
         </CardContent>
       </Card>
     </div>
