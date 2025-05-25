@@ -7,6 +7,8 @@ export interface PostcodeData {
   country: string;
 }
 
+import { ukPostcodesAPI } from './postcodes-api';
+
 export async function validateAndLookupPostcode(postcode: string): Promise<PostcodeData> {
   const response = await fetch(`/api/postcode/${encodeURIComponent(postcode)}`);
   
