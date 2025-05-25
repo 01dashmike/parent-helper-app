@@ -122,10 +122,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Search classes
   app.get("/api/classes/search", async (req, res) => {
     try {
+      console.log('Search request query:', req.query);
       const params = searchSchema.parse(req.query);
+      console.log('Parsed search params:', params);
       const classes = await storage.searchClasses(params);
+      console.log('Found classes:', classes.length);
       res.json(classes);
     } catch (error) {
+      console.error('Search validation error:', error);
       res.status(400).json({ 
         message: "Invalid search parameters",
         error: error instanceof z.ZodError ? error.errors : String(error)
