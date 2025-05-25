@@ -1,6 +1,6 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const { neon } = require('@neondatabase/serverless');
+import fs from 'fs';
+import csv from 'csv-parser';
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -232,7 +232,7 @@ function extractPostcode(address) {
 }
 
 // Usage
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const csvFile = process.argv[2];
   if (!csvFile) {
     console.log('Usage: node import-outscraper.js <csv-file-path>');
@@ -251,4 +251,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { importOutscraperData };
+export { importOutscraperData };
