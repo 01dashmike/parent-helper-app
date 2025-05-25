@@ -10,19 +10,29 @@ export interface PostcodeData {
 import { ukPostcodesAPI } from './postcodes-api';
 
 export async function validateAndLookupPostcode(postcode: string): Promise<PostcodeData> {
-  const response = await fetch(`/api/postcode/${encodeURIComponent(postcode)}`);
-  
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to validate postcode');
+  if (!ukPostcodesAPI.isValidPostcodeFormat(postcode)) {
+    throw new Error('Invalid postcode format');
   }
+
+  // Use the UK Government's free postcodes API
+  const result = await ukPostcodesAPI.lookupPostcode(postcode);
   
-  return response.json();
+  if (!result) {
+    throw new Error('Postcode not found');
+  }
+
+  return {
+    postcode: result.postcode,
+    latitude: result.latitude,
+    longitude: result.longitude,
+    district: result.admin_district,
+    region: result.region,
+    country: result.country
+  };
 }
 
 export function validatePostcodeFormat(postcode: string): boolean {
-  const postcodeRegex = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
-  return postcodeRegex.test(postcode.trim());
+  return ukPostcodesAPI.isValidPostcodeFormat(postcode);
 }
 
 export function formatPostcode(postcode: string): string {
