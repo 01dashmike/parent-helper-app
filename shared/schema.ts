@@ -13,6 +13,7 @@ export const classes = pgTable("classes", {
   venue: text("venue").notNull(),
   address: text("address").notNull(),
   postcode: text("postcode").notNull(),
+  town: text("town").notNull(), // nearest major town with population > 15,000
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 10, scale: 8 }),
   dayOfWeek: text("day_of_week").notNull(),
