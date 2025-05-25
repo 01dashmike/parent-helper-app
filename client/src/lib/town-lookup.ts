@@ -87,26 +87,26 @@ export function findTownByPostcode(postcode: string): MajorTown | null {
 export function getImageSearchTerm(town: MajorTown): string {
   // Return a search term optimized for finding attractive local images
   const landmarks: Record<string, string> = {
-    "Winchester": "Winchester Cathedral Hampshire",
-    "Southampton": "Southampton waterfront Hampshire",
-    "Portsmouth": "Portsmouth harbour Spinnaker Tower",
-    "Basingstoke": "Basingstoke town centre Hampshire",
-    "Andover": "Andover high street Hampshire",
-    "Fareham": "Fareham town Hampshire",
-    "Eastleigh": "Eastleigh Hampshire town",
-    "Fleet": "Fleet Hampshire town centre",
-    "Aldershot": "Aldershot Hampshire town",
-    "Farnborough": "Farnborough Hampshire",
-    "Gosport": "Gosport harbour Hampshire",
-    "Havant": "Havant Hampshire town",
-    "Waterlooville": "Waterlooville Hampshire",
-    "Reading": "Reading town centre Berkshire",
-    "Guildford": "Guildford Cathedral Surrey",
-    "Woking": "Woking town centre Surrey",
-    "Salisbury": "Salisbury Cathedral Wiltshire",
-    "Bournemouth": "Bournemouth beach Dorset",
-    "Poole": "Poole harbour Dorset"
+    "Winchester": "Winchester Cathedral Hampshire England UK historic",
+    "Southampton": "Southampton waterfront port city Hampshire England",
+    "Portsmouth": "Portsmouth Historic Dockyard Spinnaker Tower Hampshire",
+    "Basingstoke": "Basingstoke town centre shopping Hampshire England",
+    "Andover": "Andover town centre market Hampshire England UK",
+    "Fareham": "Fareham Hampshire England town centre high street",
+    "Eastleigh": "Eastleigh Hampshire England town centre",
+    "Fleet": "Fleet Hampshire England town centre pond",
+    "Aldershot": "Aldershot Hampshire England military town",
+    "Farnborough": "Farnborough Hampshire England aviation town",
+    "Gosport": "Gosport Portsmouth harbour Hampshire England",
+    "Havant": "Havant Hampshire England town centre",
+    "Waterlooville": "Waterlooville Hampshire England town",
+    "Reading": "Reading town centre Berkshire England Thames",
+    "Guildford": "Guildford Cathedral Surrey England cobbles",
+    "Woking": "Woking town centre Surrey England shopping",
+    "Salisbury": "Salisbury Cathedral Wiltshire England spire",
+    "Bournemouth": "Bournemouth beach pier Dorset England seaside",
+    "Poole": "Poole harbour quay Dorset England boats"
   };
   
-  return landmarks[town.name] || `${town.name} ${town.county} town centre`;
+  return landmarks[town.name] || `${town.name} ${town.county} England UK town centre`;
 }

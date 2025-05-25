@@ -52,13 +52,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
         </div>
       )}
       
-      <div className="flex flex-col sm:flex-row gap-6">
-        <img 
-          src={getClassImage(classItem.category)} 
-          alt={`${classItem.name} class`}
-          className="w-full sm:w-32 h-32 object-cover rounded-xl"
-        />
-        
+      <div className="flex flex-col gap-4">
         <div className="flex-1">
           <div className="flex justify-between items-start mb-2">
             <h4 className="text-xl font-bold font-poppins text-gray-900 pr-4">
