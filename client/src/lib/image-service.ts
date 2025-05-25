@@ -15,10 +15,12 @@ export class ImageService {
 
   async getLocationImage(searchTerm: string): Promise<LocationImage | null> {
     if (!this.unsplashAccessKey) {
-      console.warn('Unsplash API key not provided');
+      console.warn('Unsplash API key not provided, key:', this.unsplashAccessKey);
       return null;
     }
 
+    console.log('Fetching image for:', searchTerm);
+    
     try {
       const response = await fetch(
         `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchTerm)}&per_page=1&orientation=landscape`,
@@ -29,14 +31,20 @@ export class ImageService {
         }
       );
 
+      console.log('Unsplash response status:', response.status);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Unsplash API error:', response.status, errorText);
         throw new Error(`Unsplash API error: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('Unsplash data:', data);
       
       if (data.results && data.results.length > 0) {
         const photo = data.results[0];
+        console.log('Found photo:', photo.urls.regular);
         return {
           url: photo.urls.regular,
           alt: photo.alt_description || searchTerm,
@@ -45,6 +53,7 @@ export class ImageService {
         };
       }
 
+      console.log('No photos found for search term');
       return null;
     } catch (error) {
       console.error('Error fetching location image:', error);
