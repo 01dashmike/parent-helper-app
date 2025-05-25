@@ -391,4 +391,137 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Database storage for production
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq, and, gte, lte, ilike, or } from "drizzle-orm";
+
+const sql = neon(process.env.DATABASE_URL!);
+const db = drizzle(sql);
+
+class DatabaseStorage implements IStorage {
+  // Classes
+  async getClass(id: number): Promise<Class | undefined> {
+    const result = await db.select().from(classes).where(eq(classes.id, id));
+    return result[0];
+  }
+
+  async getAllClasses(): Promise<Class[]> {
+    return await db.select().from(classes).where(eq(classes.isActive, true));
+  }
+
+  async searchClasses(params: SearchParams): Promise<Class[]> {
+    let query = db.select().from(classes).where(eq(classes.isActive, true));
+    
+    // Filter by postcode area if provided
+    if (params.postcode) {
+      const searchPostcode = params.postcode.toLowerCase().replace(/\s/g, '');
+      const searchArea = searchPostcode.substring(0, 4);
+      
+      // Hampshire region matching - SO (Winchester) and SP (Andover) are close
+      const hampshireRegion = ['so23', 'so22', 'so21', 'sp10', 'sp11'];
+      
+      if (hampshireRegion.includes(searchArea)) {
+        query = query.where(or(
+          ilike(classes.postcode, 'SO23%'),
+          ilike(classes.postcode, 'SO22%'),
+          ilike(classes.postcode, 'SO21%'),
+          ilike(classes.postcode, 'SP10%'),
+          ilike(classes.postcode, 'SP11%')
+        ));
+      } else {
+        query = query.where(ilike(classes.postcode, `${searchArea}%`));
+      }
+    }
+
+    const results = await query;
+    return results.sort((a, b) => {
+      if (a.isFeatured !== b.isFeatured) {
+        return a.isFeatured ? -1 : 1;
+      }
+      return (b.popularity || 0) - (a.popularity || 0);
+    });
+  }
+
+  async createClass(classData: InsertClass): Promise<Class> {
+    const result = await db.insert(classes).values(classData).returning();
+    return result[0];
+  }
+
+  async updateClass(id: number, classData: Partial<InsertClass>): Promise<Class | undefined> {
+    const result = await db.update(classes).set(classData).where(eq(classes.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteClass(id: number): Promise<boolean> {
+    const result = await db.delete(classes).where(eq(classes.id, id));
+    return result.rowCount > 0;
+  }
+
+  async clearAllClasses(): Promise<void> {
+    await db.delete(classes);
+  }
+
+  async getFeaturedClasses(): Promise<Class[]> {
+    return await db.select().from(classes).where(and(eq(classes.isFeatured, true), eq(classes.isActive, true)));
+  }
+
+  async getClassesByCategory(category: string): Promise<Class[]> {
+    return await db.select().from(classes).where(and(eq(classes.category, category), eq(classes.isActive, true)));
+  }
+
+  // Newsletter methods (simplified for now)
+  async subscribeNewsletter(newsletter: InsertNewsletter): Promise<Newsletter> {
+    const result = await db.insert(newsletters).values(newsletter).returning();
+    return result[0];
+  }
+
+  async unsubscribeNewsletter(email: string): Promise<boolean> {
+    const result = await db.update(newsletters).set({ isActive: false }).where(eq(newsletters.email, email));
+    return result.rowCount > 0;
+  }
+
+  async getNewsletterSubscribers(): Promise<Newsletter[]> {
+    return await db.select().from(newsletters).where(eq(newsletters.isActive, true));
+  }
+
+  async getSubscribersByPostcode(postcode: string): Promise<Newsletter[]> {
+    return await db.select().from(newsletters).where(and(eq(newsletters.isActive, true), eq(newsletters.postcode, postcode)));
+  }
+
+  // Blog methods (simplified for now)
+  async getBlogPost(id: number): Promise<BlogPost | undefined> {
+    const result = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+    return result[0];
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const result = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+    return result[0];
+  }
+
+  async getAllBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts);
+  }
+
+  async getPublishedBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts).where(eq(blogPosts.isPublished, true));
+  }
+
+  async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
+    const result = await db.insert(blogPosts).values(post).returning();
+    return result[0];
+  }
+
+  async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
+    const result = await db.update(blogPosts).set(post).where(eq(blogPosts.id, id)).returning();
+    return result[0];
+  }
+
+  async deleteBlogPost(id: number): Promise<boolean> {
+    const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
+    return result.rowCount > 0;
+  }
+}
+
+export const storage = new DatabaseStorage();
