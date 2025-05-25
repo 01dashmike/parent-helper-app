@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -10,6 +10,8 @@ import {
 import { List, Map as MapIcon } from "lucide-react";
 import ClassCard from "./class-card";
 import InteractiveMap from "./interactive-map";
+import { findTownByPostcode, getImageSearchTerm } from "@/lib/town-lookup";
+import { imageService, type LocationImage } from "@/lib/image-service";
 import type { Class, SearchParams } from "@shared/schema";
 
 interface SearchResultsProps {
@@ -21,6 +23,25 @@ interface SearchResultsProps {
 export default function SearchResults({ results, searchParams, isLoading }: SearchResultsProps) {
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const [sortBy, setSortBy] = useState("popularity");
+  const [locationImage, setLocationImage] = useState<LocationImage | null>(null);
+  const [locationName, setLocationName] = useState<string>("");
+
+  // Load location data and image when search params change
+  useEffect(() => {
+    if (searchParams?.postcode) {
+      const town = findTownByPostcode(searchParams.postcode);
+      if (town) {
+        setLocationName(town.name);
+        const searchTerm = getImageSearchTerm(town);
+        imageService.getLocationImage(searchTerm).then(image => {
+          setLocationImage(image || imageService.getDefaultLocationImage(town.name));
+        });
+      } else {
+        setLocationName("Your Area");
+        setLocationImage(imageService.getDefaultLocationImage("Your Area"));
+      }
+    }
+  }, [searchParams]);
 
   if (isLoading) {
     return (
@@ -63,11 +84,11 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
         if (a.isFeatured !== b.isFeatured) {
           return a.isFeatured ? -1 : 1;
         }
-        return b.popularity - a.popularity;
+        return (b.popularity || 0) - (a.popularity || 0);
     }
   });
 
-  const locationName = "Camden, London"; // In production, this would come from postcode lookup
+
 
   return (
     <section className="py-16">
@@ -119,11 +140,24 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
 
         {/* Location Hero Image */}
         <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
-          <img 
-            src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&h=400" 
-            alt={`${locationName} area overview`}
-            className="w-full h-64 object-cover"
-          />
+          {locationImage ? (
+            <div className="relative">
+              <img 
+                src={locationImage.url}
+                alt={locationImage.alt || `${locationName} area overview`}
+                className="w-full h-64 object-cover"
+              />
+              {locationImage.photographer && (
+                <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                  Photo by {locationImage.photographer}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="w-full h-64 bg-gradient-to-r from-coral/20 to-sky-soft/20 flex items-center justify-center">
+              <span className="text-gray-600">Loading location image...</span>
+            </div>
+          )}
         </div>
 
         {viewMode === "list" ? (
