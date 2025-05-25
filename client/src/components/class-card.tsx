@@ -67,16 +67,6 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                   {classItem.rating} ({classItem.reviewCount} reviews)
                 </Badge>
               )}
-              {/* Price Badge */}
-              <Badge 
-                className={`text-sm font-semibold ${
-                  isFree 
-                    ? "bg-green-100 text-green-800" 
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {price}
-              </Badge>
             </div>
           </div>
           
