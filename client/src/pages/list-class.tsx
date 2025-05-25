@@ -43,13 +43,17 @@ export default function ListClass() {
 
   const submitClassMutation = useMutation({
     mutationFn: async (data: ListClassData) => {
-      return await apiRequest("/api/list-class", {
+      const response = await fetch("/api/list-class", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
+      if (!response.ok) {
+        throw new Error("Failed to submit class");
+      }
+      return response.json();
     },
     onSuccess: () => {
       setIsSubmitted(true);

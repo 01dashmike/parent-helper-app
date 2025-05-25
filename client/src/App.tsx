@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import Blog from "@/pages/blog";
 import FAQ from "@/pages/faq";
+import ListClass from "@/pages/list-class";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/blog" component={Blog} />
       <Route path="/faq" component={FAQ} />
+      <Route path="/list-class" component={ListClass} />
       <Route component={NotFound} />
     </Switch>
   );
