@@ -50,14 +50,6 @@ export default function ClassCard({ classItem }: ClassCardProps) {
 
   return (
     <div className={cardClasses}>
-      {isPremiumSensory && (
-        <div className="absolute top-4 left-4">
-          <Badge className="bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-xs font-bold shadow-md">
-            <Star className="w-3 h-3 mr-1 fill-current" />
-            PREMIUM SENSORY
-          </Badge>
-        </div>
-      )}
       {classItem.isFeatured && !isPremiumSensory && (
         <div className="absolute top-4 right-4">
           <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
