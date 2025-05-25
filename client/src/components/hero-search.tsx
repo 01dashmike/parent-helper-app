@@ -120,9 +120,19 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleQuickFilter("free")}
+              onClick={() => handleQuickFilter("sensory")}
               disabled={!postcode.trim() || isLoading}
               className="px-4 py-2 bg-green-100 text-green-800 border-green-200 rounded-full text-sm font-medium hover:bg-green-200 transition-colors"
+            >
+              <Brain className="w-3 h-3 mr-1" />
+              Sensory Classes
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleQuickFilter("free")}
+              disabled={!postcode.trim() || isLoading}
+              className="px-4 py-2 bg-blue-100 text-blue-800 border-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors"
             >
               <Gift className="w-3 h-3 mr-1" />
               Free Classes
@@ -132,7 +142,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
               size="sm"
               onClick={() => handleQuickFilter("swimming")}
               disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-blue-100 text-blue-800 border-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors"
+              className="px-4 py-2 bg-sky-100 text-sky-800 border-sky-200 rounded-full text-sm font-medium hover:bg-sky-200 transition-colors"
             >
               <Waves className="w-3 h-3 mr-1" />
               Swimming
@@ -156,16 +166,6 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             >
               <Dumbbell className="w-3 h-3 mr-1" />
               Movement
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("sensory")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-pink-100 text-pink-800 border-pink-200 rounded-full text-sm font-medium hover:bg-pink-200 transition-colors"
-            >
-              <Brain className="w-3 h-3 mr-1" />
-              Sensory Classes
             </Button>
           </div>
         </div>
