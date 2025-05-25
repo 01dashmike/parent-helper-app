@@ -513,6 +513,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Newsletter automation endpoints
+  app.post("/api/newsletter/send-campaign", async (req, res) => {
+    try {
+      console.log("Starting newsletter campaign...");
+      const results = await sendNewsletterToAllSubscribers();
+      
+      res.json({
+        success: true,
+        message: `Newsletter campaign completed: ${results.sent} sent, ${results.failed} failed`,
+        results: results
+      });
+    } catch (error: any) {
+      console.error("Newsletter campaign failed:", error);
+      res.status(500).json({
+        error: "Failed to send newsletter campaign",
+        details: error.message
+      });
+    }
+  });
+
+  // Send test newsletter to specific subscriber
+  app.post("/api/newsletter/send-test", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+
+      // Find subscriber by email
+      const subscribers = await storage.getNewsletterSubscribers();
+      const subscriber = subscribers.find(s => s.email === email);
+      
+      if (!subscriber) {
+        return res.status(404).json({ error: "Subscriber not found" });
+      }
+
+      const success = await sendNewsletterToSubscriber(subscriber);
+      
+      if (success) {
+        res.json({ success: true, message: `Test newsletter sent to ${email}` });
+      } else {
+        res.status(500).json({ error: "Failed to send test newsletter" });
+      }
+    } catch (error: any) {
+      console.error("Test newsletter failed:", error);
+      res.status(500).json({
+        error: "Failed to send test newsletter",
+        details: error.message
+      });
+    }
+  });
+
+  // Trigger weekly newsletter schedule (in production this would be called by a cron job)
+  app.post("/api/newsletter/weekly", async (req, res) => {
+    try {
+      await scheduleWeeklyNewsletter();
+      res.json({
+        success: true,
+        message: "Weekly newsletter campaign triggered successfully"
+      });
+    } catch (error: any) {
+      console.error("Weekly newsletter failed:", error);
+      res.status(500).json({
+        error: "Failed to trigger weekly newsletter",
+        details: error.message
+      });
+    }
+  });
+
+  // Get newsletter statistics
+  app.get("/api/newsletter/stats", async (req, res) => {
+    try {
+      const subscribers = await storage.getNewsletterSubscribers();
+      
+      // Group subscribers by postcode area for geographic distribution
+      const postcodeAreas = subscribers.reduce((acc: any, sub) => {
+        if (sub.postcode) {
+          const area = sub.postcode.split(' ')[0];
+          acc[area] = (acc[area] || 0) + 1;
+        }
+        return acc;
+      }, {});
+
+      const stats = {
+        totalSubscribers: subscribers.length,
+        subscribersWithPostcodes: subscribers.filter(s => s.postcode).length,
+        topPostcodeAreas: Object.entries(postcodeAreas)
+          .sort(([,a], [,b]) => (b as number) - (a as number))
+          .slice(0, 10)
+          .map(([area, count]) => ({ area, count }))
+      };
+
+      res.json(stats);
+    } catch (error) {
+      console.error("Failed to get newsletter stats:", error);
+      res.status(500).json({ error: "Failed to get newsletter statistics" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
