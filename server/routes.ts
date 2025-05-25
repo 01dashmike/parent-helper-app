@@ -257,6 +257,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Bulk update all class reviews from Google Places
+  app.post("/api/classes/update-all-reviews", async (req, res) => {
+    try {
+      const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: "Google Places API key not configured" });
+      }
+
+      const allClasses = await storage.getAllClasses();
+      const results = [];
+
+      for (const classItem of allClasses) {
+        try {
+          const query = `${classItem.name} ${classItem.address}`;
+          const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}`;
+          
+          const response = await fetch(searchUrl);
+          const data = await response.json();
+
+          if (data.results && data.results.length > 0) {
+            const place = data.results[0];
+            const rating = place.rating ? place.rating.toString() : null;
+            const reviewCount = place.user_ratings_total || 0;
+
+            await storage.updateClass(classItem.id, {
+              rating: rating,
+              reviewCount: reviewCount
+            });
+
+            results.push({
+              id: classItem.id,
+              name: classItem.name,
+              rating: rating,
+              reviewCount: reviewCount,
+              updated: true
+            });
+          } else {
+            results.push({
+              id: classItem.id,
+              name: classItem.name,
+              updated: false,
+              reason: "Not found on Google Places"
+            });
+          }
+        } catch (error) {
+          results.push({
+            id: classItem.id,
+            name: classItem.name,
+            updated: false,
+            reason: error.message
+          });
+        }
+      }
+
+      res.json({
+        success: true,
+        message: `Updated reviews for ${results.filter(r => r.updated).length} classes`,
+        results: results
+      });
+
+    } catch (error) {
+      console.error("Error bulk updating reviews:", error);
+      res.status(500).json({ error: "Failed to bulk update reviews" });
+    }
+  });
+
   // Newsletter subscription
   app.post("/api/newsletter/subscribe", async (req, res) => {
     try {
