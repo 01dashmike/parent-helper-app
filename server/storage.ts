@@ -213,6 +213,33 @@ export class MemStorage implements IStorage {
       params.includeInactive || c.isActive
     );
 
+    // Filter by postcode area if provided
+    if (params.postcode) {
+      const searchPostcode = params.postcode.toLowerCase().replace(/\s/g, '');
+      
+      results = results.filter(c => {
+        if (!c.postcode) return false;
+        
+        const classPostcode = c.postcode.toLowerCase().replace(/\s/g, '');
+        
+        // Extract postcode areas for comparison
+        const searchArea = searchPostcode.substring(0, 4);
+        const classArea = classPostcode.substring(0, 4);
+        
+        // Direct area match
+        if (classArea === searchArea) return true;
+        
+        // Hampshire region matching - SO (Winchester) and SP (Andover) are close
+        const hampshireRegion = ['so23', 'so22', 'so21', 'sp10', 'sp11'];
+        
+        if (hampshireRegion.includes(searchArea) && hampshireRegion.includes(classArea)) {
+          return true;
+        }
+        
+        return false;
+      });
+    }
+
     // Filter by category if specified
     if (params.category && params.category !== 'all') {
       results = results.filter(c => c.category === params.category);
@@ -239,7 +266,7 @@ export class MemStorage implements IStorage {
       if (a.isFeatured !== b.isFeatured) {
         return a.isFeatured ? -1 : 1;
       }
-      return b.popularity - a.popularity;
+      return (b.popularity || 0) - (a.popularity || 0);
     });
 
     return results;
