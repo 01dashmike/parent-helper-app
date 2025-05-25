@@ -56,11 +56,11 @@ export default function ClassCard({ classItem }: ClassCardProps) {
     <div className={cardClasses}>
       {/* Baby Sensory Banner Image */}
       {isBabySensory && (
-        <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">
+        <div className="w-full h-56 mb-4 rounded-t-lg overflow-hidden bg-white">
           <img 
             src={babySensoryBanner} 
             alt="Baby Sensory - Precious Early Learning for Babies" 
-            className="w-full h-full object-contain bg-white"
+            className="w-full h-full object-cover"
           />
         </div>
       )}
