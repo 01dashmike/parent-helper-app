@@ -4,6 +4,7 @@ import { Baby, MapPin, Clock, Star, Building, Star as StarFilled } from "lucide-
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
+import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 
 interface ClassCardProps {
   classItem: Class;
@@ -13,8 +14,9 @@ export default function ClassCard({ classItem }: ClassCardProps) {
   const isFree = !classItem.price || parseFloat(classItem.price) === 0;
   const price = isFree ? "FREE" : `£${classItem.price}`;
   
-  // Check if this is a Baby Sensory class
+  // Check if this is a Baby Sensory or Toddler Sense class
   const isBabySensory = classItem.name.toLowerCase().includes('baby sensory');
+  const isToddlerSense = classItem.name.toLowerCase().includes('toddler sense');
   
   const formatAgeRange = (min: number, max: number) => {
     if (max <= 12) {
@@ -60,6 +62,17 @@ export default function ClassCard({ classItem }: ClassCardProps) {
           <img 
             src={babySensoryBanner} 
             alt="Baby Sensory - Precious Early Learning for Babies" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+      
+      {/* Toddler Sense Banner Image */}
+      {isToddlerSense && (
+        <div className="w-full h-56 mb-4 rounded-t-lg overflow-hidden bg-white">
+          <img 
+            src={toddlerSenseBanner} 
+            alt="Toddler Sense - Life's an Adventure" 
             className="w-full h-full object-cover"
           />
         </div>
