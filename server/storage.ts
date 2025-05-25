@@ -261,6 +261,15 @@ export class MemStorage implements IStorage {
       );
     }
 
+    // Filter by price type if specified
+    if (params.priceFilter && params.priceFilter !== 'all') {
+      if (params.priceFilter === 'free') {
+        results = results.filter(c => !c.price || parseFloat(c.price) === 0);
+      } else if (params.priceFilter === 'paid') {
+        results = results.filter(c => c.price && parseFloat(c.price) > 0);
+      }
+    }
+
     // Sort by featured first, then by popularity
     results.sort((a, b) => {
       if (a.isFeatured !== b.isFeatured) {

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { MapPin, Baby, Search, Gift, Waves, Music, Dumbbell, Brain } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SearchParams } from "@shared/schema";
 
 interface HeroSearchProps {
@@ -22,6 +23,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const [postcode, setPostcode] = useState("");
   const [ageGroup, setAgeGroup] = useState<string>("all");
   const [radius, setRadius] = useState([5]); // Default 5 miles
+  const [priceFilter, setPriceFilter] = useState<string>("all");
 
   const handleSearch = () => {
     if (!postcode.trim()) return;
@@ -30,6 +32,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
       postcode: postcode.trim(),
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
       radius: radius[0],
+      priceFilter: priceFilter === "all" ? undefined : priceFilter,
       includeInactive: false,
     });
   };
@@ -42,6 +45,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
       category,
       radius: radius[0],
+      priceFilter: priceFilter === "all" ? undefined : priceFilter,
       includeInactive: false,
     });
   };
@@ -142,6 +146,20 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                 <span>Wider area</span>
               </div>
             </div>
+          </div>
+          
+          {/* Free/Paid Filter */}
+          <div className="mt-6 pt-6 border-t border-gray-100">
+            <Label className="block text-sm font-semibold text-gray-700 mb-3">
+              Class Type
+            </Label>
+            <Tabs value={priceFilter} onValueChange={setPriceFilter} className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="all" className="text-sm">All Classes</TabsTrigger>
+                <TabsTrigger value="free" className="text-sm">Free Only</TabsTrigger>
+                <TabsTrigger value="paid" className="text-sm">Paid Only</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
           
           {/* Quick Filters */}

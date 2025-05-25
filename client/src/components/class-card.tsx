@@ -60,11 +60,11 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               {classItem.name}
             </h4>
             <div className="flex gap-2">
-              {/* Popularity Badge */}
-              {classItem.popularity && classItem.popularity > 0 && (
-                <Badge className="bg-coral/10 text-coral text-xs font-semibold">
+              {/* Google Reviews Badge */}
+              {classItem.rating && classItem.reviewCount && (
+                <Badge className="bg-blue-50 text-blue-700 text-xs font-semibold">
                   <Star className="w-3 h-3 mr-1" />
-                  {classItem.popularity}% popular
+                  {classItem.rating} ({classItem.reviewCount} reviews)
                 </Badge>
               )}
               {/* Price Badge */}

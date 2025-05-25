@@ -68,6 +68,7 @@ export const searchSchema = z.object({
   postcode: z.string().min(1, "Postcode is required"),
   ageGroup: z.string().optional(),
   category: z.string().optional(),
+  priceFilter: z.string().optional(),
   radius: z.coerce.number().default(10),
   includeInactive: z.coerce.boolean().default(false),
 });
