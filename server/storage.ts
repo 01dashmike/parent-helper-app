@@ -407,11 +407,13 @@ class DatabaseStorage implements IStorage {
   }
 
   async getAllClasses(): Promise<Class[]> {
-    return await db.select().from(classes).where(eq(classes.isActive, true));
+    const result = await db.select().from(classes).where(eq(classes.isActive, true));
+    console.log('Database query result:', result);
+    return result;
   }
 
   async searchClasses(params: SearchParams): Promise<Class[]> {
-    let whereConditions = [eq(classes.isActive, true)];
+    let whereCondition = eq(classes.isActive, true);
     
     // Filter by postcode area if provided
     if (params.postcode) {
@@ -422,19 +424,20 @@ class DatabaseStorage implements IStorage {
       const hampshireRegion = ['so23', 'so22', 'so21', 'sp10', 'sp11'];
       
       if (hampshireRegion.includes(searchArea)) {
-        whereConditions.push(or(
+        const postcodeFilter = or(
           ilike(classes.postcode, 'SO23%'),
           ilike(classes.postcode, 'SO22%'),
           ilike(classes.postcode, 'SO21%'),
           ilike(classes.postcode, 'SP10%'),
           ilike(classes.postcode, 'SP11%')
-        )!);
+        );
+        whereCondition = and(whereCondition, postcodeFilter);
       } else {
-        whereConditions.push(ilike(classes.postcode, `${searchArea}%`));
+        whereCondition = and(whereCondition, ilike(classes.postcode, `${searchArea}%`));
       }
     }
 
-    const results = await db.select().from(classes).where(and(...whereConditions));
+    const results = await db.select().from(classes).where(whereCondition);
     return results.sort((a, b) => {
       if (a.isFeatured !== b.isFeatured) {
         return a.isFeatured ? -1 : 1;
@@ -524,4 +527,5 @@ class DatabaseStorage implements IStorage {
   }
 }
 
+// Use database storage for production
 export const storage = new DatabaseStorage();
