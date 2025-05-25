@@ -4,6 +4,120 @@ import { storage } from "./storage";
 import { searchSchema, insertNewsletterSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Google Sheets integration for server-side
+interface SheetsClassData {
+  town: string;
+  name: string;
+  ageRange: string;
+  time: string;
+  cost: string;
+  link: string;
+  tags: string;
+}
+
+async function fetchGoogleSheetsData(): Promise<SheetsClassData[]> {
+  const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
+  const sheetId = '1Eu-Ei6Pou3Q1K9wsVeoxpQNWSfT-bvNXiYNckZAq2u4';
+  
+  if (!apiKey) {
+    console.warn('Google Sheets API key not configured');
+    return [];
+  }
+
+  try {
+    const range = 'Sheet1!A2:G1000'; // Assuming headers in row 1
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`Google Sheets API error: ${response.status}`);
+      return [];
+    }
+
+    const data = await response.json();
+    const rows = data.values || [];
+
+    return rows.map((row: string[]) => ({
+      town: row[0] || '',
+      name: row[1] || '',
+      ageRange: row[2] || '',
+      time: row[3] || '',
+      cost: row[4] || '',
+      link: row[5] || '',
+      tags: row[6] || '',
+    })).filter((item: SheetsClassData) => item.name && item.town);
+  } catch (error) {
+    console.error('Failed to fetch Google Sheets data:', error);
+    return [];
+  }
+}
+
+// Helper functions to transform Google Sheets data
+function parseAgeRange(ageRange: string): { min: number; max: number } {
+  // Parse age ranges like "0-6 months", "1-2 years", etc.
+  const monthsMatch = ageRange.match(/(\d+)-(\d+)\s*months?/i);
+  if (monthsMatch) {
+    return { min: parseInt(monthsMatch[1]), max: parseInt(monthsMatch[2]) };
+  }
+  
+  const yearsMatch = ageRange.match(/(\d+)-(\d+)\s*years?/i);
+  if (yearsMatch) {
+    return { min: parseInt(yearsMatch[1]) * 12, max: parseInt(yearsMatch[2]) * 12 };
+  }
+  
+  // Default fallback
+  return { min: 0, max: 60 };
+}
+
+function extractPrice(cost: string): string | null {
+  if (cost.toLowerCase().includes('free') || cost.toLowerCase().includes('£0')) {
+    return null;
+  }
+  
+  const priceMatch = cost.match(/£?(\d+(?:\.\d{2})?)/);
+  return priceMatch ? priceMatch[1] : null;
+}
+
+function extractDayFromTime(time: string): string {
+  // Extract day of week from time string
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  for (const day of days) {
+    if (time.toLowerCase().includes(day)) {
+      return day.charAt(0).toUpperCase() + day.slice(1);
+    }
+  }
+  return 'Monday'; // Default
+}
+
+function categorizeFromTags(tags: string): string {
+  const tagLower = tags.toLowerCase();
+  if (tagLower.includes('music') || tagLower.includes('sing')) return 'music';
+  if (tagLower.includes('swim')) return 'swimming';
+  if (tagLower.includes('yoga') || tagLower.includes('movement')) return 'yoga';
+  if (tagLower.includes('sensory') || tagLower.includes('play')) return 'sensory';
+  return 'general';
+}
+
+async function getPostcodeForTown(town: string): Promise<string> {
+  // Simple mapping of towns to postcodes - in production this would use a proper geocoding service
+  const townPostcodes: Record<string, string> = {
+    'london': 'SW1A 1AA',
+    'manchester': 'M1 1AA',
+    'birmingham': 'B1 1AA',
+    'leeds': 'LS1 1AA',
+    'glasgow': 'G1 1AA',
+    'liverpool': 'L1 1AA',
+    'bristol': 'BS1 1AA',
+    'edinburgh': 'EH1 1AA',
+    'cardiff': 'CF1 1AA',
+    'belfast': 'BT1 1AA',
+    'cambridge': 'CB1 1AA',
+    'oxford': 'OX1 1AA',
+  };
+  
+  return townPostcodes[town.toLowerCase()] || 'SW1A 1AA';
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Search classes
   app.get("/api/classes/search", async (req, res) => {
@@ -128,6 +242,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(post);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch blog post" });
+    }
+  });
+
+  // Sync classes from Google Sheets
+  app.post("/api/classes/sync", async (req, res) => {
+    try {
+      const sheetData = await fetchGoogleSheetsData();
+      
+      // Transform sheet data to our class format
+      for (const item of sheetData) {
+        const ageRange = parseAgeRange(item.ageRange);
+        const postcode = await getPostcodeForTown(item.town);
+        
+        const classData = {
+          name: item.name,
+          description: `${item.name} class in ${item.town}. ${item.tags ? `Tags: ${item.tags}` : ''}`,
+          ageGroupMin: ageRange.min,
+          ageGroupMax: ageRange.max,
+          price: item.cost.toLowerCase().includes('free') ? null : extractPrice(item.cost),
+          isFeatured: false,
+          venue: item.town,
+          address: item.town,
+          postcode: postcode,
+          latitude: null,
+          longitude: null,
+          dayOfWeek: extractDayFromTime(item.time),
+          time: item.time,
+          contactEmail: null,
+          contactPhone: null,
+          website: item.link || null,
+          category: categorizeFromTags(item.tags),
+          rating: null,
+          reviewCount: 0,
+          popularity: Math.floor(Math.random() * 100),
+          isActive: true,
+        };
+        
+        await storage.createClass(classData);
+      }
+      
+      res.json({ message: `Synced ${sheetData.length} classes from Google Sheets` });
+    } catch (error) {
+      console.error('Failed to sync classes:', error);
+      res.status(500).json({ message: "Failed to sync classes from Google Sheets" });
     }
   });
 
