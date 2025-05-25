@@ -27,8 +27,8 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold font-poppins text-coral">Little Steps</h1>
-              <p className="text-xs text-gray-500 -mt-1">Directory</p>
+              <h1 className="text-2xl font-bold font-poppins text-coral">Parent Helper</h1>
+              <p className="text-xs text-gray-500 -mt-1">Find Local Classes</p>
             </div>
           </Link>
           

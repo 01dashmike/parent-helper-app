@@ -37,7 +37,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold font-poppins text-coral mb-4">Little Steps</h3>
+            <h3 className="text-2xl font-bold font-poppins text-coral mb-4">Parent Helper</h3>
             <p className="text-gray-300 mb-6">
               Connecting families with amazing baby and toddler classes across the UK.
             </p>

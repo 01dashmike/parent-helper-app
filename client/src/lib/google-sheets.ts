@@ -2,21 +2,13 @@
 // In production, this would handle Google Sheets API integration
 
 export interface SheetsClassData {
+  town: string;
   name: string;
-  description: string;
-  ageMin: number;
-  ageMax: number;
-  price?: string;
-  venue: string;
-  address: string;
-  postcode: string;
-  dayOfWeek: string;
+  ageRange: string;
   time: string;
-  category: string;
-  contactEmail?: string;
-  contactPhone?: string;
-  website?: string;
-  isFeatured?: boolean;
+  cost: string;
+  link: string;
+  tags: string;
 }
 
 export class GoogleSheetsAPI {
@@ -25,7 +17,7 @@ export class GoogleSheetsAPI {
 
   constructor() {
     this.apiKey = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY || process.env.GOOGLE_SHEETS_API_KEY || '';
-    this.sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || process.env.GOOGLE_SHEETS_ID || '';
+    this.sheetId = '1Eu-Ei6Pou3Q1K9wsVeoxpQNWSfT-bvNXiYNckZAq2u4';
   }
 
   async fetchClassData(): Promise<SheetsClassData[]> {
@@ -55,25 +47,17 @@ export class GoogleSheetsAPI {
 
   private parseSheetData(rows: string[][]): SheetsClassData[] {
     return rows.map((row) => {
-      // Assuming column order: Name, Description, AgeMin, AgeMax, Price, Venue, Address, Postcode, Day, Time, Category, Email, Phone, Website, Featured
+      // Column order from your sheet: Town, Class Name, Age Range, Time, Cost, Link, Tags
       return {
-        name: row[0] || '',
-        description: row[1] || '',
-        ageMin: parseInt(row[2]) || 0,
-        ageMax: parseInt(row[3]) || 60,
-        price: row[4] || undefined,
-        venue: row[5] || '',
-        address: row[6] || '',
-        postcode: row[7] || '',
-        dayOfWeek: row[8] || '',
-        time: row[9] || '',
-        category: row[10] || 'general',
-        contactEmail: row[11] || undefined,
-        contactPhone: row[12] || undefined,
-        website: row[13] || undefined,
-        isFeatured: row[14]?.toLowerCase() === 'true' || false,
+        town: row[0] || '',
+        name: row[1] || '',
+        ageRange: row[2] || '',
+        time: row[3] || '',
+        cost: row[4] || '',
+        link: row[5] || '',
+        tags: row[6] || '',
       };
-    }).filter(item => item.name && item.postcode); // Filter out invalid rows
+    }).filter(item => item.name && item.town); // Filter out invalid rows
   }
 
   async syncWithDatabase(): Promise<void> {

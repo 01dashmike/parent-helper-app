@@ -14,7 +14,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-3xl font-bold font-poppins text-gray-900 mb-6">
-                About Little Steps Directory
+                About Parent Helper
               </h1>
               <p className="text-lg text-gray-600 mb-6">
                 We're passionate about helping families find the perfect activities for their little ones. Our platform connects parents with high-quality baby and toddler classes across the UK.
