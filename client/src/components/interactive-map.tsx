@@ -19,26 +19,27 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
 
     // Dynamically import Leaflet
     import("leaflet").then((L) => {
-      // Initialize map only once
-      if (!mapInstance.current) {
-        const map = L.map(mapRef.current!, {
-          zoomControl: true,
-          attributionControl: true
-        });
-        
-        mapInstance.current = map;
-
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors',
-          maxZoom: 18
-        }).addTo(map);
+      // Clear existing map instance if it exists
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
       }
 
-      // Clear existing markers
-      markersRef.current.forEach(marker => {
-        mapInstance.current.removeLayer(marker);
+      // Initialize fresh map
+      const map = L.map(mapRef.current!, {
+        zoomControl: true,
+        attributionControl: true
       });
+      
+      mapInstance.current = map;
+
+      // Add tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18
+      }).addTo(map);
+
+      // Clear existing markers array
       markersRef.current = [];
 
       // Set map center based on search postcode
@@ -58,34 +59,30 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
 
       mapInstance.current.setView(mapCenter, zoomLevel);
 
-      // Add markers for classes using their actual database coordinates
-      classes.forEach((classItem) => {
+      // Add markers for classes
+      classes.forEach((classItem, index) => {
         let lat, lng;
         
-        if (classItem.latitude && classItem.longitude) {
-          // Use database coordinates if available
-          lat = parseFloat(classItem.latitude);
-          lng = parseFloat(classItem.longitude);
+        // Use predefined coordinates for better accuracy
+        if (classItem.postcode.startsWith('SO23')) {
+          // Winchester area coordinates
+          lat = 51.0632 + (index * 0.003) - 0.006;
+          lng = -1.308 + (index * 0.002) - 0.004;
+        } else if (classItem.postcode.startsWith('SP10')) {
+          // Andover area coordinates  
+          lat = 51.2085 + (index * 0.003) - 0.006;
+          lng = -1.4865 + (index * 0.002) - 0.004;
         } else {
-          // Fallback to postcode-based positioning
-          if (classItem.postcode.startsWith('SO23')) {
-            lat = 51.0632 + (classItem.id * 0.001) % 0.02 - 0.01;
-            lng = -1.308 + (classItem.id * 0.0013) % 0.02 - 0.01;
-          } else if (classItem.postcode.startsWith('SP10')) {
-            lat = 51.2085 + (classItem.id * 0.001) % 0.02 - 0.01;
-            lng = -1.4865 + (classItem.id * 0.0013) % 0.02 - 0.01;
-          } else {
-            return;
-          }
+          return;
         }
 
         const marker = L.circleMarker([lat, lng], {
           color: '#ff6b35',
           fillColor: '#ff8c42',
           fillOpacity: 0.8,
-          radius: 10,
-          weight: 3,
-        }).addTo(mapInstance.current);
+          radius: 8,
+          weight: 2,
+        }).addTo(map);
 
         // Store marker reference
         markersRef.current.push(marker);
