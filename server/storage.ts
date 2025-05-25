@@ -270,19 +270,19 @@ export class MemStorage implements IStorage {
       }
     }
 
-    // Sort by priority: 1) Featured, 2) Baby Sensory/Toddler Sense, 3) Popularity
+    // Sort by priority: 1) Baby Sensory/Toddler Sense FIRST, 2) Featured, 3) Popularity
     results.sort((a, b) => {
-      // Featured classes always first
-      if (a.isFeatured !== b.isFeatured) {
-        return a.isFeatured ? -1 : 1;
-      }
-      
-      // Check for Baby Sensory or Toddler Sense classes
+      // Baby Sensory and Toddler Sense classes ALWAYS first - highest priority
       const aSensory = a.name.toLowerCase().includes('baby sensory') || a.name.toLowerCase().includes('toddler sense');
       const bSensory = b.name.toLowerCase().includes('baby sensory') || b.name.toLowerCase().includes('toddler sense');
       
       if (aSensory !== bSensory) {
         return aSensory ? -1 : 1;
+      }
+      
+      // Then featured classes
+      if (a.isFeatured !== b.isFeatured) {
+        return a.isFeatured ? -1 : 1;
       }
       
       // Then by popularity/rating
