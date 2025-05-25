@@ -66,13 +66,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               {classItem.name}
             </h4>
             <div className="flex gap-2">
-              {/* Google Reviews Badge */}
-              {classItem.rating && classItem.reviewCount && (
-                <Badge className="bg-blue-50 text-blue-700 text-xs font-semibold">
-                  <Star className="w-3 h-3 mr-1" />
-                  {classItem.rating} ({classItem.reviewCount} reviews)
-                </Badge>
-              )}
+              {/* Removed duplicate Google Reviews Badge - kept star display below */}
             </div>
           </div>
           
