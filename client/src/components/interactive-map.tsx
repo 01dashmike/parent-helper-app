@@ -25,10 +25,15 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
         mapInstance.current = null;
       }
 
-      // Initialize fresh map
+      // Initialize fresh map with proper scroll handling
       const map = L.map(mapRef.current!, {
         zoomControl: true,
-        attributionControl: true
+        attributionControl: true,
+        scrollWheelZoom: false, // Prevent scroll wheel zoom conflicts
+        doubleClickZoom: true,
+        touchZoom: true,
+        boxZoom: true,
+        keyboard: true
       });
       
       mapInstance.current = map;
@@ -144,13 +149,14 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
     return (
       <div className="h-full w-full relative">
         <div ref={mapRef} className="h-full w-full rounded-xl" />
-        <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-2 text-sm z-[1000]">
+        <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-3 space-y-2 text-sm z-[1000]">
           <div className="flex items-center">
             <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
             <span>Class Locations</span>
           </div>
           <div className="text-xs text-gray-600 mt-2">
-            Click markers for details
+            Click markers for details<br/>
+            🔒 = Click to enable scroll zoom
           </div>
         </div>
       </div>
