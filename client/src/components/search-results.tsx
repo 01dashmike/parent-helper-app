@@ -172,13 +172,20 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
 
             {/* Map Sidebar */}
             <div className="lg:col-span-1">
-              <InteractiveMap classes={sortedResults} />
+              <InteractiveMap 
+                classes={sortedResults} 
+                searchPostcode={searchParams?.postcode} 
+              />
             </div>
           </div>
         ) : (
           /* Full Map View */
           <div className="h-[600px]">
-            <InteractiveMap classes={sortedResults} fullScreen />
+            <InteractiveMap 
+              classes={sortedResults} 
+              fullScreen 
+              searchPostcode={searchParams?.postcode} 
+            />
           </div>
         )}
       </div>
