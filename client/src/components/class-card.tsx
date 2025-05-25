@@ -1,0 +1,116 @@
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Baby, MapPin, Clock, Star, Building, Star as StarFilled } from "lucide-react";
+import type { Class } from "@shared/schema";
+
+interface ClassCardProps {
+  classItem: Class;
+}
+
+export default function ClassCard({ classItem }: ClassCardProps) {
+  const isFree = !classItem.price || parseFloat(classItem.price) === 0;
+  const price = isFree ? "FREE" : `£${classItem.price}`;
+  
+  const formatAgeRange = (min: number, max: number) => {
+    if (max <= 12) {
+      return `${min}-${max} months`;
+    }
+    const minYears = Math.floor(min / 12);
+    const maxYears = Math.floor(max / 12);
+    
+    if (minYears === 0) {
+      return `${min} months - ${maxYears} year${maxYears > 1 ? 's' : ''}`;
+    }
+    
+    return `${minYears}-${maxYears} year${maxYears > 1 ? 's' : ''}`;
+  };
+
+  const getClassImage = (category: string) => {
+    const imageMap: Record<string, string> = {
+      sensory: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
+      music: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
+      swimming: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
+      yoga: "https://images.unsplash.com/photo-1506629905607-ce91decc5a50?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
+      movement: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
+    };
+    
+    return imageMap[category] || imageMap.sensory;
+  };
+
+  const cardClasses = classItem.isFeatured 
+    ? "bg-gradient-to-r from-gold-soft/20 to-yellow-100 border-2 border-gold-soft/40 rounded-2xl p-6 relative featured-card"
+    : "bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200";
+
+  return (
+    <div className={cardClasses}>
+      {classItem.isFeatured && (
+        <div className="absolute top-4 right-4">
+          <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
+            <StarFilled className="w-3 h-3 mr-1" />
+            FEATURED
+          </Badge>
+        </div>
+      )}
+      
+      <div className="flex flex-col sm:flex-row gap-6">
+        <img 
+          src={getClassImage(classItem.category)} 
+          alt={`${classItem.name} class`}
+          className="w-full sm:w-32 h-32 object-cover rounded-xl"
+        />
+        
+        <div className="flex-1">
+          <div className="flex justify-between items-start mb-2">
+            <h4 className="text-xl font-bold font-poppins text-gray-900 pr-4">
+              {classItem.name}
+            </h4>
+            <Badge 
+              className={`ml-4 text-sm font-semibold ${
+                isFree 
+                  ? "bg-green-100 text-green-800" 
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {price}
+            </Badge>
+          </div>
+          
+          <p className="text-gray-600 mb-3">
+            {classItem.description}
+          </p>
+          
+          <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
+            <span className="flex items-center">
+              <Baby className="w-4 h-4 mr-1 text-coral" />
+              {formatAgeRange(classItem.ageGroupMin, classItem.ageGroupMax)}
+            </span>
+            <span className="flex items-center">
+              <MapPin className="w-4 h-4 mr-1 text-coral" />
+              0.3 miles away
+            </span>
+            <span className="flex items-center">
+              <Clock className="w-4 h-4 mr-1 text-coral" />
+              {classItem.dayOfWeek}s {classItem.time}
+            </span>
+            {classItem.rating && classItem.reviewCount && (
+              <span className="flex items-center">
+                <Star className="w-4 h-4 mr-1 text-coral" />
+                {classItem.rating} ({classItem.reviewCount} reviews)
+              </span>
+            )}
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-gray-600 flex items-center">
+              <Building className="w-4 h-4 mr-1" />
+              {classItem.venue}
+            </p>
+            <Button className="bg-coral hover:bg-coral/90 text-white">
+              View Details
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
