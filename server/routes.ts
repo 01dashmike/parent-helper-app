@@ -249,6 +249,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Clear all classes
+  app.post("/api/classes/clear", async (req, res) => {
+    try {
+      await storage.clearAllClasses();
+      res.json({ message: "All classes cleared successfully" });
+    } catch (error) {
+      console.error('Failed to clear classes:', error);
+      res.status(500).json({ message: "Failed to clear classes" });
+    }
+  });
+
   // Sync classes from Google Sheets
   app.post("/api/classes/sync", async (req, res) => {
     try {
