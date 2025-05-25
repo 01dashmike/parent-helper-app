@@ -57,7 +57,11 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
         }
       }
 
-      mapInstance.current.setView(mapCenter, zoomLevel);
+      // Set map view with a small delay to ensure proper rendering
+      setTimeout(() => {
+        mapInstance.current.setView(mapCenter, zoomLevel);
+        mapInstance.current.invalidateSize();
+      }, 100);
 
       // Add markers for classes
       classes.forEach((classItem, index) => {
@@ -162,10 +166,10 @@ export default function InteractiveMap({ classes, fullScreen = false, searchPost
             Class Locations
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div ref={mapRef} className="w-full h-96 rounded-xl mb-4" />
+        <CardContent className="p-0">
+          <div ref={mapRef} className="w-full h-96 relative" style={{ minHeight: '384px' }} />
           
-          <div className="space-y-2">
+          <div className="p-4 space-y-2">
             <div className="flex items-center text-sm">
               <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
               <span>Class Locations</span>
