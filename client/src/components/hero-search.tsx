@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapPin, Baby, Search, Gift, Waves, Music, Dumbbell } from "lucide-react";
+import { MapPin, Baby, Search, Gift, Waves, Music, Dumbbell, Brain } from "lucide-react";
 import type { SearchParams } from "@shared/schema";
 
 interface HeroSearchProps {
@@ -156,6 +156,16 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             >
               <Dumbbell className="w-3 h-3 mr-1" />
               Movement
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleQuickFilter("sensory")}
+              disabled={!postcode.trim() || isLoading}
+              className="px-4 py-2 bg-pink-100 text-pink-800 border-pink-200 rounded-full text-sm font-medium hover:bg-pink-200 transition-colors"
+            >
+              <Brain className="w-3 h-3 mr-1" />
+              Sensory Classes
             </Button>
           </div>
         </div>
