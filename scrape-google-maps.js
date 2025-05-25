@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs').promises;
+import puppeteer from 'puppeteer';
+import { promises as fs } from 'fs';
 
 class GoogleMapsScraper {
   constructor() {
@@ -187,4 +187,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { GoogleMapsScraper };
+export { GoogleMapsScraper };
