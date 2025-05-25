@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Baby, MapPin, Clock, Star, Building, Star as StarFilled } from "lucide-react";
+import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 
 interface ClassCardProps {
@@ -80,7 +81,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
             </span>
             <span className="flex items-center">
               <MapPin className="w-4 h-4 mr-1 text-coral" />
-              0.3 miles away
+              {findTownByPostcode(classItem.postcode)?.name || classItem.postcode}
             </span>
             <span className="flex items-center">
               <Clock className="w-4 h-4 mr-1 text-coral" />

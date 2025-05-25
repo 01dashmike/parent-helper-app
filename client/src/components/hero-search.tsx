@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MapPin, Baby, Search, Gift, Waves, Music, Dumbbell, Brain } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 import type { SearchParams } from "@shared/schema";
 
 interface HeroSearchProps {
@@ -20,6 +21,7 @@ interface HeroSearchProps {
 export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const [postcode, setPostcode] = useState("");
   const [ageGroup, setAgeGroup] = useState<string>("all");
+  const [radius, setRadius] = useState([5]); // Default 5 miles
 
   const handleSearch = () => {
     if (!postcode.trim()) return;
@@ -27,7 +29,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     onSearch({
       postcode: postcode.trim(),
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
-      radius: 10,
+      radius: radius[0],
       includeInactive: false,
     });
   };
@@ -39,9 +41,16 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
       postcode: postcode.trim(),
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
       category,
-      radius: 10,
+      radius: radius[0],
       includeInactive: false,
     });
+  };
+
+  const getRadiusDescription = (miles: number) => {
+    if (miles <= 3) return "Closest town only";
+    if (miles <= 7) return "Nearest 2-3 towns";
+    if (miles <= 15) return "Wider local area";
+    return "Regional search";
   };
 
   return (
@@ -111,6 +120,27 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                   </>
                 )}
               </Button>
+            </div>
+          </div>
+          
+          {/* Radius Slider */}
+          <div className="mt-6 pt-6 border-t border-gray-100">
+            <Label className="block text-sm font-semibold text-gray-700 mb-3">
+              Search Area: {getRadiusDescription(radius[0])} ({radius[0]} miles)
+            </Label>
+            <div className="px-3">
+              <Slider
+                value={radius}
+                onValueChange={setRadius}
+                max={25}
+                min={2}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>Closest only</span>
+                <span>Wider area</span>
+              </div>
             </div>
           </div>
           
