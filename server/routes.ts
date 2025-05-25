@@ -187,6 +187,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Google Places API proxy
+  app.get("/api/google-places-proxy", async (req, res) => {
+    try {
+      const { url } = req.query;
+      if (!url || typeof url !== 'string') {
+        return res.status(400).json({ error: "URL parameter required" });
+      }
+
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      res.json(data);
+    } catch (error) {
+      console.error("Google Places API error:", error);
+      res.status(500).json({ error: "Failed to fetch from Google Places API" });
+    }
+  });
+
+  // Update class reviews from Google Places
+  app.post("/api/classes/:id/update-reviews", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid class ID" });
+      }
+
+      const classItem = await storage.getClass(id);
+      if (!classItem) {
+        return res.status(404).json({ error: "Class not found" });
+      }
+
+      // Search for the business on Google Places
+      const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: "Google Places API key not configured" });
+      }
+
+      const query = `${classItem.name} ${classItem.address}`;
+      const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}`;
+      
+      const response = await fetch(searchUrl);
+      const data = await response.json();
+
+      if (data.results && data.results.length > 0) {
+        const place = data.results[0];
+        const rating = place.rating ? place.rating.toString() : null;
+        const reviewCount = place.user_ratings_total || 0;
+
+        // Update the class with new review data
+        const updatedClass = await storage.updateClass(id, {
+          rating: rating,
+          reviewCount: reviewCount
+        });
+
+        res.json({
+          success: true,
+          rating: rating,
+          reviewCount: reviewCount,
+          updatedClass: updatedClass
+        });
+      } else {
+        res.status(404).json({ error: "Business not found on Google Places" });
+      }
+
+    } catch (error) {
+      console.error("Error updating reviews:", error);
+      res.status(500).json({ error: "Failed to update reviews" });
+    }
+  });
+
   // Newsletter subscription
   app.post("/api/newsletter/subscribe", async (req, res) => {
     try {
