@@ -6,9 +6,10 @@ import type { Class } from "@shared/schema";
 interface InteractiveMapProps {
   classes: Class[];
   fullScreen?: boolean;
+  searchPostcode?: string;
 }
 
-export default function InteractiveMap({ classes, fullScreen = false }: InteractiveMapProps) {
+export default function InteractiveMap({ classes, fullScreen = false, searchPostcode }: InteractiveMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
 
@@ -27,24 +28,26 @@ export default function InteractiveMap({ classes, fullScreen = false }: Interact
         mapInstance.current = null;
       }
 
-      // Calculate map center based on actual class locations
+      // Calculate map center based on search postcode, not results
       let mapCenter: [number, number] = [51.1358, -1.3972]; // Default Hampshire center
-      let zoomLevel = 11;
+      let zoomLevel = 12;
       
-      if (classes.length > 0) {
-        const winchesterClasses = classes.filter(c => c.postcode.startsWith('SO23'));
-        const andoverClasses = classes.filter(c => c.postcode.startsWith('SP10'));
+      if (searchPostcode) {
+        const postcode = searchPostcode.toLowerCase().replace(/\s+/g, '');
         
-        if (winchesterClasses.length > 0 && andoverClasses.length === 0) {
-          // Only Winchester classes - center on Winchester
-          mapCenter = [51.0632, -1.308];
-          zoomLevel = 13;
-        } else if (andoverClasses.length > 0 && winchesterClasses.length === 0) {
-          // Only Andover classes - center on Andover
+        if (postcode.startsWith('sp10')) {
+          // Andover postcode - center on Andover
           mapCenter = [51.2085, -1.4865];
+          zoomLevel = 14;
+        } else if (postcode.startsWith('so23')) {
+          // Winchester postcode - center on Winchester
+          mapCenter = [51.0632, -1.308];
+          zoomLevel = 14;
+        }
+        // For other postcodes, keep default center but zoom in slightly
+        else {
           zoomLevel = 13;
         }
-        // If both areas have classes, keep the broader Hampshire view
       }
 
       try {
