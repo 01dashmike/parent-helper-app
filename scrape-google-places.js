@@ -718,8 +718,8 @@ class GooglePlacesScraper {
             console.log(`Saved ${places.length} places for "${term}" in ${location}`);
           }
           
-          // Add delay to respect API rate limits
-          await new Promise(resolve => setTimeout(resolve, 100));
+          // Add delay to respect API rate limits and maximize data quality
+          await new Promise(resolve => setTimeout(resolve, 200));
           
         } catch (error) {
           console.error(`Error processing ${term} in ${location}:`, error);
