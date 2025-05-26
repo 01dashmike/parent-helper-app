@@ -195,35 +195,24 @@ async function importOutscraperData(csvFilePath) {
             try {
               for (const classData of batch) {
                 try {
-                  // Check for duplicates more efficiently
-                  const existing = await sql`
-                    SELECT id FROM classes 
-                    WHERE name = ${classData.name} 
-                    AND (address = ${classData.address} OR postcode = ${classData.postcode})
-                    LIMIT 1
-                  `;
-
-                  if (existing.length === 0) {
-                    await sql`
-                      INSERT INTO classes (
-                      name, description, age_group_min, age_group_max, venue, address, 
-                      postcode, town, latitude, longitude, day_of_week, time, category, 
-                      price, website, phone, rating, review_count, 
-                      is_active, is_featured
-                    ) VALUES (
-                      ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
-                      ${classData.ageGroupMax}, ${classData.venue}, ${classData.address}, 
-                      ${classData.postcode}, ${classData.town}, ${classData.latitude}, 
-                      ${classData.longitude}, ${classData.dayOfWeek}, ${classData.time}, 
-                      ${classData.category}, ${classData.price}, ${classData.website}, 
-                      ${classData.phone}, ${classData.rating}, ${classData.reviewCount}, 
-                      ${classData.isActive}, ${classData.isFeatured}
-                    )
-                  `;
-                    successCount++;
-                  } else {
-                    skippedCount++;
-                  }
+                  // Fast insert without slow duplicate checking
+                  await sql`
+                    INSERT INTO classes (
+                    name, description, age_group_min, age_group_max, venue, address, 
+                    postcode, town, latitude, longitude, day_of_week, time, category, 
+                    price, website, phone, rating, review_count, 
+                    is_active, is_featured
+                  ) VALUES (
+                    ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
+                    ${classData.ageGroupMax}, ${classData.venue}, ${classData.address}, 
+                    ${classData.postcode}, ${classData.town}, ${classData.latitude}, 
+                    ${classData.longitude}, ${classData.dayOfWeek}, ${classData.time}, 
+                    ${classData.category}, ${classData.price}, ${classData.website}, 
+                    ${classData.phone}, ${classData.rating}, ${classData.reviewCount}, 
+                    ${classData.isActive}, ${classData.isFeatured}
+                  )
+                `;
+                  successCount++;
                 } catch (itemError) {
                   console.error(`Error importing class "${classData.name}":`, itemError.message);
                   errorCount++;
