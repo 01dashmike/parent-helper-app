@@ -195,6 +195,7 @@ async function importOutscraperData(csvFilePath) {
             try {
               for (const classData of batch) {
                 try {
+                  console.log(`  Importing: ${classData.name} in ${classData.town}`);
                   // Fast insert without slow duplicate checking
                   await sql`
                     INSERT INTO classes (
@@ -213,16 +214,27 @@ async function importOutscraperData(csvFilePath) {
                   )
                 `;
                   successCount++;
+                  console.log(`  ✓ Successfully imported: ${classData.name}`);
+                  
+                  // Small delay to prevent overwhelming the database
+                  await new Promise(resolve => setTimeout(resolve, 100));
                 } catch (itemError) {
-                  console.error(`Error importing class "${classData.name}":`, itemError.message);
+                  console.error(`  ✗ Error importing class "${classData.name}":`, itemError.message);
+                  console.error(`  Data:`, JSON.stringify(classData, null, 2));
                   errorCount++;
+                  
+                  // Continue with next item even if this one fails
                 }
               }
 
               console.log(`Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)} complete: ${successCount - (i === 0 ? 0 : successCount - batch.length)} imported, ${errorCount - (i === 0 ? 0 : errorCount)} errors`);
             } catch (batchError) {
               console.error(`Error importing batch:`, batchError.message);
+              console.error(`Full batch error:`, batchError);
               errorCount += batch.length;
+              
+              // Add delay before next batch if there was an error
+              await new Promise(resolve => setTimeout(resolve, 2000));
             }
           }
 
