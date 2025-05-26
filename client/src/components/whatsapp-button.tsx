@@ -19,7 +19,7 @@ export default function WhatsAppButton({ classItem, variant = "concierge", size 
       message = `Hi! I'm interested in your ${classItem.name} class in ${classItem.town}. Could you please provide more details about availability and booking?`;
     } else {
       // Concierge service through Parent Helper
-      phoneNumber = "447123456789"; // Replace with your actual WhatsApp number
+      phoneNumber = "447368235567"; // Your Parent Helper WhatsApp business number
       message = `Hi Parent Helper! I'm interested in "${classItem.name}" in ${classItem.town} on ${classItem.dayOfWeek}s at ${classItem.time}. Can you help me get in touch with the provider?`;
     }
 
