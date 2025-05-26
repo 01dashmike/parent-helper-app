@@ -8,7 +8,7 @@ export const classes = pgTable("classes", {
   description: text("description").notNull(),
   ageGroupMin: integer("age_group_min").notNull(), // in months
   ageGroupMax: integer("age_group_max").notNull(), // in months
-  price: decimal("price", { precision: 10, scale: 2 }), // null for free classes
+  price: text("price"), // text to handle both numeric and descriptive prices
   isFeatured: boolean("is_featured").default(false).notNull(),
   venue: text("venue").notNull(),
   address: text("address").notNull(),

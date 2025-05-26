@@ -1,7 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { searchSchema, insertNewsletterSchema } from "@shared/schema";
+import { searchSchema, insertNewsletterSchema, listClassSchema } from "@shared/schema";
+import { sendClassSubmissionNotification } from "./email-service";
+import { sendNewsletterToAllSubscribers, sendNewsletterToSubscriber, scheduleWeeklyNewsletter } from "./newsletter-automation";
 import { z } from "zod";
 
 // Google Sheets integration for server-side
