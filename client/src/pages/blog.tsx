@@ -189,7 +189,10 @@ export default function Blog() {
                 <Card 
                   key={category.id}
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => {
+                    console.log('Clicking category:', category.id);
+                    setSelectedCategory(category.id);
+                  }}
                 >
                   <div className={`h-2 bg-gradient-to-r ${category.color}`} />
                   <CardContent className="p-6">
