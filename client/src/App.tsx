@@ -24,9 +24,11 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/prenatal" component={BlogPrenatal} />
       <Route path="/blog/0-6-months" component={Blog06Months} />
-      <Route path="/blog/nutrition" component={BlogNutrition} />
       <Route path="/blog/baby-to-toddler" component={BlogBabyToToddler} />
+      <Route path="/blog/primary" component={BlogPrimary} />
+      <Route path="/blog/nutrition" component={BlogNutrition} />
       <Route path="/blog/weaning-guide" component={BlogWeaningGuide} />
       <Route path="/blog/newborn-behavior" component={BlogNewbornBehavior} />
       <Route path="/faq" component={FAQ} />

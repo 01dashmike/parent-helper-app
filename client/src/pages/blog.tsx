@@ -191,12 +191,16 @@ export default function Blog() {
                   key={category.id}
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
                   onClick={() => {
-                    if (category.id === "nutrition") {
-                      window.location.href = "/blog/nutrition";
-                    } else if (category.id === "baby-to-toddler") {
-                      window.location.href = "/blog/baby-to-toddler";
+                    if (category.id === "prenatal") {
+                      window.location.href = "/blog/prenatal";
                     } else if (category.id === "0-6-months") {
                       window.location.href = "/blog/0-6-months";
+                    } else if (category.id === "baby-to-toddler") {
+                      window.location.href = "/blog/baby-to-toddler";
+                    } else if (category.id === "primary") {
+                      window.location.href = "/blog/primary";
+                    } else if (category.id === "nutrition") {
+                      window.location.href = "/blog/nutrition";
                     } else {
                       setSelectedCategory(category.id);
                     }
