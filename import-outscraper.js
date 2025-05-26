@@ -196,7 +196,7 @@ async function importOutscraperData(csvFilePath) {
               for (const classData of batch) {
                 try {
                   console.log(`  Importing: ${classData.name} in ${classData.town}`);
-                  // Fast insert without slow duplicate checking
+                  // Simple insert - let the database handle any constraint violations
                   await sql`
                     INSERT INTO classes (
                     name, description, age_group_min, age_group_max, venue, address, 
