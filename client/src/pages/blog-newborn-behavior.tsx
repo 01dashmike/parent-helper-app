@@ -82,6 +82,17 @@ export default function BlogNewbornBehavior() {
                   </li>
                 </ul>
               </div>
+              
+              {/* Downloadable Cheat Sheet */}
+              <div className="mt-6 mb-8">
+                <a 
+                  href="/downloads/Newborn_Cries_and_Cues_Cheat_Sheet.pdf" 
+                  download
+                  className="inline-block bg-coral text-white font-bold py-3 px-5 rounded-lg text-base hover:bg-coral-600 transition-colors"
+                >
+                  📄 Download Cheat Sheet (PDF)
+                </a>
+              </div>
             </div>
 
             {/* Understanding Body Language */}
