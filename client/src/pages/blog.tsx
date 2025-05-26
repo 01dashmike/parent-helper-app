@@ -16,7 +16,6 @@ export default function Blog() {
   const filteredPosts = selectedCategory 
     ? posts.filter(post => {
         const categories = post.category?.split(',').map(cat => cat.trim()) || [];
-        console.log('Filtering post:', post.title, 'categories:', categories, 'looking for:', selectedCategory);
         return categories.includes(selectedCategory);
       })
     : posts;
@@ -190,12 +189,7 @@ export default function Blog() {
                 <Card 
                   key={category.id}
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-                  onClick={() => {
-                    console.log('Clicking category:', category.id);
-                    console.log('Current selectedCategory:', selectedCategory);
-                    console.log('Posts available:', posts);
-                    setSelectedCategory(category.id);
-                  }}
+                  onClick={() => setSelectedCategory(category.id)}
                 >
                   <div className={`h-2 bg-gradient-to-r ${category.color}`} />
                   <CardContent className="p-6">
@@ -250,7 +244,6 @@ export default function Blog() {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {console.log('Rendering filteredPosts:', filteredPosts)}
               {filteredPosts.map((post) => (
                 <Card key={post.id} className="group hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
