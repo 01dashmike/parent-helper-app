@@ -195,6 +195,70 @@ export class MemStorage implements IStorage {
         readTimeMinutes: 6,
         isPublished: true,
         publishedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
+      },
+      {
+        title: "Weaning Your Baby: A Science-Backed Guide for First-Time Parents",
+        slug: "weaning-baby-science-backed-guide",
+        excerpt: "The gradual transition from milk to solid food is one of your baby's biggest milestones. Learn evidence-based weaning methods, time-saving hacks, and eco-friendly tips to make this journey rewarding...",
+        content: `<h1>🥄 Weaning Your Baby: A Science-Backed Guide for First-Time Parents</h1>
+<p>Weaning—the gradual transition from milk to solid food—is one of your baby's biggest milestones. It can feel overwhelming, but with a little preparation and the right tools, it can also be one of the most rewarding stages of early parenthood.</p>
+
+<h2>📆 When Should You Start Weaning?</h2>
+<p>The NHS and World Health Organization recommend starting weaning at <strong>around 6 months</strong>. At this stage, most babies:</p>
+<ul>
+    <li>Can sit up with minimal support</li>
+    <li>Show interest in food</li>
+    <li>Have lost the tongue-thrust reflex</li>
+</ul>
+
+<h2>🍽️ Weaning Methods</h2>
+<h3>1. Traditional (Spoon-fed) Weaning</h3>
+<p>✅ Easy to batch-cook and freeze, good for iron-rich foods.<br>⚠️ Avoid processed jars and pouches.</p>
+
+<h3>2. Baby-Led Weaning (BLW)</h3>
+<p>✅ Encourages independence and texture exploration.<br>⚠️ Avoid hard foods that can cause choking.</p>
+
+<p>💡 Most parents combine both methods.</p>
+
+<h2>🧠 What the Science Says</h2>
+<ul>
+    <li>Babies need iron-rich foods from 6 months.</li>
+    <li>Early exposure to allergens may reduce allergy risk.</li>
+    <li>Variety early may reduce picky eating.</li>
+</ul>
+
+<h2>🧊 Time-Saving Hacks</h2>
+<ul>
+    <li>Freeze purees in ice cube trays.</li>
+    <li>Use a Magic Bullet Blender for batch prep.</li>
+    <li>Label & date food with reusable chalkboard labels.</li>
+    <li>Use reusable silicone pouches.</li>
+</ul>
+
+<h2>🌍 Eco-Friendly Tips</h2>
+<ul>
+    <li>Use bamboo/silicone feeding tools.</li>
+    <li>Avoid plastic pouches – use jars or reusables.</li>
+    <li>Download our Dirty Dozen & Clean Fifteen Poster below.</li>
+</ul>
+
+<h2>📱 App Tip: Try Yuka</h2>
+<p>Yuka is a free mobile app that scans barcodes to rate food and cosmetic health scores. It's perfect for checking toddler snacks or baby food ingredients.</p>
+
+<h2>❌ Why Avoid Processed Baby Food</h2>
+<p>Shop-bought baby foods often contain fruit-heavy purees, low protein/fat, and hidden sugars. A 2020 study by First Steps Nutrition Trust showed many lack the nutritional variety babies need.</p>
+
+<h2>📥 Freebies</h2>
+<ul>
+    <li>📥 Download Dirty Dozen & Clean Fifteen Poster (PDF)</li>
+    <li>📥 Download Weekly Weaning Meal Planner (PDF)</li>
+</ul>
+
+<p><em>Some links in this post may be affiliate links. If you click and buy, we may earn a small commission at no extra cost to you. Thank you for supporting our eco-conscious parenting content!</em></p>`,
+        imageUrl: "https://images.unsplash.com/photo-1609501676725-7186f66a0db6?ixlib=rb-4.0.3",
+        readTimeMinutes: 8,
+        isPublished: true,
+        publishedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
       }
     ];
 
