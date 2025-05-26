@@ -189,59 +189,112 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             </Tabs>
           </div>
           
-          {/* Quick Filters */}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <span className="text-sm font-medium text-gray-600">Quick filters:</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("sensory")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-green-100 text-green-800 border-green-200 rounded-full text-sm font-medium hover:bg-green-200 transition-colors"
-            >
-              <Brain className="w-3 h-3 mr-1" />
-              Sensory Classes
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("free")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-blue-100 text-blue-800 border-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors"
-            >
-              <Gift className="w-3 h-3 mr-1" />
-              Free Classes
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("swimming")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-sky-100 text-sky-800 border-sky-200 rounded-full text-sm font-medium hover:bg-sky-200 transition-colors"
-            >
-              <Waves className="w-3 h-3 mr-1" />
-              Swimming
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("music")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-purple-100 text-purple-800 border-purple-200 rounded-full text-sm font-medium hover:bg-purple-200 transition-colors"
-            >
-              <Music className="w-3 h-3 mr-1" />
-              Music Classes
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickFilter("movement")}
-              disabled={!postcode.trim() || isLoading}
-              className="px-4 py-2 bg-orange-100 text-orange-800 border-orange-200 rounded-full text-sm font-medium hover:bg-orange-200 transition-colors"
-            >
-              <Dumbbell className="w-3 h-3 mr-1" />
-              Movement
-            </Button>
+          {/* Category Filters - Happity Style */}
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold text-teal-dark mb-4 text-center">Browse by Category</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <button
+                onClick={() => handleQuickFilter("swimming")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-blue-400 to-blue-600 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.7), rgba(37, 99, 235, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 30c0-5 5-10 15-10s15 5 15 10v20c0 5-5 10-15 10s-15-5-15-10V30zM60 40c0-3 3-6 10-6s10 3 10 6v15c0 3-3 6-10 6s-10-3-10-6V40z' fill='%23ffffff' opacity='0.3'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">SWIMMING</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleQuickFilter("music")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-purple-400 to-pink-500 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(147, 51, 234, 0.7), rgba(236, 72, 153, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='40' r='8' fill='%23ffffff' opacity='0.4'/%3E%3Ccircle cx='50' cy='30' r='6' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='70' cy='50' r='10' fill='%23ffffff' opacity='0.2'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">MUSIC</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleQuickFilter("sensory")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-green-400 to-emerald-600 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(34, 197, 94, 0.7), rgba(5, 150, 105, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30 20h40v20H30zM25 50h50v30H25z' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='40' cy='30' r='3' fill='%23ffffff' opacity='0.6'/%3E%3Ccircle cx='60' cy='30' r='3' fill='%23ffffff' opacity='0.6'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">SENSORY</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleQuickFilter("movement")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-orange-400 to-red-500 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(251, 146, 60, 0.7), rgba(239, 68, 68, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M40 20c5 0 10 5 10 10v30c0 5-5 10-10 10s-10-5-10-10V30c0-5 5-10 10-10zM60 40c3 0 6 3 6 6v20c0 3-3 6-6 6s-6-3-6-6V46c0-3 3-6 6-6z' fill='%23ffffff' opacity='0.4'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">MOVEMENT</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleQuickFilter("language")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-indigo-400 to-purple-600 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(99, 102, 241, 0.7), rgba(147, 51, 234, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 30h50v8H25zM30 45h40v6H30zM35 58h30v5H35z' fill='%23ffffff' opacity='0.4'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">LANGUAGE</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleQuickFilter("art")}
+                disabled={!postcode.trim() || isLoading}
+                className="group relative overflow-hidden rounded-2xl aspect-square bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-105 transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(250, 204, 21, 0.7), rgba(251, 146, 60, 0.8)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30 20l5 30h30l5-30zM20 60h60v20H20z' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='45' cy='35' r='4' fill='%23ffffff' opacity='0.5'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg drop-shadow-lg">ART</span>
+                </div>
+              </button>
+            </div>
+            
+            {/* Free Classes Banner */}
+            <div className="mt-6">
+              <button
+                onClick={() => handleQuickFilter("free")}
+                disabled={!postcode.trim() || isLoading}
+                className="w-full relative overflow-hidden rounded-2xl bg-gradient-to-r from-coral to-lavender hover:scale-[1.02] transition-transform duration-300 shadow-lg"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, rgba(244, 166, 136, 0.9), rgba(184, 165, 199, 0.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 30l15-10v20zM65 25l15 10-15 10z' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23ffffff' opacity='0.2'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                }}
+              >
+                <div className="py-6 px-8 flex items-center justify-center">
+                  <Gift className="w-6 h-6 text-white mr-3" />
+                  <span className="text-white font-bold text-xl drop-shadow-lg">FREE CLASSES</span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
