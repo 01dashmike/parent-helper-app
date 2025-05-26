@@ -595,53 +595,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  // Send test newsletter to specific subscriber
+  // Send test newsletter to specific subscriber - temporarily disabled
   app.post("/api/newsletter/send-test", async (req, res) => {
-    try {
-      const { email } = req.body;
-      if (!email) {
-        return res.status(400).json({ error: "Email is required" });
-      }
-
-      // Find subscriber by email
-      const subscribers = await storage.getNewsletterSubscribers();
-      const subscriber = subscribers.find(s => s.email === email);
-      
-      if (!subscriber) {
-        return res.status(404).json({ error: "Subscriber not found" });
-      }
-
-      const success = await sendNewsletterToSubscriber(subscriber);
-      
-      if (success) {
-        res.json({ success: true, message: `Test newsletter sent to ${email}` });
-      } else {
-        res.status(500).json({ error: "Failed to send test newsletter" });
-      }
-    } catch (error: any) {
-      console.error("Test newsletter failed:", error);
-      res.status(500).json({
-        error: "Failed to send test newsletter",
-        details: error.message
-      });
-    }
+    res.json({
+      success: false,
+      message: "Newsletter functionality temporarily disabled - SendGrid configuration needed"
+    });
   });
 
-  // Trigger weekly newsletter schedule (in production this would be called by a cron job)
+  // Trigger weekly newsletter schedule - temporarily disabled
   app.post("/api/newsletter/weekly", async (req, res) => {
-    try {
-      await scheduleWeeklyNewsletter();
-      res.json({
-        success: true,
-        message: "Weekly newsletter campaign triggered successfully"
-      });
-    } catch (error: any) {
-      console.error("Weekly newsletter failed:", error);
-      res.status(500).json({
-        error: "Failed to trigger weekly newsletter",
-        details: error.message
-      });
-    }
+    res.json({
+      success: false,
+      message: "Newsletter functionality temporarily disabled - SendGrid configuration needed"
+    });
   });
 
   // Get newsletter statistics
