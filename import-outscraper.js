@@ -181,23 +181,31 @@ async function importOutscraperData(csvFilePath) {
         .on('end', async () => {
           console.log(`Processing ${results.length} valid entries...`);
 
-          // Import in batches
-          const batchSize = 100;
+          // Import in smaller batches with better error handling
+          const batchSize = 10; // Reduced from 100 to avoid timeouts
+          let successCount = 0;
+          let errorCount = 0;
+          
+          console.log(`Starting import of ${results.length} entries in batches of ${batchSize}...`);
+          
           for (let i = 0; i < results.length; i += batchSize) {
             const batch = results.slice(i, i + batchSize);
+            console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)} (entries ${i + 1}-${Math.min(i + batchSize, results.length)})`);
             
             try {
               for (const classData of batch) {
-                // Check for duplicates
-                const existing = await sql`
-                  SELECT id FROM classes 
-                  WHERE name = ${classData.name} 
-                  AND address = ${classData.address}
-                `;
+                try {
+                  // Check for duplicates more efficiently
+                  const existing = await sql`
+                    SELECT id FROM classes 
+                    WHERE name = ${classData.name} 
+                    AND (address = ${classData.address} OR postcode = ${classData.postcode})
+                    LIMIT 1
+                  `;
 
-                if (existing.length === 0) {
-                  await sql`
-                    INSERT INTO classes (
+                  if (existing.length === 0) {
+                    await sql`
+                      INSERT INTO classes (
                       name, description, age_group_min, age_group_max, venue, address, 
                       postcode, town, latitude, longitude, day_of_week, time, category, 
                       price, website, phone, rating, review_count, 
@@ -212,28 +220,28 @@ async function importOutscraperData(csvFilePath) {
                       ${classData.isActive}, ${classData.isFeatured}
                     )
                   `;
-                  importedCount++;
-                } else {
-                  skippedCount++;
+                    successCount++;
+                  } else {
+                    skippedCount++;
+                  }
+                } catch (itemError) {
+                  console.error(`Error importing class "${classData.name}":`, itemError.message);
+                  errorCount++;
                 }
               }
 
-              console.log(`Imported batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)}...`);
-            } catch (error) {
-              console.error(`Error importing batch:`, error);
+              console.log(`Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)} complete: ${successCount - (i === 0 ? 0 : successCount - batch.length)} imported, ${errorCount - (i === 0 ? 0 : errorCount)} errors`);
+            } catch (batchError) {
+              console.error(`Error importing batch:`, batchError.message);
+              errorCount += batch.length;
             }
           }
 
-          // Log the import
-          await sql`
-            INSERT INTO outscraper_import_log (file_name, total_rows, imported_count, skipped_count)
-            VALUES (${csvFilePath}, ${totalRows}, ${importedCount}, ${skippedCount})
-          `;
-
           console.log(`Import completed:`);
-          console.log(`- Total rows processed: ${totalRows}`);
-          console.log(`- Successfully imported: ${importedCount}`);
-          console.log(`- Skipped (duplicates/invalid): ${skippedCount}`);
+          console.log(`- Total entries processed: ${results.length}`);
+          console.log(`- Successfully imported: ${successCount}`);
+          console.log(`- Skipped (duplicates): ${skippedCount}`);
+          console.log(`- Errors: ${errorCount}`);
 
           resolve({ totalRows, importedCount, skippedCount });
         })
