@@ -13,6 +13,20 @@ export default function Blog() {
     queryKey: ["/api/blog/posts"],
   });
 
+  const filteredPosts = selectedCategory 
+    ? posts.filter(post => {
+        const categories = post.category?.split(',') || [];
+        return categories.includes(selectedCategory);
+      })
+    : posts;
+
+  const getCategoryCount = (categoryId: string) => {
+    return posts.filter(post => {
+      const categories = post.category?.split(',') || [];
+      return categories.includes(categoryId);
+    }).length;
+  };
+
   const categories = [
     {
       id: "prenatal",
@@ -21,7 +35,7 @@ export default function Blog() {
       icon: Heart,
       color: "from-coral/20 to-coral/40",
       textColor: "text-coral",
-      count: 0
+      count: getCategoryCount("prenatal")
     },
     {
       id: "0-6-months",
@@ -30,7 +44,7 @@ export default function Blog() {
       icon: Baby,
       color: "from-sage/20 to-sage/40",
       textColor: "text-sage",
-      count: 0
+      count: getCategoryCount("0-6-months")
     },
     {
       id: "baby-to-toddler",
@@ -39,7 +53,7 @@ export default function Blog() {
       icon: Activity,
       color: "from-lavender/20 to-lavender/40",
       textColor: "text-lavender",
-      count: 0
+      count: getCategoryCount("baby-to-toddler")
     },
     {
       id: "primary",
