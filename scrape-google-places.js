@@ -548,8 +548,8 @@ class GooglePlacesScraper {
         return null;
       }
 
-      // Determine town from location
-      const town = this.extractTown(place.formatted_address || '');
+      // Determine town from location using government postcode API
+      const town = await this.extractTown(place.formatted_address || '', postcode);
       
       // Categorize the class based on search term and place info
       const category = this.categorizeClass(searchTerm, place.name, place.types);
@@ -595,8 +595,24 @@ class GooglePlacesScraper {
     return match ? match[1].toUpperCase() : null;
   }
 
-  extractTown(address) {
-    // Extract town from address - usually after first comma
+  async extractTown(address, postcode) {
+    // First try to get official town from government postcode API
+    if (postcode) {
+      try {
+        const response = await fetch(`https://api.postcodes.io/postcodes/${postcode.replace(/\s/g, '')}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.result && data.result.admin_district) {
+            // Use official administrative district from government data
+            return data.result.admin_district;
+          }
+        }
+      } catch (error) {
+        console.log(`Government postcode API lookup failed for ${postcode}, falling back to address parsing`);
+      }
+    }
+
+    // Fallback to address parsing if postcode API fails
     const parts = address.split(',');
     if (parts.length >= 2) {
       return parts[1].trim();
