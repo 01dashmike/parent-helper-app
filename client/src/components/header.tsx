@@ -12,7 +12,7 @@ export default function Header() {
   const navItems = [
     { href: "/baby-toddler-classes", label: "BABY & TODDLER CLASSES" },
     { href: "/after-school-clubs", label: "AFTER SCHOOL CLUBS" },
-    { href: "/family-services", label: "FAMILY SPECIALISTS" },
+    { href: "/family-services", label: "PHOTOGRAPHY & KEEPSAKES" },
     { href: "/blog", label: "BLOG" },
     { href: "/about", label: "ABOUT" },
   ];
