@@ -133,43 +133,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         if (!postcodePattern.test(params.postcode) && !partialPostcodePattern.test(params.postcode)) {
           // This looks like a town name, try to convert to postcode
-          const { majorTowns } = await import('../client/src/lib/town-lookup.js');
           const normalizedSearch = params.postcode.toLowerCase().trim();
           
-          // Find matching town
-          let foundTown = null;
+          // Define major towns directly in server for reliable lookup
+          const majorTowns = [
+            { name: "Winchester", postcode: "SO23" },
+            { name: "Southampton", postcode: "SO14" },
+            { name: "Portsmouth", postcode: "PO1" },
+            { name: "Basingstoke", postcode: "RG21" },
+            { name: "Andover", postcode: "SP10" },
+            { name: "Fareham", postcode: "PO14" },
+            { name: "Eastleigh", postcode: "SO50" },
+            { name: "Fleet", postcode: "GU51" },
+            { name: "Aldershot", postcode: "GU11" },
+            { name: "Farnborough", postcode: "GU14" },
+            { name: "Gosport", postcode: "PO12" },
+            { name: "Havant", postcode: "PO9" },
+            { name: "Waterlooville", postcode: "PO7" },
+            { name: "Reading", postcode: "RG1" },
+            { name: "Guildford", postcode: "GU1" },
+            { name: "Woking", postcode: "GU21" },
+            { name: "Salisbury", postcode: "SP1" },
+            { name: "Bournemouth", postcode: "BH1" },
+            { name: "Poole", postcode: "BH15" }
+          ];
+          
+          let foundPostcode = null;
           
           // Try exact match first
           for (const town of majorTowns) {
             if (town.name.toLowerCase() === normalizedSearch) {
-              foundTown = town;
+              foundPostcode = town.postcode;
               break;
             }
           }
           
           // Try partial match if no exact match
-          if (!foundTown) {
+          if (!foundPostcode) {
             for (const town of majorTowns) {
               if (town.name.toLowerCase().startsWith(normalizedSearch)) {
-                foundTown = town;
+                foundPostcode = town.postcode;
                 break;
               }
             }
           }
           
           // Try contains match if still no match
-          if (!foundTown) {
+          if (!foundPostcode) {
             for (const town of majorTowns) {
               if (town.name.toLowerCase().includes(normalizedSearch)) {
-                foundTown = town;
+                foundPostcode = town.postcode;
                 break;
               }
             }
           }
           
-          if (foundTown) {
-            console.log(`Converted town "${params.postcode}" to postcode "${foundTown.postcode}"`);
-            params = { ...params, postcode: foundTown.postcode };
+          if (foundPostcode) {
+            console.log(`Converted town "${params.postcode}" to postcode "${foundPostcode}"`);
+            params = { ...params, postcode: foundPostcode };
           }
         }
       }
