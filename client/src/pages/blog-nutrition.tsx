@@ -48,9 +48,11 @@ export default function BlogNutrition() {
                   essential nutrients, meal prep tips, and avoiding processed foods.
                 </p>
               </div>
-              <Button className="bg-coral hover:bg-coral/90 text-white w-full">
-                Read Full Article
-              </Button>
+              <Link href="/blog/weaning-guide">
+                <Button className="bg-coral hover:bg-coral/90 text-white w-full">
+                  Read Full Article
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
