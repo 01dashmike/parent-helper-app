@@ -9,7 +9,7 @@ class GooglePlacesScraper {
     this.importedCount = 0;
   }
 
-  // Enhanced search terms for authentic baby and toddler classes
+  // Comprehensive search terms for parent and child activities
   getSearchTerms() {
     return [
       // Core baby classes
@@ -21,6 +21,7 @@ class GooglePlacesScraper {
       'baby signing classes',
       'baby music classes',
       'baby ballet classes',
+      'baby development classes',
       
       // Core toddler classes
       'toddler classes',
@@ -29,6 +30,9 @@ class GooglePlacesScraper {
       'toddler gym classes',
       'toddler music classes',
       'toddler sensory play',
+      'toddler yoga classes',
+      'toddler martial arts',
+      'toddler ballet classes',
       
       // Popular branded classes
       'water babies',
@@ -39,6 +43,25 @@ class GooglePlacesScraper {
       'toddler sense',
       'little kickers',
       'rugrats and halfpints',
+      'baby sensory',
+      'boogie pumps',
+      
+      // Mum fitness and wellness
+      'mum fitness classes',
+      'postnatal fitness',
+      'postnatal yoga',
+      'mummy and me fitness',
+      'buggy fitness',
+      'pram fitness',
+      'mums workout',
+      'mothers fitness group',
+      'postnatal pilates',
+      'mum and baby yoga',
+      'new mum fitness',
+      'maternity fitness',
+      'prenatal yoga',
+      'pregnancy yoga',
+      'mummy bootcamp',
       
       // Parent and child activities
       'mum and baby fitness',
@@ -46,6 +69,20 @@ class GooglePlacesScraper {
       'parent and toddler groups',
       'mother and baby groups',
       'stay and play sessions',
+      'parent and child yoga',
+      'family fitness classes',
+      'daddy and me classes',
+      'family yoga sessions',
+      
+      // Wellness and development
+      'baby mindfulness',
+      'toddler meditation',
+      'children relaxation',
+      'family wellbeing',
+      'parent support groups',
+      'new parent classes',
+      'baby development sessions',
+      'early learning classes',
       
       // Venues and facilities
       'children activity centre',
@@ -54,14 +91,39 @@ class GooglePlacesScraper {
       'children nursery',
       'play centre',
       'early years centre',
+      'family leisure centre',
+      'community baby groups',
+      'childrens centre classes',
       
-      // Specific activity types
+      // Creative and educational
+      'baby art classes',
+      'toddler craft sessions',
+      'children pottery classes',
+      'kids cooking classes',
+      'toddler storytelling',
+      'baby book clubs',
+      'children library sessions',
+      'messy play sessions',
+      'sensory play groups',
+      
+      // Physical activities
       'children swimming lessons',
       'toddler football',
       'children martial arts',
       'kids drama classes',
-      'children art classes',
-      'messy play sessions'
+      'children gymnastics',
+      'toddler tennis',
+      'baby swimming',
+      'children athletics',
+      'kids climbing classes',
+      'toddler trampolining',
+      
+      // Special needs and inclusive
+      'sen baby classes',
+      'inclusive toddler groups',
+      'special needs children classes',
+      'autism friendly classes',
+      'sensory needs groups'
     ];
   }
 
