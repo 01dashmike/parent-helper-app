@@ -106,7 +106,7 @@ export default function About() {
                 As parents to three young children, we know the daily struggles all too well. Why is our baby crying? What sensory activities help development? Which baby classes should we try? Where do we go at weekends? What can we do on rainy evenings? How do we get them to eat healthy food they'll actually like? Which car seat is safest? The questions never end for families everywhere.
               </p>
               <p className="text-teal-dark mb-6">
-                The endless searching for classes, clubs, family days out and more had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different council websites, local Facebook groups, and community pages.
+                The endless searching for classes, clubs, family days out and more had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different websites, local Facebook groups, and community pages.
               </p>
               <p className="text-sage mb-6">
                 That's when we realised we could use our passion for technology to solve this frustrating problem - not just for us, but for thousands of other parents facing the same daily challenges, from bustling cities to quiet market towns.
