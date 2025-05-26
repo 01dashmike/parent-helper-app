@@ -5,6 +5,7 @@ import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
 import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
+import WhatsAppButton from "./whatsapp-button";
 
 interface ClassCardProps {
   classItem: Class;
@@ -137,9 +138,15 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               <Building className="w-4 h-4 mr-1" />
               {classItem.venue}
             </p>
-            <Button className="bg-coral hover:bg-coral/90 text-white">
-              View Details
-            </Button>
+            <div className="flex gap-2">
+              <WhatsAppButton 
+                classItem={classItem} 
+                variant={isPremiumSensory ? "direct" : "concierge"}
+              />
+              <Button className="bg-coral hover:bg-coral/90 text-white">
+                View Details
+              </Button>
+            </div>
           </div>
         </div>
       </div>

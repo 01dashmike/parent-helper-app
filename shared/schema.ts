@@ -20,6 +20,7 @@ export const classes = pgTable("classes", {
   time: text("time").notNull(),
   contactEmail: text("contact_email"),
   contactPhone: text("contact_phone"),
+  whatsappNumber: text("whatsapp_number"), // for direct contact (premium feature)
   website: text("website"),
   category: text("category").notNull(), // music, swimming, sensory, yoga, etc.
   rating: decimal("rating", { precision: 3, scale: 2 }),
