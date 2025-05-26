@@ -196,7 +196,31 @@ async function importOutscraperData(csvFilePath) {
               for (const classData of batch) {
                 try {
                   console.log(`  Importing: ${classData.name} in ${classData.town}`);
-                  // Simple insert - let the database handle any constraint violations
+                  
+                  // Sanitize data to prevent database issues
+                  const sanitizedData = {
+                    name: classData.name?.substring(0, 255) || 'Unknown Class',
+                    description: classData.description?.substring(0, 1000) || 'Class description',
+                    ageGroupMin: Number(classData.ageGroupMin) || 0,
+                    ageGroupMax: Number(classData.ageGroupMax) || 60,
+                    venue: classData.venue?.substring(0, 255) || classData.name || 'Unknown Venue',
+                    address: classData.address?.substring(0, 500) || '',
+                    postcode: classData.postcode?.substring(0, 20) || '',
+                    town: classData.town?.substring(0, 100) || '',
+                    latitude: classData.latitude ? Number(classData.latitude) : null,
+                    longitude: classData.longitude ? Number(classData.longitude) : null,
+                    dayOfWeek: classData.dayOfWeek?.substring(0, 50) || 'Multiple',
+                    time: classData.time?.substring(0, 100) || 'Various times',
+                    category: classData.category?.substring(0, 100) || 'General Classes',
+                    price: classData.price?.substring(0, 100) || 'Contact for pricing',
+                    website: classData.website?.substring(0, 500) || null,
+                    phone: classData.phone?.substring(0, 50) || null,
+                    rating: classData.rating ? Number(classData.rating) : null,
+                    reviewCount: Number(classData.reviewCount) || 0,
+                    isActive: classData.isActive === true,
+                    isFeatured: classData.isFeatured === true
+                  };
+                  
                   await sql`
                     INSERT INTO classes (
                     name, description, age_group_min, age_group_max, venue, address, 
@@ -204,17 +228,17 @@ async function importOutscraperData(csvFilePath) {
                     price, website, contact_phone, rating, review_count, 
                     is_active, is_featured
                   ) VALUES (
-                    ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
-                    ${classData.ageGroupMax}, ${classData.venue}, ${classData.address}, 
-                    ${classData.postcode}, ${classData.town}, ${classData.latitude}, 
-                    ${classData.longitude}, ${classData.dayOfWeek}, ${classData.time}, 
-                    ${classData.category}, ${classData.price}, ${classData.website}, 
-                    ${classData.phone}, ${classData.rating}, ${classData.reviewCount}, 
-                    ${classData.isActive}, ${classData.isFeatured}
+                    ${sanitizedData.name}, ${sanitizedData.description}, ${sanitizedData.ageGroupMin}, 
+                    ${sanitizedData.ageGroupMax}, ${sanitizedData.venue}, ${sanitizedData.address}, 
+                    ${sanitizedData.postcode}, ${sanitizedData.town}, ${sanitizedData.latitude}, 
+                    ${sanitizedData.longitude}, ${sanitizedData.dayOfWeek}, ${sanitizedData.time}, 
+                    ${sanitizedData.category}, ${sanitizedData.price}, ${sanitizedData.website}, 
+                    ${sanitizedData.phone}, ${sanitizedData.rating}, ${sanitizedData.reviewCount}, 
+                    ${sanitizedData.isActive}, ${sanitizedData.isFeatured}
                   )
                 `;
                   successCount++;
-                  console.log(`  ✓ Successfully imported: ${classData.name}`);
+                  console.log(`  ✓ Successfully imported: ${sanitizedData.name}`);
                   
                   // Small delay to prevent overwhelming the database
                   await new Promise(resolve => setTimeout(resolve, 100));
