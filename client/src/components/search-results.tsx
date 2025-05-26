@@ -228,20 +228,49 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
 
             {/* Map Sidebar */}
             <div className="lg:col-span-1">
-              <InteractiveMap 
-                classes={sortedResults} 
-                searchPostcode={searchParams?.postcode} 
-              />
+              <div className="bg-white rounded-lg shadow-md p-6 h-[400px] flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    {sortedResults.length} Classes Found
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    Interactive map coming soon!<br/>
+                    Browse classes in the list view
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
           /* Full Map View */
-          <div className="h-[600px]">
-            <InteractiveMap 
-              classes={sortedResults} 
-              fullScreen 
-              searchPostcode={searchParams?.postcode} 
-            />
+          <div className="h-[600px] bg-white rounded-lg shadow-md flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-10 h-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                {sortedResults.length} Classes in Your Area
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Professional coverage map coming soon!<br/>
+                Switch to List view to browse all available classes
+              </p>
+              <button
+                onClick={() => setViewMode('list')}
+                className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-colors"
+              >
+                View Classes List
+              </button>
+            </div>
           </div>
         )}
       </div>
