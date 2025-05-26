@@ -28,13 +28,13 @@ export default function BlogWeaningGuide() {
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold font-poppins mb-4">
-            Weaning Your Baby: A Science-Backed Guide for First-Time Parents
+            🥄 Weaning Your Baby: A Science-Backed Guide for First-Time Parents
           </h1>
           
           <p className="text-xl text-teal-100 leading-relaxed">
-            The gradual transition from milk to solid food is one of your baby's biggest milestones. 
-            Learn evidence-based weaning methods, time-saving hacks, and eco-friendly tips to make 
-            this journey rewarding for both you and your little one.
+            Weaning—the gradual transition from milk to solid food—is one of your baby's biggest milestones. 
+            It can feel overwhelming, but with a little preparation and the right tools, it can also be one 
+            of the most rewarding stages of early parenthood.
           </p>
         </div>
       </section>
@@ -44,87 +44,58 @@ export default function BlogWeaningGuide() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-lg max-w-none">
             
-            {/* Introduction */}
-            <Card className="mb-8 border-l-4 border-teal-500">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <Baby className="w-6 h-6 text-teal-600" />
-                  <h2 className="text-2xl font-bold text-teal-dark mb-0">Introduction</h2>
-                </div>
-                <p className="text-sage text-lg">
-                  Weaning marks a significant milestone in your baby's development, typically beginning around 
-                  6 months of age. This comprehensive guide combines the latest scientific research with practical 
-                  advice to help you navigate this exciting journey with confidence.
-                </p>
-              </CardContent>
-            </Card>
-
             {/* When to Start */}
             <div className="mb-10">
               <h2 className="text-3xl font-bold text-teal-dark mb-6 flex items-center gap-3">
-                <Clock className="w-8 h-8 text-coral" />
-                When to Start Weaning
+                📆 When Should You Start Weaning?
               </h2>
               
               <p className="text-lg text-sage leading-relaxed mb-6">
-                The World Health Organization and UK Department of Health recommend starting weaning at around 
-                6 months, when your baby shows these key signs of readiness:
+                The NHS and World Health Organization recommend starting weaning at <strong>around 6 months</strong>. 
+                At this stage, most babies:
               </p>
               
               <div className="bg-sage-50 p-6 rounded-lg mb-6">
                 <ul className="space-y-3 text-sage">
                   <li className="flex items-start gap-3">
                     <span className="w-2 h-2 bg-coral rounded-full mt-2"></span>
-                    <span><strong>Can sit up with support:</strong> Your baby can hold their head steady and sit upright with minimal assistance</span>
+                    <span>Can sit up with minimal support</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="w-2 h-2 bg-coral rounded-full mt-2"></span>
-                    <span><strong>Shows interest in food:</strong> Reaches for food, watches you eat, or opens their mouth when food approaches</span>
+                    <span>Show interest in food</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="w-2 h-2 bg-coral rounded-full mt-2"></span>
-                    <span><strong>Lost the tongue-thrust reflex:</strong> No longer automatically pushes food out with their tongue</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-coral rounded-full mt-2"></span>
-                    <span><strong>Can coordinate chewing motions:</strong> Shows chewing movements even without teeth</span>
+                    <span>Have lost the tongue-thrust reflex</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Traditional vs Baby-Led Weaning */}
+            {/* Weaning Methods */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold text-teal-dark mb-6 flex items-center gap-3">
-                <Utensils className="w-8 h-8 text-coral" />
-                Weaning Approaches: Traditional vs Baby-Led
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                🍽️ Weaning Methods
               </h2>
               
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <Card className="border-2 border-teal-200">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-teal-dark mb-4">Traditional Weaning</h3>
-                    <p className="text-sage mb-4">
-                      Starts with smooth purees and gradually introduces textures. Parents control 
-                      the feeding process using spoons.
-                    </p>
+                    <h3 className="text-xl font-bold text-teal-dark mb-4">1. Traditional (Spoon-fed) Weaning</h3>
                     <div className="space-y-2">
-                      <p className="text-sm text-sage"><strong>Pros:</strong> More control over intake, easier to track nutrition</p>
-                      <p className="text-sm text-sage"><strong>Best for:</strong> Parents who prefer structure and monitoring</p>
+                      <p className="text-sage"><span className="text-green-600 font-bold">✅</span> Easy to batch-cook and freeze, good for iron-rich foods.</p>
+                      <p className="text-sage"><span className="text-amber-600 font-bold">⚠️</span> Avoid processed jars and pouches.</p>
                     </div>
                   </CardContent>
                 </Card>
                 
                 <Card className="border-2 border-sage-200">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-teal-dark mb-4">Baby-Led Weaning</h3>
-                    <p className="text-sage mb-4">
-                      Babies self-feed with finger foods from the start, exploring textures 
-                      and flavors independently.
-                    </p>
+                    <h3 className="text-xl font-bold text-teal-dark mb-4">2. Baby-Led Weaning (BLW)</h3>
                     <div className="space-y-2">
-                      <p className="text-sm text-sage"><strong>Pros:</strong> Develops motor skills, encourages self-regulation</p>
-                      <p className="text-sm text-sage"><strong>Best for:</strong> Families wanting baby to lead the process</p>
+                      <p className="text-sage"><span className="text-green-600 font-bold">✅</span> Encourages independence and texture exploration.</p>
+                      <p className="text-sage"><span className="text-amber-600 font-bold">⚠️</span> Avoid hard foods that can cause choking.</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -132,62 +103,58 @@ export default function BlogWeaningGuide() {
               
               <div className="bg-teal-50 border-l-4 border-teal-400 p-4">
                 <p className="text-teal-700">
-                  <strong>Expert Tip:</strong> Many families successfully combine both approaches. 
-                  You might offer purees at breakfast and finger foods at lunch, adapting to your baby's preferences and your lifestyle.
+                  <span className="text-2xl">💡</span> <strong>Most parents combine both methods.</strong>
                 </p>
               </div>
             </div>
 
-            {/* Essential Nutrients */}
+            {/* What Science Says */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold text-teal-dark mb-6">Essential Nutrients for Growing Babies</h2>
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                🧠 What the Science Says
+              </h2>
               
-              <p className="text-lg text-sage leading-relaxed mb-6">
-                During the first year, your baby needs specific nutrients to support rapid growth and development:
-              </p>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <Card className="bg-orange-50 border-orange-200">
-                  <CardContent className="p-4">
-                    <h4 className="font-bold text-orange-800 mb-2">Iron</h4>
-                    <p className="text-sm text-orange-700">Critical for brain development. Found in meat, lentils, fortified cereals.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-blue-50 border-blue-200">
-                  <CardContent className="p-4">
-                    <h4 className="font-bold text-blue-800 mb-2">Healthy Fats</h4>
-                    <p className="text-sm text-blue-700">Support brain and eye development. Include avocado, olive oil, fatty fish.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-green-50 border-green-200">
-                  <CardContent className="p-4">
-                    <h4 className="font-bold text-green-800 mb-2">Vitamin D</h4>
-                    <p className="text-sm text-green-700">Essential for bone health. Continue supplements as recommended by your GP.</p>
-                  </CardContent>
-                </Card>
+              <div className="bg-blue-50 p-6 rounded-lg">
+                <ul className="space-y-3 text-sage">
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2"></span>
+                    <span>Babies need iron-rich foods from 6 months.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2"></span>
+                    <span>Early exposure to allergens may reduce allergy risk.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2"></span>
+                    <span>Variety early may reduce picky eating.</span>
+                  </li>
+                </ul>
               </div>
             </div>
 
-            {/* Meal Prep Tips */}
+            {/* Time-Saving Hacks */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold text-teal-dark mb-6">Time-Saving Meal Prep Strategies</h2>
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                🧊 Time-Saving Hacks
+              </h2>
               
               <div className="bg-coral-50 p-6 rounded-lg">
-                <h3 className="text-xl font-bold text-coral-800 mb-4">Weekly Prep Ideas</h3>
                 <ul className="space-y-3 text-coral-700">
                   <li className="flex items-start gap-3">
-                    <Heart className="w-5 h-5 mt-0.5 text-coral-600" />
-                    <span><strong>Batch cook purees:</strong> Make large batches and freeze in ice cube trays for easy portions</span>
+                    <span className="text-2xl">🧊</span>
+                    <span>Freeze purees in ice cube trays.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Heart className="w-5 h-5 mt-0.5 text-coral-600" />
-                    <span><strong>Pre-cut finger foods:</strong> Prepare steamed vegetables and soft fruits in advance</span>
+                    <span className="text-2xl">🔌</span>
+                    <span>Use a <a href="https://www.amazon.co.uk/dp/B01BYB2PQK" target="_blank" className="text-blue-600 underline hover:text-blue-800">Magic Bullet Blender</a> for batch prep.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Heart className="w-5 h-5 mt-0.5 text-coral-600" />
-                    <span><strong>Family meals adaptation:</strong> Cook one meal and adapt portions for baby</span>
+                    <span className="text-2xl">🏷️</span>
+                    <span>Label & date food with reusable chalkboard labels.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-2xl">♻️</span>
+                    <span>Use <a href="https://www.amazon.co.uk/dp/B01M7W4S4C" target="_blank" className="text-blue-600 underline hover:text-blue-800">reusable silicone pouches</a>.</span>
                   </li>
                 </ul>
               </div>
@@ -195,30 +162,105 @@ export default function BlogWeaningGuide() {
 
             {/* Eco-Friendly Tips */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold text-teal-dark mb-6">Sustainable Weaning Practices</h2>
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                🌍 Eco-Friendly Tips
+              </h2>
               
-              <p className="text-lg text-sage leading-relaxed mb-6">
-                Make weaning better for your baby and the planet with these eco-friendly approaches:
-              </p>
+              <div className="bg-green-50 p-6 rounded-lg">
+                <ul className="space-y-3 text-green-700">
+                  <li className="flex items-start gap-3">
+                    <span className="text-2xl">🎋</span>
+                    <span>Use bamboo/silicone feeding tools.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-2xl">🚫</span>
+                    <span>Avoid plastic pouches – use jars or reusables.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-2xl">📄</span>
+                    <span>Download our <strong>Dirty Dozen & Clean Fifteen Poster</strong> below.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* App Tip */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                📱 App Tip: Try Yuka
+              </h2>
+              
+              <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-400">
+                <p className="text-purple-700">
+                  <a href="https://yuka.io/en/" target="_blank" className="text-blue-600 underline hover:text-blue-800 font-bold">Yuka</a> is a free mobile app that scans barcodes to rate food and cosmetic health scores. It's perfect for checking toddler snacks or baby food ingredients.
+                </p>
+              </div>
+            </div>
+
+            {/* Why Avoid Processed Food */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                ❌ Why Avoid Processed Baby Food
+              </h2>
+              
+              <div className="bg-red-50 p-6 rounded-lg border-l-4 border-red-400">
+                <p className="text-red-700">
+                  Shop-bought baby foods often contain fruit-heavy purees, low protein/fat, and hidden sugars. A 2020 study by First Steps Nutrition Trust showed many lack the nutritional variety babies need.
+                </p>
+              </div>
+            </div>
+
+            {/* Freebies */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                📥 Freebies
+              </h2>
               
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h4 className="font-bold text-sage-800">Reduce Waste</h4>
-                  <ul className="space-y-2 text-sage">
-                    <li>• Use reusable pouches instead of single-use packets</li>
-                    <li>• Make homemade purees to avoid packaging</li>
-                    <li>• Compost food scraps</li>
-                  </ul>
-                </div>
-                
-                <div className="space-y-4">
-                  <h4 className="font-bold text-sage-800">Choose Sustainable Options</h4>
-                  <ul className="space-y-2 text-sage">
-                    <li>• Buy organic when possible for the "Dirty Dozen"</li>
-                    <li>• Choose local, seasonal produce</li>
-                    <li>• Use bamboo or stainless steel feeding equipment</li>
-                  </ul>
-                </div>
+                <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl mb-4">🥬</div>
+                    <h3 className="text-xl font-bold text-green-800 mb-3">Dirty Dozen & Clean Fifteen Poster</h3>
+                    <p className="text-green-700 mb-4">Know which fruits and vegetables to buy organic and which are safe conventional.</p>
+                    <a 
+                      href="data:text/plain;base64,RGlydHkgRG96ZW4gYW5kIENsZWFuIEZpZnRlZW4gKDIwMjQpCkRpcnR5IERvemVuIC0gQnV5IE9yZ2FuaWMgSWYgUG9zc2libGUKCjEuIFN0cmF3YmVycmllcwoyLiBTcGluYWNoCjMuIEthbGUKNC4gR3JhcGVzCjUuIFBlYWNoZXMKNi4gUGVhcnMKNy4gTmVjdGFyaW5lcwo4LiBBcHBsZXMKOS4gQmVsbCBQZXBwZXJzCjEwLiBDaGVycmllcwoxMS4gQmx1ZWJlcnJpZXMKMTIuIEdyZWVuIEJlYW5zCgpDbGVhbiBGaWZ0ZWVuIC0gTG93ZXN0IGluIFBlc3RpY2lkZXMKCjEuIEF2b2NhZG9zCjIuIFN3ZWV0IENvcm4KMy4gUGluZWFwcGxlCjQuIE9uaW9ucwo1LiBQYXBheWEKNi4gRnJvemVuIFN3ZWV0IFBlYXMKNy4gQXNwYXJhZ3VzCjguIEhvbmV5ZGV3IE1lbG9uCjkuIEtpd2kKMTAuIENhYmJhZ2UKMTEuIE11c2hyb29tcwoxMi4gTWFuZ29lcwoxMy4gV2F0ZXJtZWxvbgoxNC4gQ2Fycm90cwoxNS4gU3dlZXQgUG90YXRvZXM="
+                      download="dirty_dozen_clean_fifteen_poster.txt"
+                      className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                    >
+                      <span className="text-xl">📥</span>
+                      Download PDF
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl mb-4">📋</div>
+                    <h3 className="text-xl font-bold text-purple-800 mb-3">Weekly Weaning Meal Planner</h3>
+                    <p className="text-purple-700 mb-4">Plan your baby's meals, track batch cooking, and monitor nutritional variety.</p>
+                    <a 
+                      href="data:text/plain;base64,V2Vla2x5IFdlYW5pbmcgTWVhbCBQbGFubmVyCk1lYWwgUGxhbiAoQU0vUE0pCgpNb25kYXkgLSBBTTogX19fX19fX19fXyBQTTogX19fX19fX19fXwpUdWVzZGF5IC0gQU06IF9fX19fX19fX18gUE06IF9fX19fX19fX18KV2VkbmVzZGF5IC0gQU06IF9fX19fX19fX18gUE06IF9fX19fX19fX18KVGh1cnNkYXkgLSBBTTogX19fX19fX19fXyBQTTogX19fX19fX19fXwpGcmlkYXkgLSBBTTogX19fX19fX19fXyBQTTogX19fX19fX19fXwpTYXR1cmRheSAtIEFNOiBfX19fX19fX19fIFBNOiBfX19fX19fX19fClN1bmRheSAtIEFNOiBfX19fX19fX19fIFBNOiBfX19fX19fX19fCgoKRnJlZXplciBCYXRjaCBUcmFja2VyCgpGb29kOiBfX19fX19fX19fX19fXyBEYXRlOiBfX19fX19fIFF0eSBMZWZ0OiBfX19fX19fCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KCk51dHJpZW50IENoZWNrbGlzdAoKWyBdIElyb24tcmljaCBmb29kIFsgXSBOZXcgZmxhdm91ciBbIF0gQWxsZXJnZW4gdHJpZWQgWyBdIFBvb3AgY2hlY2s="
+                      download="weekly_weaning_meal_planner.txt"
+                      className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                    >
+                      <span className="text-xl">📥</span>
+                      Download PDF
+                    </a>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Affiliate Note */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                💷 Affiliate Note
+              </h2>
+              
+              <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-400">
+                <p className="text-yellow-800">
+                  Some links in this post may be affiliate links. If you click and buy, we may earn a small commission at no extra cost to you. Thank you for supporting our eco-conscious parenting content!
+                </p>
               </div>
             </div>
 
