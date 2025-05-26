@@ -221,6 +221,20 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Test Section to Debug */}
+      {selectedCategory && (
+        <div className="w-full bg-red-500 text-white p-8 text-center">
+          <h1 className="text-4xl font-bold">CATEGORY SELECTED: {selectedCategory}</h1>
+          <p className="text-2xl">Posts found: {filteredPosts.length}</p>
+          <button 
+            onClick={() => setSelectedCategory(null)}
+            className="bg-white text-red-500 px-4 py-2 rounded mt-4"
+          >
+            Close
+          </button>
+        </div>
+      )}
+
       {/* Blog Posts Section */}
       {selectedCategory && (
         <section className="py-16 bg-gray-50 min-h-screen">
