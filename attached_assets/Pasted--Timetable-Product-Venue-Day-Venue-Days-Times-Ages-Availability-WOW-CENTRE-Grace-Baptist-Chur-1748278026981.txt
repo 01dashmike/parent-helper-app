@@ -1,0 +1,76 @@
+
+Timetable
+Product
+
+ 
+Venue
+
+ 
+Day
+
+Venue	Days	Times	Ages	Availability
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Wednesday 26 Mar 2025 - 18 Jun 25	13:30 - 14:30	Birth to 13 months	🌸SPRING TERM🌸
+BOOK NOW
+only 4 Spaces Left
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Thursday 27 Mar 2025 - 19 Jun 25	12:30 - 13:30	Birth to 6 months	🌸SPRING TERM🌸
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Friday 28 Mar 2025 - 20 Jun 25	11:00 - 12:00	Birth to 6 months	🌸SPRING TERM🌸
+BOOK NOW
+Itchen Abbas & Avington Village Hall
+Main Road, Itchen Abbas, Winchester, Hampshire, SO21 1BQ	Monday 21 Apr 2025 - 16 Jun 25	09:30 - 10:30	6 to 13 months	🌼SPRING TERM🌼
+BOOK NOW
+Itchen Abbas & Avington Village Hall
+Main Road, Itchen Abbas, Winchester, Hampshire, SO21 1BQ	Monday 21 Apr 2025 - 16 Jun 25	11:00 - 12:00	Birth to 6 months	🌼SPRING TERM 🌼
+BOOK NOW
+Compton & Shawford Scout Hall
+Reeves Scout Hall, Martins Fields, Winchester	Tuesday 22 Apr 2025 - 17 Jun 25	09:30 - 10:30	Birth to 13 months	🌼SPRING TERM🌼
+BOOK NOW
+Compton & Shawford Scout Hall
+Reeves Scout Hall, Martins Fields, Winchester	Tuesday 22 Apr 2025 - 17 Jun 25	11:00 - 12:00	Birth to 6 months	🌼SPRING TERM🌼
+BOOK NOW
+Weeke Community Centre
+Taplings Road, Weeke, Winchester, Hampshire, SO22 6HG	Wednesday 23 Apr 2025 - 18 Jun 25	11:00 - 12:00	Birth to 6 months	🌼SPRING TERM🌼
+BOOK NOW
+only 5 Spaces Left
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Saturday 07 Jun 2025 - 07 Jun 25	10:00 - 11:00	Birth to 13 months	FATHERS DAY💙
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Saturday 07 Jun 2025 - 07 Jun 25	11:30 - 12:30	Birth to 13 months	FATHERS DAY💙
+BOOK NOW
+Itchen Abbas & Avington Village Hall
+Main Road, Itchen Abbas, Winchester, Hampshire, SO21 1BQ	Monday 23 Jun 2025 - 15 Sep 25	09:30 - 10:30	6 to 13 months	🍉SUMMER TERM🍉
+BOOK NOW
+Itchen Abbas & Avington Village Hall
+Main Road, Itchen Abbas, Winchester, Hampshire, SO21 1BQ	Monday 23 Jun 2025 - 15 Sep 25	11:00 - 12:00	Birth to 6 months	🍉SUMMER TERM🍉
+BOOK NOW
+Compton & Shawford Scout Hall
+Reeves Scout Hall, Martins Fields, Winchester	Tuesday 24 Jun 2025 - 16 Sep 25	09:30 - 10:30	Birth to 13 months	🍉SUMMER TERM🍉
+BOOK NOW
+Weeke Community Centre
+Taplings Road, Weeke, Winchester, Hampshire, SO22 6HG	Wednesday 25 Jun 2025 - 17 Sep 25	09:30 - 10:30	6 to 13 months	🍉SUMMER TERM🍉
+BOOK NOW
+Weeke Community Centre
+Taplings Road, Weeke, Winchester, Hampshire, SO22 6HG	Wednesday 25 Jun 2025 - 17 Sep 25	11:00 - 12:00	Birth to 6 months	🍉SUMMER TERM🍉
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Wednesday 25 Jun 2025 - 17 Sep 25	13:30 - 14:30	Birth to 13 months	☀️SUMMER TERM☀️
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Thursday 26 Jun 2025 - 18 Sep 25	09:30 - 10:30	6 to 13 months	☀️SUMMER TERM☀️
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Thursday 26 Jun 2025 - 18 Sep 25	11:00 - 12:00	6 to 13 months	☀️SUMMER TERM☀️
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Thursday 26 Jun 2025 - 18 Sep 25	12:30 - 13:30	Birth to 6 months	☀️SUMMER TERM☀️
+BOOK NOW
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Friday 27 Jun 2025 - 19 Sep 25	09:30 - 10:30	6 to 13 months	☀️SUMMER TERM☀️
+WAIT LIST
+WOW CENTRE
+Grace Baptist Church, Oak Bank, Andover, Hampshire, SP10 2BX	Friday 27 Jun 2025 - 19 Sep 25	11:00 - 12:00	Birth to 6 months	☀️SUMMER TERM☀️
+BOOK NOW
