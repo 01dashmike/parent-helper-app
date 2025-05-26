@@ -195,6 +195,8 @@ export default function Blog() {
                       window.location.href = "/blog/nutrition";
                     } else if (category.id === "baby-to-toddler") {
                       window.location.href = "/blog/baby-to-toddler";
+                    } else if (category.id === "0-6-months") {
+                      window.location.href = "/blog/0-6-months";
                     } else {
                       setSelectedCategory(category.id);
                     }

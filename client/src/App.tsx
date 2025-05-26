@@ -8,6 +8,9 @@ import About from "@/pages/about";
 import Blog from "@/pages/blog";
 import BlogNutrition from "@/pages/blog-nutrition";
 import BlogBabyToToddler from "@/pages/blog-baby-to-toddler";
+import Blog06Months from "@/pages/blog-0-6-months";
+import BlogPrenatal from "@/pages/blog-prenatal";
+import BlogPrimary from "@/pages/blog-primary";
 import BlogWeaningGuide from "@/pages/blog-weaning-guide";
 import BlogNewbornBehavior from "@/pages/blog-newborn-behavior";
 import FAQ from "@/pages/faq";
@@ -21,6 +24,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/blog" component={Blog} />
+      <Route path="/blog/0-6-months" component={Blog06Months} />
       <Route path="/blog/nutrition" component={BlogNutrition} />
       <Route path="/blog/baby-to-toddler" component={BlogBabyToToddler} />
       <Route path="/blog/weaning-guide" component={BlogWeaningGuide} />
