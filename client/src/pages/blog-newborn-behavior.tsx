@@ -83,10 +83,14 @@ export default function BlogNewbornBehavior() {
                 </ul>
               </div>
               
-              {/* Downloadable Cheat Sheet */}
+              {/* Enhanced Downloadable Cheat Sheet */}
               <div className="mt-6 mb-8">
+                <h3 className="text-xl font-bold text-purple-600 mb-4">📥 Free Download: Newborn Cries & Cues Cheat Sheet</h3>
+                <p className="text-sage mb-4">
+                  Feeling overwhelmed by your baby's cries and cues? Download our simple one-page reference guide to help decode common newborn behaviours — now includes the Shh method! Perfect for printing or saving on your phone.
+                </p>
                 <a 
-                  href="/downloads/Newborn_Cries_and_Cues_Cheat_Sheet.pdf" 
+                  href="/downloads/Newborn_Cries_and_Cues_Cheat_Sheet_Updated.pdf" 
                   download
                   className="inline-block bg-coral text-white font-bold py-3 px-5 rounded-lg text-base hover:bg-coral-600 transition-colors"
                 >
@@ -174,6 +178,10 @@ export default function BlogNewbornBehavior() {
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">🍼</span>
                     <span>Try <a href="https://amzn.to/4dy1Q5D" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">anti-colic bottles</a> (linked below)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-2xl">🤫</span>
+                    <span><strong>Shh Method:</strong> Make a loud, steady "shhhh" sound near baby's ear to mimic womb noise and trigger calming reflex</span>
                   </li>
                 </ul>
               </div>
