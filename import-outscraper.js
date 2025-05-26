@@ -182,7 +182,7 @@ async function importOutscraperData(csvFilePath) {
           console.log(`Processing ${results.length} valid entries...`);
 
           // Import in optimized batches for faster processing
-          const batchSize = 50; // Increased for faster import while maintaining stability
+          const batchSize = 10; // Smaller batches for debugging
           let successCount = 0;
           let errorCount = 0;
           
@@ -200,7 +200,7 @@ async function importOutscraperData(csvFilePath) {
                     INSERT INTO classes (
                     name, description, age_group_min, age_group_max, venue, address, 
                     postcode, town, latitude, longitude, day_of_week, time, category, 
-                    price, website, phone, rating, review_count, 
+                    price, website, contact_phone, rating, review_count, 
                     is_active, is_featured
                   ) VALUES (
                     ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
