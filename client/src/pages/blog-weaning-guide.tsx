@@ -178,7 +178,7 @@ export default function BlogWeaningGuide() {
                 <ul className="space-y-3 text-green-700">
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">🎋</span>
-                    <span>Use <a href="https://amzn.to/44ZLS25" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">bamboo suction plates</a> and <a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">silicone bibs</a></span>
+                    <span>Use <a href="https://amzn.to/3Snrctd" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">bamboo suction plates</a> and <a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">silicone bibs</a></span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">🚫</span>
@@ -227,7 +227,7 @@ export default function BlogWeaningGuide() {
                   <div className="flex items-start gap-3">
                     <span className="text-gray-600 mt-1">•</span>
                     <div>
-                      <strong><a href="https://amzn.to/44ZLS25" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Bamboo Suction Plate</a></strong> – mess-free, baby-safe, and sustainable
+                      <strong><a href="https://amzn.to/3Snrctd" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Bamboo Suction Plate</a></strong> – mess-free, baby-safe, and sustainable
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
