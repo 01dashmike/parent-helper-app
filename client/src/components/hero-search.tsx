@@ -64,10 +64,10 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     <section className="bg-gradient-to-br from-coral/10 to-sage/10 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold font-poppins text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold font-poppins text-teal-dark mb-4">
             Find Amazing Classes for Your Little Ones
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-sage mb-8 max-w-3xl mx-auto">
             Discover baby and toddler classes near you. From sensory play to swimming, music to movement - we've got everything to help your child learn, grow and have fun!
           </p>
         </div>
