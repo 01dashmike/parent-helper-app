@@ -53,9 +53,9 @@ class EnhancedPriorityTownsScraper {
       SELECT 
         town,
         COUNT(*) as class_count,
-        COUNT(CASE WHEN "isFeatured" = true THEN 1 END) as featured_count
+        COUNT(CASE WHEN "is_featured" = true THEN 1 END) as featured_count
       FROM classes 
-      WHERE "isActive" = true 
+        WHERE "is_active" = true 
       GROUP BY town 
       HAVING COUNT(*) < 5
       ORDER BY class_count ASC, town
@@ -126,15 +126,15 @@ class EnhancedPriorityTownsScraper {
       const classData = {
         name: place.name,
         description: this.generateDescription(place.name, searchTerm, townName),
-        ageGroupMin: this.extractAgeRange(searchTerm).min,
-        ageGroupMax: this.extractAgeRange(searchTerm).max,
+        age_group_min: this.extractAgeRange(searchTerm).min,
+        age_group_max: this.extractAgeRange(searchTerm).max,
         price: this.determinePricing(place),
-        isFeatured: this.isFeaturedBrand(place.name),
+        is_featured: this.isFeaturedBrand(place.name),
         venue: place.name,
         address: place.formatted_address || `${townName}, UK`,
         postcode: this.extractPostcode(place.formatted_address) || this.getDefaultPostcode(townName),
         town: townName,
-        dayOfWeek: this.getTypicalDay(searchTerm),
+        day_of_week: this.getTypicalDay(searchTerm),
         time: this.getTypicalTime(searchTerm),
         website: place.website || null,
         phone: place.formatted_phone_number || null,
@@ -142,15 +142,15 @@ class EnhancedPriorityTownsScraper {
         latitude: place.geometry?.location?.lat?.toString() || null,
         longitude: place.geometry?.location?.lng?.toString() || null,
         category: this.categorizeClass(searchTerm),
-        isActive: true,
-        createdAt: new Date()
+        is_active: true,
+        created_at: new Date()
       };
       
       const insertQuery = `
         INSERT INTO classes (
-          name, description, "ageGroupMin", "ageGroupMax", price, "isFeatured",
-          venue, address, postcode, town, "dayOfWeek", time, website, phone,
-          email, latitude, longitude, category, "isActive", "createdAt"
+          name, description, age_group_min, age_group_max, price, is_featured,
+          venue, address, postcode, town, day_of_week, time, website, phone,
+          email, latitude, longitude, category, is_active, created_at
         ) VALUES (
           $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
         ) RETURNING id
