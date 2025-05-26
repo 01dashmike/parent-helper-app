@@ -8,7 +8,7 @@ import { useState } from "react";
 import type { BlogPost } from "@shared/schema";
 
 export default function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog/posts"],
   });
@@ -227,7 +227,7 @@ export default function Blog() {
           <h1 className="text-4xl font-bold">CATEGORY SELECTED: {selectedCategory}</h1>
           <p className="text-2xl">Posts found: {filteredPosts.length}</p>
           <button 
-            onClick={() => setSelectedCategory(null)}
+            onClick={() => setSelectedCategory("")}
             className="bg-white text-red-500 px-4 py-2 rounded mt-4"
           >
             Close
@@ -249,7 +249,7 @@ export default function Blog() {
                 </p>
                 <Button 
                   variant="outline" 
-                  onClick={() => setSelectedCategory(null)}
+                  onClick={() => setSelectedCategory("")}
                   className="text-sage hover:text-coral"
                 >
                   ← Back to all categories
