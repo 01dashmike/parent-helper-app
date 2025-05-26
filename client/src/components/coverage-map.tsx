@@ -159,8 +159,8 @@ export default function CoverageMap({ classes, fullScreen = false, searchPostcod
                 <div style="margin-bottom: 8px;">
                   ${topClasses.map(c => `
                     <div style="margin: 4px 0; font-size: 13px; color: #374151; border-left: 3px solid ${circleColor}; padding-left: 8px;">
-                      <strong>${c.name}</strong><br>
-                      <span style="color: #6b7280; font-size: 12px;">${c.venue} • ${c.ageGroupMin}-${c.ageGroupMax} years</span>
+                      <strong>${c.name || 'Class'}</strong><br>
+                      <span style="color: #6b7280; font-size: 12px;">${c.venue || 'Venue'} • ${c.age_group_min || 0}-${c.age_group_max || 48} years</span>
                     </div>
                   `).join('')}
                   ${cluster.count > 5 ? `
