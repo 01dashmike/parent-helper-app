@@ -440,16 +440,28 @@ class DatabaseStorage implements IStorage {
       const searchPostcode = params.postcode.toLowerCase().replace(/\s/g, '');
       const searchArea = searchPostcode.substring(0, 4);
       
-      // Hampshire region matching - SO (Winchester) and SP (Andover) are close
-      const hampshireRegion = ['so23', 'so22', 'so21', 'sp10', 'sp11'];
+      // Hampshire region matching - expand to include Southampton and surrounding areas
+      const hampshireRegion = ['so14', 'so15', 'so16', 'so17', 'so18', 'so19', 'so23', 'so22', 'so21', 'so50', 'sp10', 'sp11', 'po1', 'po2', 'po3', 'po4', 'po5'];
       
       if (hampshireRegion.includes(searchArea)) {
         const postcodeFilter = or(
-          ilike(classes.postcode, 'SO23%'),
-          ilike(classes.postcode, 'SO22%'),
-          ilike(classes.postcode, 'SO21%'),
-          ilike(classes.postcode, 'SP10%'),
-          ilike(classes.postcode, 'SP11%')
+          ilike(classes.postcode, 'SO14%'), // Southampton
+          ilike(classes.postcode, 'SO15%'), // Southampton
+          ilike(classes.postcode, 'SO16%'), // Southampton
+          ilike(classes.postcode, 'SO17%'), // Southampton
+          ilike(classes.postcode, 'SO18%'), // Southampton
+          ilike(classes.postcode, 'SO19%'), // Southampton
+          ilike(classes.postcode, 'SO23%'), // Winchester
+          ilike(classes.postcode, 'SO22%'), // Winchester
+          ilike(classes.postcode, 'SO21%'), // Winchester
+          ilike(classes.postcode, 'SO50%'), // Eastleigh
+          ilike(classes.postcode, 'SP10%'), // Andover
+          ilike(classes.postcode, 'SP11%'), // Andover
+          ilike(classes.postcode, 'PO1%'),  // Portsmouth
+          ilike(classes.postcode, 'PO2%'),  // Portsmouth
+          ilike(classes.postcode, 'PO3%'),  // Portsmouth
+          ilike(classes.postcode, 'PO4%'),  // Portsmouth
+          ilike(classes.postcode, 'PO5%')   // Portsmouth
         );
         whereCondition = and(whereCondition, postcodeFilter);
       } else {
