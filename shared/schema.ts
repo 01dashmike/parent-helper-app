@@ -22,6 +22,8 @@ export const classes = pgTable("classes", {
   contactPhone: text("contact_phone"),
   whatsappNumber: text("whatsapp_number"), // for direct contact (premium feature)
   website: text("website"),
+  instagramHandle: text("instagram_handle"), // for fetching photos
+  facebookPage: text("facebook_page"), // for fetching events
   category: text("category").notNull(), // music, swimming, sensory, yoga, etc.
   rating: decimal("rating", { precision: 3, scale: 2 }),
   reviewCount: integer("review_count").default(0),

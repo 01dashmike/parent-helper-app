@@ -6,6 +6,7 @@ import type { Class } from "@shared/schema";
 import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
 import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 import WhatsAppButton from "./whatsapp-button";
+import InstagramGallery from "./instagram-gallery";
 
 interface ClassCardProps {
   classItem: Class;
@@ -132,6 +133,16 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               </span>
             )}
           </div>
+          
+          {/* Instagram Gallery for classes with Instagram handles */}
+          {classItem.instagramHandle && (
+            <div className="mb-4">
+              <InstagramGallery 
+                instagramHandle={classItem.instagramHandle}
+                maxPhotos={4}
+              />
+            </div>
+          )}
           
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-600 flex items-center">
