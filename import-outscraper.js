@@ -181,84 +181,68 @@ async function importOutscraperData(csvFilePath) {
         .on('end', async () => {
           console.log(`Processing ${results.length} valid entries...`);
 
-          // Import in optimized batches for faster processing
-          const batchSize = 10; // Smaller batches for debugging
           let successCount = 0;
           let errorCount = 0;
           
-          console.log(`Starting import of ${results.length} entries in batches of ${batchSize}...`);
+          console.log(`Starting sequential import of ${results.length} entries...`);
           
-          for (let i = 0; i < results.length; i += batchSize) {
-            const batch = results.slice(i, i + batchSize);
-            console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)} (entries ${i + 1}-${Math.min(i + batchSize, results.length)})`);
+          for (let i = 0; i < results.length; i++) {
+            const classData = results[i];
             
             try {
-              for (const classData of batch) {
-                try {
-                  console.log(`  Importing: ${classData.name} in ${classData.town}`);
-                  
-                  // Sanitize data to prevent database issues
-                  const sanitizedData = {
-                    name: classData.name?.substring(0, 255) || 'Unknown Class',
-                    description: classData.description?.substring(0, 1000) || 'Class description',
-                    ageGroupMin: Number(classData.ageGroupMin) || 0,
-                    ageGroupMax: Number(classData.ageGroupMax) || 60,
-                    venue: classData.venue?.substring(0, 255) || classData.name || 'Unknown Venue',
-                    address: classData.address?.substring(0, 500) || '',
-                    postcode: classData.postcode?.substring(0, 20) || '',
-                    town: classData.town?.substring(0, 100) || '',
-                    latitude: classData.latitude ? Number(classData.latitude) : null,
-                    longitude: classData.longitude ? Number(classData.longitude) : null,
-                    dayOfWeek: classData.dayOfWeek?.substring(0, 50) || 'Multiple',
-                    time: classData.time?.substring(0, 100) || 'Various times',
-                    category: classData.category?.substring(0, 100) || 'General Classes',
-                    price: classData.price?.substring(0, 100) || 'Contact for pricing',
-                    website: classData.website?.substring(0, 500) || null,
-                    phone: classData.phone?.substring(0, 50) || null,
-                    rating: classData.rating ? Number(classData.rating) : null,
-                    reviewCount: Number(classData.reviewCount) || 0,
-                    isActive: classData.isActive === true,
-                    isFeatured: classData.isFeatured === true
-                  };
-                  
-                  await sql`
-                    INSERT INTO classes (
-                    name, description, age_group_min, age_group_max, venue, address, 
-                    postcode, town, latitude, longitude, day_of_week, time, category, 
-                    price, website, contact_phone, rating, review_count, 
-                    is_active, is_featured
-                  ) VALUES (
-                    ${sanitizedData.name}, ${sanitizedData.description}, ${sanitizedData.ageGroupMin}, 
-                    ${sanitizedData.ageGroupMax}, ${sanitizedData.venue}, ${sanitizedData.address}, 
-                    ${sanitizedData.postcode}, ${sanitizedData.town}, ${sanitizedData.latitude}, 
-                    ${sanitizedData.longitude}, ${sanitizedData.dayOfWeek}, ${sanitizedData.time}, 
-                    ${sanitizedData.category}, ${sanitizedData.price}, ${sanitizedData.website}, 
-                    ${sanitizedData.phone}, ${sanitizedData.rating}, ${sanitizedData.reviewCount}, 
-                    ${sanitizedData.isActive}, ${sanitizedData.isFeatured}
-                  )
-                `;
-                  successCount++;
-                  console.log(`  ✓ Successfully imported: ${sanitizedData.name}`);
-                  
-                  // Small delay to prevent overwhelming the database
-                  await new Promise(resolve => setTimeout(resolve, 100));
-                } catch (itemError) {
-                  console.error(`  ✗ Error importing class "${classData.name}":`, itemError.message);
-                  console.error(`  Data:`, JSON.stringify(classData, null, 2));
-                  errorCount++;
-                  
-                  // Continue with next item even if this one fails
-                }
-              }
-
-              console.log(`Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(results.length/batchSize)} complete: ${successCount - (i === 0 ? 0 : successCount - batch.length)} imported, ${errorCount - (i === 0 ? 0 : errorCount)} errors`);
-            } catch (batchError) {
-              console.error(`Error importing batch:`, batchError.message);
-              console.error(`Full batch error:`, batchError);
-              errorCount += batch.length;
+              // Sanitize data to prevent database issues
+              const sanitizedData = {
+                name: classData.name?.substring(0, 255) || 'Unknown Class',
+                description: classData.description?.substring(0, 1000) || 'Class description',
+                ageGroupMin: Number(classData.ageGroupMin) || 0,
+                ageGroupMax: Number(classData.ageGroupMax) || 60,
+                venue: classData.venue?.substring(0, 255) || classData.name || 'Unknown Venue',
+                address: classData.address?.substring(0, 500) || '',
+                postcode: classData.postcode?.substring(0, 20) || '',
+                town: classData.town?.substring(0, 100) || '',
+                latitude: classData.latitude ? Number(classData.latitude) : null,
+                longitude: classData.longitude ? Number(classData.longitude) : null,
+                dayOfWeek: classData.dayOfWeek?.substring(0, 50) || 'Multiple',
+                time: classData.time?.substring(0, 100) || 'Various times',
+                category: classData.category?.substring(0, 100) || 'General Classes',
+                price: classData.price?.substring(0, 100) || 'Contact for pricing',
+                website: classData.website?.substring(0, 500) || null,
+                phone: classData.phone?.substring(0, 50) || null,
+                rating: classData.rating ? Number(classData.rating) : null,
+                reviewCount: Number(classData.reviewCount) || 0,
+                isActive: classData.isActive === true,
+                isFeatured: classData.isFeatured === true
+              };
               
-              // Add delay before next batch if there was an error
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              await sql`
+                INSERT INTO classes (
+                name, description, age_group_min, age_group_max, venue, address, 
+                postcode, town, latitude, longitude, day_of_week, time, category, 
+                price, website, contact_phone, rating, review_count, 
+                is_active, is_featured
+              ) VALUES (
+                ${sanitizedData.name}, ${sanitizedData.description}, ${sanitizedData.ageGroupMin}, 
+                ${sanitizedData.ageGroupMax}, ${sanitizedData.venue}, ${sanitizedData.address}, 
+                ${sanitizedData.postcode}, ${sanitizedData.town}, ${sanitizedData.latitude}, 
+                ${sanitizedData.longitude}, ${sanitizedData.dayOfWeek}, ${sanitizedData.time}, 
+                ${sanitizedData.category}, ${sanitizedData.price}, ${sanitizedData.website}, 
+                ${sanitizedData.phone}, ${sanitizedData.rating}, ${sanitizedData.reviewCount}, 
+                ${sanitizedData.isActive}, ${sanitizedData.isFeatured}
+              )
+            `;
+              successCount++;
+              
+              // Progress update every 50 records
+              if ((i + 1) % 50 === 0) {
+                console.log(`Progress: ${i + 1}/${results.length} processed (${successCount} successful, ${errorCount} errors)`);
+              }
+              
+              // Small delay to prevent overwhelming the database
+              await new Promise(resolve => setTimeout(resolve, 50));
+              
+            } catch (itemError) {
+              console.error(`Error importing "${classData.name}":`, itemError.message);
+              errorCount++;
             }
           }
 
