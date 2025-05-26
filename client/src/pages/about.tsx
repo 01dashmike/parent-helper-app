@@ -213,6 +213,91 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Feedback Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-4">
+              <MessageCircle className="w-8 h-8 inline mr-3" />
+              Help Shape Parent Helper
+            </h2>
+            <p className="text-lg text-sage max-w-2xl mx-auto">
+              What would you like to see added to Parent Helper? Your feedback helps us build the features that matter most to UK families.
+            </p>
+          </div>
+
+          <Card className="border-none shadow-xl">
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmitFeedback} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="name" className="text-teal-dark font-medium">
+                      Your Name (optional)
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="e.g. Sarah"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="mt-2 border-sage/20 focus:border-coral focus:ring-coral"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-teal-dark font-medium">
+                      Email Address (optional)
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="e.g. sarah@email.co.uk"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="mt-2 border-sage/20 focus:border-coral focus:ring-coral"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="message" className="text-teal-dark font-medium">
+                    What features would you like to see? *
+                  </Label>
+                  <Textarea
+                    id="message"
+                    placeholder="e.g. I'd love to see meal planning for toddlers, reviews of baby products, or better search filters for outdoor classes..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={5}
+                    className="mt-2 border-sage/20 focus:border-coral focus:ring-coral"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-center">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-coral hover:bg-coral/90 text-white px-8 py-3 text-lg"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Send Feedback
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
       
       <Footer />
     </div>
