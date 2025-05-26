@@ -15,14 +15,14 @@ export default function Blog() {
 
   const filteredPosts = selectedCategory 
     ? posts.filter(post => {
-        const categories = post.category?.split(',') || [];
+        const categories = post.category?.split(',').map(cat => cat.trim()) || [];
         return categories.includes(selectedCategory);
       })
     : posts;
 
   const getCategoryCount = (categoryId: string) => {
     return posts.filter(post => {
-      const categories = post.category?.split(',') || [];
+      const categories = post.category?.split(',').map(cat => cat.trim()) || [];
       return categories.includes(categoryId);
     }).length;
   };
