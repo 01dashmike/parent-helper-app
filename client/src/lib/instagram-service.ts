@@ -19,8 +19,12 @@ export class InstagramService {
   private baseUrl = 'https://graph.instagram.com';
 
   constructor() {
-    // We'll need Instagram Basic Display API access token
+    // Instagram API credentials from environment
     this.accessToken = import.meta.env.VITE_INSTAGRAM_ACCESS_TOKEN || '';
+    
+    if (!this.accessToken) {
+      console.log('Instagram integration ready - waiting for API credentials');
+    }
   }
 
   async getBusinessProfile(instagramHandle: string): Promise<InstagramProfile | null> {
