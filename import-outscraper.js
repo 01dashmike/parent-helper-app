@@ -150,7 +150,8 @@ async function importOutscraperData(csvFilePath) {
           const classCategory = categorizeClass(businessName, description, category);
           const extractedPrice = extractPrice(description) || extractPrice(businessName);
           const isFree = isFreeClass(businessName, description, extractedPrice);
-          const price = isFree ? null : extractedPrice;
+          // Ensure price is always numeric or null for database
+          const price = isFree ? null : (typeof extractedPrice === 'number' ? extractedPrice : null);
 
           results.push({
             name: businessName,
