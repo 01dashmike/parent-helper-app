@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Heart, Check, MapPin, Users, Clock, Lightbulb, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import brandImage from "@assets/image_1748254024712.png";
 
 export default function About() {
   const [name, setName] = useState("");
@@ -107,8 +108,8 @@ export default function About() {
             
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-                alt="Diverse group of mothers with children playing" 
+                src={brandImage}
+                alt="Parent Helper brand identity - family logo and app design showing classes, clubs and activities" 
                 className="rounded-2xl shadow-lg w-full"
               />
               
