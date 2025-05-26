@@ -39,6 +39,12 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     });
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleQuickFilter = (category: string) => {
     if (!postcode.trim()) return;
     
@@ -85,6 +91,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                 placeholder="e.g. Winchester, SO23 9EP, or RG21"
                 value={postcode}
                 onChange={(e) => setPostcode(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
               />
             </div>
