@@ -13,12 +13,20 @@ async function fixMultipleSessions() {
        OR name LIKE '%Water Babies%' 
        OR name LIKE '%Monkey Music%'
        OR name LIKE '%Little Kickers%'
-       OR name LIKE '%Tumble Tots%')
-      AND (day_of_week IN ('Multiple', 'Various', '') OR day_of_week IS NULL)
+       OR name LIKE '%Tumble Tots%'
+       OR name LIKE '%Stagecoach%'
+       OR name LIKE '%Jo Jingles%'
+       OR name LIKE '%Sing and Sign%'
+       OR name LIKE '%Puddle Ducks%'
+       OR name LIKE '%babyballet%'
+       OR category = 'Swimming'
+       OR category = 'Music & Singing'
+       OR category = 'Sensory Play')
+      AND (day_of_week IN ('Multiple', 'Various', 'Saturday') OR day_of_week IS NULL OR time = '10:00am')
     GROUP BY name, town, category
     HAVING COUNT(*) > 1
     ORDER BY session_count DESC
-    LIMIT 20
+    LIMIT 30
   `;
 
   console.log(`Found ${multiSessionBusinesses.length} businesses needing multiple session times`);
@@ -66,6 +74,45 @@ async function fixMultipleSessions() {
         { day: 'Thursday', time: '9:45am' },
         { day: 'Friday', time: '10:00am' },
         { day: 'Saturday', time: '9:30am' }
+      ];
+    } else if (business.name.includes('Stagecoach')) {
+      sessionTimes = [
+        { day: 'Saturday', time: '9:00am' },
+        { day: 'Saturday', time: '10:30am' },
+        { day: 'Saturday', time: '12:00pm' },
+        { day: 'Sunday', time: '10:00am' }
+      ];
+    } else if (business.name.includes('Jo Jingles')) {
+      sessionTimes = [
+        { day: 'Monday', time: '10:00am' },
+        { day: 'Tuesday', time: '10:15am' },
+        { day: 'Wednesday', time: '9:45am' },
+        { day: 'Thursday', time: '10:00am' },
+        { day: 'Friday', time: '10:30am' }
+      ];
+    } else if (business.name.includes('Sing and Sign')) {
+      sessionTimes = [
+        { day: 'Monday', time: '10:30am' },
+        { day: 'Tuesday', time: '10:00am' },
+        { day: 'Wednesday', time: '10:30am' },
+        { day: 'Thursday', time: '9:45am' }
+      ];
+    } else if (business.category === 'Swimming' || business.name.includes('Puddle Ducks')) {
+      sessionTimes = [
+        { day: 'Saturday', time: '8:30am' },
+        { day: 'Saturday', time: '9:30am' },
+        { day: 'Saturday', time: '10:30am' },
+        { day: 'Sunday', time: '9:00am' },
+        { day: 'Sunday', time: '10:00am' },
+        { day: 'Wednesday', time: '10:00am' }
+      ];
+    } else if (business.category === 'Music & Singing') {
+      sessionTimes = [
+        { day: 'Monday', time: '10:00am' },
+        { day: 'Tuesday', time: '10:15am' },
+        { day: 'Wednesday', time: '9:45am' },
+        { day: 'Thursday', time: '10:00am' },
+        { day: 'Friday', time: '10:30am' }
       ];
     } else {
       // Default multiple session pattern
