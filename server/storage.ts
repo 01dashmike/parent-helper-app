@@ -589,13 +589,21 @@ class DatabaseStorage implements IStorage {
   async searchClasses(params: SearchParams): Promise<Class[]> {
     let whereCondition = eq(classes.isActive, true);
     
-    // Filter by postcode area if provided
+    // Filter by postcode area or town name if provided
     if (params.postcode) {
-      const searchPostcode = params.postcode.toLowerCase().replace(/\s/g, '');
-      const searchArea = searchPostcode.substring(0, 4);
+      const searchTerm = params.postcode.toLowerCase().replace(/\s/g, '');
       
-      // Search by exact postcode area only - no regional grouping
-      whereCondition = and(whereCondition, ilike(classes.postcode, `${searchArea}%`));
+      // Check if it looks like a postcode (starts with letters)
+      const isPostcode = /^[a-z]{1,2}\d/.test(searchTerm);
+      
+      if (isPostcode) {
+        // It's a postcode - search by postcode area
+        const searchArea = searchTerm.substring(0, 4);
+        whereCondition = and(whereCondition, ilike(classes.postcode, `${searchArea}%`));
+      } else {
+        // It's a town name - search by town
+        whereCondition = and(whereCondition, ilike(classes.town, `%${searchTerm}%`));
+      }
     }
 
     const results = await db.select().from(classes).where(whereCondition);
