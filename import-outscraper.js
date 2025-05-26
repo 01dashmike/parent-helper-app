@@ -71,8 +71,8 @@ function categorizeClass(name, description, type) {
 function extractPrice(text) {
   if (!text) return null;
   
-  const priceMatch = text.match(/£(\d+(?:\.\d{2})?)/);
-  return priceMatch ? `£${priceMatch[1]}` : null;
+  const priceMatch = text.match(/£?(\d+(?:\.\d{2})?)/);
+  return priceMatch ? parseFloat(priceMatch[1]) : null;
 }
 
 // Function to determine if class is free
@@ -148,8 +148,9 @@ async function importOutscraperData(csvFilePath) {
 
           const ageRange = extractAgeRange(businessName, description);
           const classCategory = categorizeClass(businessName, description, category);
-          const price = extractPrice(description) || extractPrice(businessName);
-          const isFree = isFreeClass(businessName, description, price);
+          const extractedPrice = extractPrice(description) || extractPrice(businessName);
+          const isFree = isFreeClass(businessName, description, extractedPrice);
+          const price = isFree ? null : extractedPrice;
 
           results.push({
             name: businessName,
@@ -198,7 +199,7 @@ async function importOutscraperData(csvFilePath) {
                     INSERT INTO classes (
                       name, description, age_group_min, age_group_max, venue, address, 
                       postcode, town, latitude, longitude, day_of_week, time, category, 
-                      price, website, phone, rating, review_count, image_url, 
+                      price, website, phone, rating, review_count, 
                       is_active, is_featured
                     ) VALUES (
                       ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
@@ -207,7 +208,7 @@ async function importOutscraperData(csvFilePath) {
                       ${classData.longitude}, ${classData.dayOfWeek}, ${classData.time}, 
                       ${classData.category}, ${classData.price}, ${classData.website}, 
                       ${classData.phone}, ${classData.rating}, ${classData.reviewCount}, 
-                      ${classData.imageUrl}, ${classData.isActive}, ${classData.isFeatured}
+                      ${classData.isActive}, ${classData.isFeatured}
                     )
                   `;
                   importedCount++;
