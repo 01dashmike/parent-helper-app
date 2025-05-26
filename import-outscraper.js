@@ -181,8 +181,8 @@ async function importOutscraperData(csvFilePath) {
         .on('end', async () => {
           console.log(`Processing ${results.length} valid entries...`);
 
-          // Import in smaller batches with better error handling
-          const batchSize = 10; // Reduced from 100 to avoid timeouts
+          // Import in optimized batches for faster processing
+          const batchSize = 50; // Increased for faster import while maintaining stability
           let successCount = 0;
           let errorCount = 0;
           
