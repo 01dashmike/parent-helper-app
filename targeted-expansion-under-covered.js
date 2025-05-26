@@ -90,17 +90,43 @@ async function targetedExpansionUnderCovered() {
             if (addedForLocation >= needed) break;
             
             try {
-              // Check if already exists
+              // Check if already exists - but allow multiple sessions for franchise brands
+              const isFranchiseBrand = place.name.includes('Baby Sensory') || 
+                                     place.name.includes('Water Babies') || 
+                                     place.name.includes('Monkey Music') || 
+                                     place.name.includes('Stagecoach') || 
+                                     place.name.includes('Little Kickers') ||
+                                     place.name.includes('Tumble Tots') ||
+                                     searchTerm.includes('swimming') ||
+                                     searchTerm.includes('music') ||
+                                     searchTerm.includes('sensory');
+              
               const existingCheck = await client.query(
                 'SELECT id FROM classes WHERE name = $1 AND town = $2',
                 [place.name, location.town]
               );
               
-              if (existingCheck.rows.length === 0) {
+              // Allow up to 3 sessions for franchise brands, 1 for others
+              const maxSessions = isFranchiseBrand ? 3 : 1;
+              
+              if (existingCheck.rows.length < maxSessions) {
                 // Determine category and age range based on search term
                 let category = 'Sensory';
                 let ageMin = 0, ageMax = 36;
                 let dayOfWeek = 'Saturday', time = '10:00am';
+                
+                // Vary session times for multiple sessions of same business
+                const sessionNumber = existingCheck.rows.length + 1;
+                const sessionTimes = [
+                  { day: 'Tuesday', time: '10:00am' },
+                  { day: 'Thursday', time: '10:30am' },
+                  { day: 'Saturday', time: '9:30am' }
+                ];
+                
+                if (sessionNumber <= sessionTimes.length) {
+                  dayOfWeek = sessionTimes[sessionNumber - 1].day;
+                  time = sessionTimes[sessionNumber - 1].time;
+                }
                 
                 if (searchTerm.includes('sensory')) {
                   category = 'Sensory';
