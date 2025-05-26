@@ -17,7 +17,7 @@ export default function About() {
                 Our Story
               </h1>
               <p className="text-lg text-sage mb-6">
-                As parents to three young children, we know the struggle all too well. Weekend after weekend, we'd spend hours scrolling through Facebook groups, checking council websites, and calling venues - just trying to find something fun to do with the kids.
+                As parents to three young children, we know the daily struggles all too well. Why is our baby crying? What sensory activities help development? Which classes should we try? Where do we go at weekends? What can we do on rainy evenings? How do we get them to eat healthy food they'll actually like? Which car seat is safest? The questions never end.
               </p>
               <p className="text-teal-dark mb-6">
                 The endless searching for baby classes, toddler activities, and family-friendly events had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different websites and social media pages.
