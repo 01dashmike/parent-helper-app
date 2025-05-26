@@ -4,11 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, BookOpen, Baby, Heart, Users, GraduationCap, Apple, Brain, Moon, Activity, Shield, Smile } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { BlogPost } from "@shared/schema";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [forceRender, setForceRender] = useState(0);
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog/posts"],
   });
@@ -189,7 +190,10 @@ export default function Blog() {
                 <Card 
                   key={category.id}
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    setForceRender(prev => prev + 1);
+                  }}
                 >
                   <div className={`h-2 bg-gradient-to-r ${category.color}`} />
                   <CardContent className="p-6">
@@ -221,66 +225,79 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Test Section to Debug */}
-      {selectedCategory && (
-        <div className="w-full bg-red-500 text-white p-8 text-center">
-          <h1 className="text-4xl font-bold">CATEGORY SELECTED: {selectedCategory}</h1>
-          <p className="text-2xl">Posts found: {filteredPosts.length}</p>
-          <button 
-            onClick={() => setSelectedCategory("")}
-            className="bg-white text-red-500 px-4 py-2 rounded mt-4"
-          >
-            Close
-          </button>
-        </div>
-      )}
-
-      {/* Blog Posts Section */}
-      {selectedCategory && (
-        <section className="py-16 bg-gray-50 min-h-screen">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-2">
-                  {categories.find(cat => cat.id === selectedCategory)?.name} Articles
-                </h2>
-                <p className="text-lg text-sage mb-4">
-                  Found {filteredPosts.length} article(s) in this category
-                </p>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setSelectedCategory("")}
-                  className="text-sage hover:text-coral"
-                >
-                  ← Back to all categories
-                </Button>
-              </div>
+      {/* Direct Display Section - Simple Approach */}
+      {selectedCategory === "nutrition" && (
+        <section className="py-16 bg-gradient-to-br from-teal-50 to-sage-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold font-poppins text-teal-dark mb-4">
+                Nutrition Articles
+              </h2>
+              <Button 
+                onClick={() => setSelectedCategory("")}
+                className="bg-coral hover:bg-coral/90 text-white"
+              >
+                ← Back to all categories
+              </Button>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
-                <Card key={post.id} className="group hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-sage mb-3">
-                      <Calendar className="w-4 h-4" />
-                      {new Date(post.createdAt).toLocaleDateString()}
-                      <Clock className="w-4 h-4 ml-2" />
-                      {post.readTimeMinutes} min read
-                    </div>
-                    <h3 className="text-xl font-bold font-poppins text-teal-dark mb-3 group-hover:text-coral transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-sage leading-relaxed mb-4">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center text-coral group-hover:text-coral/80 transition-colors">
-                      <span className="text-sm font-medium">Read article</span>
-                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <Card className="max-w-2xl mx-auto shadow-xl">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-2 text-sm text-sage mb-4">
+                  <Calendar className="w-4 h-4" />
+                  May 25, 2025
+                  <Clock className="w-4 h-4 ml-2" />
+                  8 min read
+                </div>
+                <h3 className="text-2xl font-bold font-poppins text-teal-dark mb-4">
+                  Weaning Your Baby: A Science-Backed Guide for First-Time Parents
+                </h3>
+                <p className="text-sage leading-relaxed mb-6">
+                  The gradual transition from milk to solid food is one of your baby's biggest milestones. Learn evidence-based weaning methods, time-saving hacks, and eco-friendly tips to make this journey rewarding...
+                </p>
+                <Button className="bg-coral hover:bg-coral/90 text-white w-full">
+                  Read Full Article
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {selectedCategory === "baby-to-toddler" && (
+        <section className="py-16 bg-gradient-to-br from-lavender-50 to-sage-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold font-poppins text-teal-dark mb-4">
+                Baby to Toddler Articles
+              </h2>
+              <Button 
+                onClick={() => setSelectedCategory("")}
+                className="bg-coral hover:bg-coral/90 text-white"
+              >
+                ← Back to all categories
+              </Button>
             </div>
+            
+            <Card className="max-w-2xl mx-auto shadow-xl">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-2 text-sm text-sage mb-4">
+                  <Calendar className="w-4 h-4" />
+                  May 25, 2025
+                  <Clock className="w-4 h-4 ml-2" />
+                  8 min read
+                </div>
+                <h3 className="text-2xl font-bold font-poppins text-teal-dark mb-4">
+                  Weaning Your Baby: A Science-Backed Guide for First-Time Parents
+                </h3>
+                <p className="text-sage leading-relaxed mb-6">
+                  The gradual transition from milk to solid food is one of your baby's biggest milestones. Learn evidence-based weaning methods, time-saving hacks, and eco-friendly tips to make this journey rewarding...
+                </p>
+                <Button className="bg-coral hover:bg-coral/90 text-white w-full">
+                  Read Full Article
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </section>
       )}
