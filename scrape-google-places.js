@@ -65,66 +65,374 @@ class GooglePlacesScraper {
     ];
   }
 
-  // Comprehensive England locations for maximum coverage
+  // Complete England coverage - all major towns and cities
   getLocations() {
     return [
-      // Major cities
+      // Greater London
       'London, England',
-      'Birmingham, England', 
-      'Manchester, England',
-      'Liverpool, England',
-      'Sheffield, England',
-      'Bristol, England',
-      'Leicester, England',
-      'Coventry, England',
-      'Nottingham, England',
-      'Newcastle, England',
+      'Croydon, England',
+      'Barnet, England',
+      'Ealing, England',
+      'Bromley, England',
+      'Enfield, England',
+      'Brent, England',
+      'Wandsworth, England',
+      'Lambeth, England',
+      'Hillingdon, England',
       
-      // Southern England
-      'Brighton, England',
+      // West Midlands
+      'Birmingham, England',
+      'Wolverhampton, England',
+      'Coventry, England',
+      'Dudley, England',
+      'Walsall, England',
+      'West Bromwich, England',
+      'Solihull, England',
+      'Sutton Coldfield, England',
+      
+      // Greater Manchester
+      'Manchester, England',
+      'Bolton, England',
+      'Stockport, England',
+      'Oldham, England',
+      'Rochdale, England',
+      'Salford, England',
+      'Bury, England',
+      'Wigan, England',
+      'Tameside, England',
+      
+      // West Yorkshire
+      'Leeds, England',
+      'Bradford, England',
+      'Huddersfield, England',
+      'Wakefield, England',
+      'Halifax, England',
+      'Dewsbury, England',
+      'Batley, England',
+      
+      // Merseyside
+      'Liverpool, England',
+      'Birkenhead, England',
+      'St Helens, England',
+      'Southport, England',
+      'Bootle, England',
+      
+      // South Yorkshire
+      'Sheffield, England',
+      'Rotherham, England',
+      'Barnsley, England',
+      'Doncaster, England',
+      
+      // Tyne and Wear
+      'Newcastle, England',
+      'Sunderland, England',
+      'Gateshead, England',
+      'South Shields, England',
+      'North Shields, England',
+      
+      // Bristol & Southwest
+      'Bristol, England',
+      'Plymouth, England',
+      'Exeter, England',
+      'Bournemouth, England',
+      'Poole, England',
+      'Swindon, England',
+      'Gloucester, England',
+      'Bath, England',
+      'Taunton, England',
+      'Truro, England',
+      'Torquay, England',
+      'Cheltenham, England',
+      
+      // Hampshire & Dorset
       'Southampton, England',
       'Portsmouth, England',
-      'Reading, England',
       'Winchester, England',
-      'Bath, England',
-      'Canterbury, England',
-      'Guildford, England',
-      'Bournemouth, England',
-      'Exeter, England',
-      
-      // Home Counties & Southeast
-      'Cambridge, England',
-      'Oxford, England',
-      'St Albans, England',
-      'Chelmsford, England',
-      'Maidstone, England',
       'Basingstoke, England',
-      'Woking, England',
+      'Eastleigh, England',
+      'Fareham, England',
+      'Andover, England',
+      'Salisbury, England',
+      'Dorchester, England',
+      'Weymouth, England',
+      
+      // Kent & Sussex
+      'Maidstone, England',
+      'Canterbury, England',
+      'Dartford, England',
+      'Gravesend, England',
+      'Tunbridge Wells, England',
+      'Folkestone, England',
+      'Dover, England',
+      'Margate, England',
+      'Brighton, England',
+      'Hove, England',
+      'Hastings, England',
       'Crawley, England',
+      'Worthing, England',
+      'Eastbourne, England',
       
-      // Midlands
+      // Surrey & Berkshire
+      'Guildford, England',
+      'Woking, England',
+      'Epsom, England',
+      'Redhill, England',
+      'Camberley, England',
+      'Reading, England',
+      'Slough, England',
+      'Bracknell, England',
+      'Maidenhead, England',
+      'Windsor, England',
+      
+      // Essex & Hertfordshire
+      'Southend, England',
+      'Colchester, England',
+      'Chelmsford, England',
+      'Basildon, England',
+      'Harlow, England',
+      'Brentwood, England',
+      'St Albans, England',
+      'Hemel Hempstead, England',
+      'Stevenage, England',
+      'Watford, England',
+      'Hatfield, England',
+      
+      // East Midlands
+      'Leicester, England',
+      'Nottingham, England',
       'Derby, England',
+      'Northampton, England',
+      'Peterborough, England',
+      'Lincoln, England',
+      'Mansfield, England',
+      'Chesterfield, England',
+      'Kettering, England',
+      'Wellingborough, England',
+      
+      // West Midlands Counties
       'Stoke-on-Trent, England',
-      'Wolverhampton, England',
-      'Warwick, England',
+      'Telford, England',
+      'Shrewsbury, England',
       'Worcester, England',
+      'Kidderminster, England',
+      'Redditch, England',
       'Hereford, England',
+      'Stafford, England',
+      'Burton upon Trent, England',
       
-      // Northern England
-      'Leeds, England',
-      'York, England',
-      'Hull, England',
+      // East of England
+      'Cambridge, England',
+      'Norwich, England',
+      'Ipswich, England',
+      'Luton, England',
+      'Bedford, England',
+      'King\'s Lynn, England',
+      'Great Yarmouth, England',
+      'Lowestoft, England',
+      'Bury St Edmunds, England',
+      
+      // North West
       'Preston, England',
+      'Blackpool, England',
       'Lancaster, England',
+      'Burnley, England',
+      'Blackburn, England',
       'Carlisle, England',
-      'Durham, England',
+      'Barrow-in-Furness, England',
+      'Kendal, England',
       
-      // Southwest England
-      'Plymouth, England',
-      'Truro, England',
-      'Taunton, England',
-      'Gloucester, England',
-      'Swindon, England'
+      // Yorkshire & Humber
+      'Hull, England',
+      'York, England',
+      'Harrogate, England',
+      'Scarborough, England',
+      'Middlesbrough, England',
+      'Grimsby, England',
+      'Scunthorpe, England',
+      
+      // North East
+      'Durham, England',
+      'Darlington, England',
+      'Hartlepool, England',
+      'Stockton-on-Tees, England',
+      'Redcar, England',
+      
+      // Market Towns & Villages - Cotswolds
+      'Chipping Norton, England',
+      'Stow-on-the-Wold, England',
+      'Burford, England',
+      'Cirencester, England',
+      'Tetbury, England',
+      'Moreton-in-Marsh, England',
+      
+      // Market Towns - Oxfordshire & Buckinghamshire
+      'Henley-on-Thames, England',
+      'Wallingford, England',
+      'Thame, England',
+      'Witney, England',
+      'Banbury, England',
+      'Bicester, England',
+      'Buckingham, England',
+      'Aylesbury, England',
+      'High Wycombe, England',
+      'Amersham, England',
+      'Beaconsfield, England',
+      'Marlow, England',
+      
+      // Market Towns - Surrey & West Sussex Villages
+      'Dorking, England',
+      'Farnham, England',
+      'Godalming, England',
+      'Haslemere, England',
+      'Leatherhead, England',
+      'Reigate, England',
+      'Horsham, England',
+      'Petworth, England',
+      'Midhurst, England',
+      'Arundel, England',
+      'Chichester, England',
+      
+      // Hampshire Villages & Market Towns
+      'Alton, England',
+      'Petersfield, England',
+      'Alresford, England',
+      'Romsey, England',
+      'Stockbridge, England',
+      'Whitchurch, England',
+      'Lymington, England',
+      'New Milton, England',
+      'Ringwood, England',
+      'Fordingbridge, England',
+      
+      // Wiltshire & Somerset Villages
+      'Marlborough, England',
+      'Devizes, England',
+      'Warminster, England',
+      'Chippenham, England',
+      'Corsham, England',
+      'Bradford-on-Avon, England',
+      'Frome, England',
+      'Shepton Mallet, England',
+      'Wells, England',
+      'Glastonbury, England',
+      'Bridgwater, England',
+      'Burnham-on-Sea, England',
+      
+      // Devon & Cornwall Villages
+      'Totnes, England',
+      'Dartmouth, England',
+      'Salcombe, England',
+      'Tavistock, England',
+      'Okehampton, England',
+      'Barnstaple, England',
+      'Bideford, England',
+      'Ilfracombe, England',
+      'Sidmouth, England',
+      'Honiton, England',
+      'Seaton, England',
+      'Budleigh Salterton, England',
+      'St Austell, England',
+      'Falmouth, England',
+      'Penzance, England',
+      'St Ives, England',
+      'Newquay, England',
+      'Padstow, England',
+      'Bodmin, England',
+      'Liskeard, England',
+      'Looe, England',
+      
+      // Lake District & Cumbria Villages
+      'Ambleside, England',
+      'Windermere, England',
+      'Grasmere, England',
+      'Keswick, England',
+      'Cockermouth, England',
+      'Penrith, England',
+      'Appleby-in-Westmorland, England',
+      
+      // Yorkshire Dales & Villages
+      'Harrogate, England',
+      'Ripon, England',
+      'Skipton, England',
+      'Settle, England',
+      'Leyburn, England',
+      'Richmond, England',
+      'Helmsley, England',
+      'Pickering, England',
+      'Malton, England',
+      'Thirsk, England',
+      'Northallerton, England',
+      
+      // Peak District & Derbyshire Villages
+      'Bakewell, England',
+      'Matlock, England',
+      'Ashbourne, England',
+      'Buxton, England',
+      'Glossop, England',
+      
+      // East Anglia Villages & Market Towns
+      'Ely, England',
+      'Huntingdon, England',
+      'St Neots, England',
+      'Saffron Walden, England',
+      'Haverhill, England',
+      'Newmarket, England',
+      'Sudbury, England',
+      'Lavenham, England',
+      'Aldeburgh, England',
+      'Southwold, England',
+      'Beccles, England',
+      'Halesworth, England',
+      'Diss, England',
+      'Wymondham, England',
+      'Fakenham, England',
+      'Holt, England',
+      'Cromer, England',
+      'Sheringham, England',
+      'Wells-next-the-Sea, England',
+      'Burnham Market, England',
+      
+      // Lincolnshire Villages
+      'Stamford, England',
+      'Grantham, England',
+      'Spalding, England',
+      'Boston, England',
+      'Skegness, England',
+      'Louth, England',
+      'Market Rasen, England',
+      'Gainsborough, England',
+      
+      // Shropshire & Herefordshire Villages
+      'Ludlow, England',
+      'Church Stretton, England',
+      'Much Wenlock, England',
+      'Bridgnorth, England',
+      'Market Drayton, England',
+      'Oswestry, England',
+      'Whitchurch, England',
+      'Ross-on-Wye, England',
+      'Ledbury, England',
+      'Leominster, England',
+      'Hay-on-Wye, England',
+      
+      // Staffordshire Villages
+      'Lichfield, England',
+      'Tamworth, England',
+      'Rugeley, England',
+      'Cannock, England',
+      'Stone, England',
+      'Uttoxeter, England',
+      'Leek, England',
+      
+      // Northamptonshire Villages
+      'Daventry, England',
+      'Towcester, England',
+      'Brackley, England',
+      'Oundle, England',
+      'Thrapston, England',
+      'Rushden, England',
+      'Wellingborough, England',
+      'Corby, England'
     ];
   }
 
