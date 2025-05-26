@@ -18,6 +18,15 @@ export const classes = pgTable("classes", {
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 10, scale: 8 }),
   searchRadiusKm: integer("search_radius_km").default(5),
+  // Transport and accessibility information
+  parkingAvailable: boolean("parking_available"),
+  parkingType: text("parking_type"), // 'free', 'paid', 'street', 'none'
+  parkingNotes: text("parking_notes"),
+  nearestTubeStation: text("nearest_tube_station"),
+  nearestBusStops: text("nearest_bus_stops").array(),
+  transportAccessibility: text("transport_accessibility"), // 'step-free', 'limited', 'difficult'
+  venueAccessibility: text("venue_accessibility"), // 'wheelchair-accessible', 'buggy-friendly', 'step-free', 'stairs-only'
+  accessibilityNotes: text("accessibility_notes"),
   dayOfWeek: text("day_of_week").notNull(),
   time: text("time").notNull(),
   contactEmail: text("contact_email"),

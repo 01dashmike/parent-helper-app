@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Baby, MapPin, Clock, Star, Building, Star as StarFilled } from "lucide-react";
+import { Baby, MapPin, Clock, Star, Building, Star as StarFilled, Car, Bus, Accessibility } from "lucide-react";
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
@@ -117,6 +117,46 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               <Clock className="w-4 h-4 mr-1 text-coral" />
               {classItem.dayOfWeek}s {classItem.time}
             </span>
+          </div>
+          
+          {/* Transport and Accessibility Information */}
+          {(classItem.parkingAvailable || classItem.nearestTubeStation || classItem.venueAccessibility) && (
+            <div className="bg-sage/5 rounded-lg p-3 mb-4">
+              <div className="flex flex-wrap gap-3 text-xs">
+                {classItem.parkingAvailable && (
+                  <span className="flex items-center text-green-700">
+                    <Car className="w-3 h-3 mr-1" />
+                    {classItem.parkingType === 'free' ? 'Free parking' : 
+                     classItem.parkingType === 'paid' ? 'Paid parking' : 
+                     classItem.parkingType === 'street' ? 'Street parking' : 'Parking available'}
+                  </span>
+                )}
+                {classItem.nearestTubeStation && (
+                  <span className="flex items-center text-blue-700">
+                    <Bus className="w-3 h-3 mr-1" />
+                    {classItem.nearestTubeStation}
+                  </span>
+                )}
+                {classItem.venueAccessibility && classItem.venueAccessibility !== 'unknown' && (
+                  <span className="flex items-center text-purple-700">
+                    <Accessibility className="w-3 h-3 mr-1" />
+                    {classItem.venueAccessibility === 'wheelchair-accessible' ? 'Wheelchair accessible' :
+                     classItem.venueAccessibility === 'buggy-friendly' ? 'Buggy friendly' :
+                     classItem.venueAccessibility === 'step-free' ? 'Step-free access' :
+                     classItem.venueAccessibility === 'stairs-only' ? 'Stairs only' : 'Limited access'}
+                  </span>
+                )}
+              </div>
+              {(classItem.parkingNotes || classItem.accessibilityNotes) && (
+                <div className="text-xs text-gray-600 mt-2">
+                  {classItem.parkingNotes && <div>🚗 {classItem.parkingNotes}</div>}
+                  {classItem.accessibilityNotes && <div>♿ {classItem.accessibilityNotes}</div>}
+                </div>
+              )}
+            </div>
+          )}
+          
+          <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
             {classItem.rating && classItem.reviewCount !== null && classItem.reviewCount !== undefined && (
               <span className="flex items-center">
                 <div className="flex">
