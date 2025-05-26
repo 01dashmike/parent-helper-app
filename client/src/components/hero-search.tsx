@@ -137,7 +137,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
               <Button 
                 onClick={handleSearch}
                 disabled={!postcode.trim() || isLoading}
-                className="w-full bg-coral hover:bg-coral/90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:opacity-50"
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:opacity-50 shadow-lg"
               >
                 {isLoading ? (
                   <>
