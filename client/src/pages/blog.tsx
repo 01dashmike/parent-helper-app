@@ -98,7 +98,7 @@ export default function Blog() {
       icon: Apple,
       color: "from-teal/20 to-teal/40",
       textColor: "text-teal",
-      count: 0
+      count: getCategoryCount("nutrition")
     },
     {
       id: "sleep-routines",
@@ -221,25 +221,74 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Coming Soon Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-coral/10 to-sage/10 rounded-2xl p-8">
-            <BookOpen className="w-16 h-16 text-coral mx-auto mb-6" />
-            <h3 className="text-2xl font-bold font-poppins text-teal-dark mb-4">
-              Expert Content Coming Soon
-            </h3>
-            <p className="text-lg text-sage mb-6 max-w-2xl mx-auto">
-              We're working with UK parenting experts, child development specialists, and experienced parents 
-              to bring you authentic, practical advice for every stage of your journey.
-            </p>
-            <Button className="bg-coral hover:bg-coral/90 text-white">
-              <Heart className="w-4 h-4 mr-2" />
-              Get Notified When We Launch
-            </Button>
+      {/* Blog Posts Section */}
+      {selectedCategory && (
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-2">
+                  {categories.find(cat => cat.id === selectedCategory)?.name} Articles
+                </h2>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSelectedCategory(null)}
+                  className="text-sage hover:text-coral"
+                >
+                  ← Back to all categories
+                </Button>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post) => (
+                <Card key={post.id} className="group hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 text-sm text-sage mb-3">
+                      <Calendar className="w-4 h-4" />
+                      {new Date(post.createdAt).toLocaleDateString()}
+                      <Clock className="w-4 h-4 ml-2" />
+                      {post.readTimeMinutes} min read
+                    </div>
+                    <h3 className="text-xl font-bold font-poppins text-teal-dark mb-3 group-hover:text-coral transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-sage leading-relaxed mb-4">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center text-coral group-hover:text-coral/80 transition-colors">
+                      <span className="text-sm font-medium">Read article</span>
+                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Coming Soon Section - Only show when no category selected */}
+      {!selectedCategory && (
+        <section className="py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="bg-gradient-to-r from-coral/10 to-sage/10 rounded-2xl p-8">
+              <BookOpen className="w-16 h-16 text-coral mx-auto mb-6" />
+              <h3 className="text-2xl font-bold font-poppins text-teal-dark mb-4">
+                Expert Content Coming Soon
+              </h3>
+              <p className="text-lg text-sage mb-6 max-w-2xl mx-auto">
+                We're working with UK parenting experts, child development specialists, and experienced parents 
+                to bring you authentic, practical advice for every stage of your journey.
+              </p>
+              <Button className="bg-coral hover:bg-coral/90 text-white">
+                <Heart className="w-4 h-4 mr-2" />
+                Get Notified When We Launch
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
       
       <Footer />
     </div>
