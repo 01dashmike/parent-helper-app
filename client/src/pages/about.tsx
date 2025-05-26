@@ -23,7 +23,7 @@ export default function About() {
                 The endless searching for baby classes, toddler activities, and family-friendly events had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different websites and social media pages.
               </p>
               <p className="text-sage mb-6">
-                That's when we realized we could use our passion for technology to solve this frustrating problem - not just for us, but for thousands of other parents facing the same daily challenge.
+                That's when we realised we could use our passion for technology to solve this frustrating problem - not just for us, but for thousands of other parents facing the same daily challenges across the UK.
               </p>
               
               <div className="bg-gradient-to-r from-coral/10 to-sage/10 rounded-2xl p-6 mb-6">
@@ -32,7 +32,7 @@ export default function About() {
                   Parent Helper was born
                 </h3>
                 <p className="text-sage">
-                  We built the solution we wished existed - a comprehensive directory that saves parents time and connects families with amazing local activities. No more endless searching, no more missed opportunities.
+                  We started with what we needed most - a comprehensive class directory that saves parents time and connects families with brilliant local activities. But that was just the beginning. We're building a complete parenting ecosystem, your one-stop guide for everything from baby classes to family nutrition. No more endless searching, no more missed opportunities.
                 </p>
               </div>
               
@@ -92,7 +92,7 @@ export default function About() {
               Growing Beyond Classes
             </h2>
             <p className="text-lg text-sage max-w-3xl mx-auto">
-              Our mission is expanding. We're building a comprehensive parent helper ecosystem that addresses all the daily challenges families face.
+              Our mission is expanding. We're building a comprehensive parent helper ecosystem that addresses all the daily challenges UK families face.
             </p>
           </div>
 
