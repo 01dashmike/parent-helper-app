@@ -132,55 +132,111 @@ export default function BlogWeaningGuide() {
               </div>
             </div>
 
-            {/* Time-Saving Hacks */}
+            {/* Batch Recipes */}
             <div className="mb-10">
               <h2 className="text-3xl font-bold text-teal-dark mb-6">
-                🧊 Time-Saving Hacks
+                🧊 Batch Recipes for Weaning
               </h2>
               
-              <div className="bg-coral-50 p-6 rounded-lg">
+              <p className="text-lg text-sage leading-relaxed mb-6">
+                Batch cooking saves time and reduces waste. Try these simple, nutritious options and freeze them in ice cube trays:
+              </p>
+              
+              <div className="bg-coral-50 p-6 rounded-lg mb-6">
                 <ul className="space-y-3 text-coral-700">
                   <li className="flex items-start gap-3">
-                    <span className="text-2xl">🧊</span>
-                    <span>Freeze purees in ice cube trays.</span>
+                    <span className="text-2xl">🍠</span>
+                    <span><strong>Sweet Potato Mash:</strong> Steam, mash with breastmilk/formula, freeze in cubes</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-2xl">🔌</span>
-                    <span>Use a <a href="https://www.amazon.co.uk/dp/B01BYB2PQK" target="_blank" className="text-blue-600 underline hover:text-blue-800">Magic Bullet Blender</a> for batch prep.</span>
+                    <span className="text-2xl">🍎</span>
+                    <span><strong>Apple & Pear Purée:</strong> Steam until soft, blend together, no added sugar</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-2xl">🏷️</span>
-                    <span>Label & date food with reusable chalkboard labels.</span>
+                    <span className="text-2xl">🥕</span>
+                    <span><strong>Lentil & Carrot Purée:</strong> Simmer red lentils with chopped carrot and a pinch of cumin</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-2xl">♻️</span>
-                    <span>Use <a href="https://www.amazon.co.uk/dp/B01M7W4S4C" target="_blank" className="text-blue-600 underline hover:text-blue-800">reusable silicone pouches</a>.</span>
+                    <span className="text-2xl">🥦</span>
+                    <span><strong>Broccoli & Pea Mash:</strong> Steam and blend with a little olive oil for healthy fats</span>
                   </li>
                 </ul>
               </div>
+              
+              <p className="text-sage">
+                Pro tip: use <a href="https://amzn.to/43CW523" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">silicone ice cube trays</a> and label your freezer bags with <a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">chalkboard labels</a>. Use a <a href="https://amzn.to/3ZAKm2B" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Magic Bullet Blender</a> for batch prep.
+              </p>
             </div>
 
             {/* Eco-Friendly Tips */}
             <div className="mb-10">
               <h2 className="text-3xl font-bold text-teal-dark mb-6">
-                🌍 Eco-Friendly Tips
+                🌱 Eco-Friendly Weaning Tips
               </h2>
               
               <div className="bg-green-50 p-6 rounded-lg">
                 <ul className="space-y-3 text-green-700">
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">🎋</span>
-                    <span>Use bamboo/silicone feeding tools.</span>
+                    <span>Use <a href="https://amzn.to/44ZLS25" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">bamboo suction plates</a> and <a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">silicone bibs</a></span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">🚫</span>
-                    <span>Avoid plastic pouches – use jars or reusables.</span>
+                    <span>Avoid single-use plastic pouches—try <a href="https://amzn.to/4myFVPJ" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">reusable food pouches</a></span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-2xl">📄</span>
-                    <span>Download our <strong>Dirty Dozen & Clean Fifteen Poster</strong> below.</span>
+                    <span>Choose organic where possible—start with the Dirty Dozen (download below)</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+
+            {/* Weaning Essentials Showcase */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-teal-dark mb-6">
+                🛒 Weaning Essentials
+              </h2>
+              
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                <div className="grid gap-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/3ZAKm2B" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Magic Bullet Blender</a></strong> – perfect for purées and batch cooking
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/43CW523" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Silicone Ice Cube Trays</a></strong> – ideal for freezing small portions of baby food
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Chalkboard Labels</a></strong> – easy way to date and label freezer food
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/4myFVPJ" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Reusable Food Pouches</a></strong> – eco-friendly and handy for meals on-the-go
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/44ZLS25" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Bamboo Suction Plate</a></strong> – mess-free, baby-safe, and sustainable
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="text-gray-600 mt-1">•</span>
+                    <div>
+                      <strong><a href="https://amzn.to/44PbqPf" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">Silicone Bibs</a></strong> – soft, wipeable, and built to catch spills
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
