@@ -183,7 +183,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => setPriceFilter("all")}
-                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center ${
                   priceFilter === "all" 
                     ? "bg-gradient-to-r from-teal-400 to-sage-500 text-white shadow-xl" 
                     : "bg-white border-2 border-gray-200 text-gray-700 hover:border-teal-300"
@@ -193,12 +193,12 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                   backgroundSize: 'cover'
                 } : {}}
               >
-                <span className="font-semibold text-sm drop-shadow-sm">All Classes</span>
+                <span className="font-semibold text-sm drop-shadow-sm text-center">All Classes</span>
               </button>
               
               <button
                 onClick={() => setPriceFilter("free")}
-                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center ${
                   priceFilter === "free" 
                     ? "bg-gradient-to-r from-coral to-lavender text-white shadow-xl" 
                     : "bg-white border-2 border-gray-200 text-gray-700 hover:border-coral"
@@ -208,12 +208,12 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                   backgroundSize: 'cover'
                 } : {}}
               >
-                <span className="font-semibold text-sm drop-shadow-sm">Free Only</span>
+                <span className="font-semibold text-sm drop-shadow-sm text-center">Free Only</span>
               </button>
               
               <button
                 onClick={() => setPriceFilter("paid")}
-                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center ${
                   priceFilter === "paid" 
                     ? "bg-gradient-to-r from-purple-400 to-blue-500 text-white shadow-xl" 
                     : "bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300"
@@ -223,7 +223,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                   backgroundSize: 'cover'
                 } : {}}
               >
-                <span className="font-semibold text-sm drop-shadow-sm">Paid Only</span>
+                <span className="font-semibold text-sm drop-shadow-sm text-center">Paid Only</span>
               </button>
             </div>
           </div>
