@@ -11,7 +11,7 @@ export default function BlogWeaningGuide() {
       <Header />
       
       {/* Article Header */}
-      <section className="py-16 bg-gradient-to-r from-teal-600 to-sage-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-teal-700 to-teal-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link href="/blog">
             <Button variant="outline" className="mb-6 text-white border-white hover:bg-white hover:text-teal-600">
