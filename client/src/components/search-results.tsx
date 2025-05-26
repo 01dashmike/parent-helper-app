@@ -140,6 +140,25 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
             </p>
           </div>
           
+        </div>
+
+        {/* Business Contact Banner */}
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-sage/10 to-coral/10 border border-sage/20 rounded-lg p-6 text-center">
+            <h4 className="text-lg font-semibold text-gray-900 mb-2">Run a baby or toddler class?</h4>
+            <p className="text-gray-600 mb-4">Get featured on Parent Helper and reach more families in your area.</p>
+            <a 
+              href="mailto:notification@parenthelper.co.uk?subject=Feature My Business on Parent Helper"
+              className="inline-flex items-center bg-coral text-white px-6 py-3 rounded-lg font-medium hover:bg-coral/90 transition-colors"
+            >
+              Contact Us for Premium Features
+            </a>
+          </div>
+        </div>
+
+        {/* Filters and View Options */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
+          
           <div className="flex flex-col sm:flex-row gap-4 mt-4 lg:mt-0">
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-48">
