@@ -191,8 +191,13 @@ export default function Blog() {
                   key={category.id}
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
                   onClick={() => {
-                    setSelectedCategory(category.id);
-                    setForceRender(prev => prev + 1);
+                    if (category.id === "nutrition") {
+                      window.location.href = "/blog/nutrition";
+                    } else if (category.id === "baby-to-toddler") {
+                      window.location.href = "/blog/baby-to-toddler";
+                    } else {
+                      setSelectedCategory(category.id);
+                    }
                   }}
                 >
                   <div className={`h-2 bg-gradient-to-r ${category.color}`} />
