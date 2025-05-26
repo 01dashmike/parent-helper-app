@@ -137,7 +137,7 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
               Classes in <span className="text-coral">{locationName}</span>
             </h3>
             <p className="text-gray-600 mt-1">
-              {results.length} classes found within 10 miles
+              {results.length} classes found within {searchParams?.radius || 10} miles
             </p>
           </div>
           
