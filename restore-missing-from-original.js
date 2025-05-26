@@ -54,7 +54,7 @@ async function restoreMissingFromOriginal() {
         // Restore missing businesses
         let restored = 0;
         
-        for (const business of missingBusinesses.slice(0, 100)) { // Restore first 100 to test
+        for (const business of missingBusinesses) { // Restore ALL missing businesses
           try {
             // Extract postcode and town from address/city
             let postcode = business.postal_code || 'Unknown';
