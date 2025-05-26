@@ -1,11 +1,11 @@
 import { MailService } from '@sendgrid/mail';
 
-if (!process.env.SENDGRID_API_KEY) {
-  throw new Error("SENDGRID_API_KEY environment variable must be set");
-}
-
 const mailService = new MailService();
-mailService.setApiKey(process.env.SENDGRID_API_KEY);
+
+// Only set API key if it exists in environment
+if (process.env.SENDGRID_API_KEY) {
+  mailService.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 interface ClassSubmissionEmailParams {
   businessName: string;
@@ -25,6 +25,12 @@ interface ClassSubmissionEmailParams {
 export async function sendClassSubmissionNotification(
   params: ClassSubmissionEmailParams
 ): Promise<boolean> {
+  // Check if SendGrid is configured
+  if (!process.env.SENDGRID_API_KEY) {
+    console.log('SendGrid API key not configured, skipping email notification');
+    return false;
+  }
+
   try {
     const htmlContent = `
       <h2>New Class Submission - Parent Helper Directory</h2>

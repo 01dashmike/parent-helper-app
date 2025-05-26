@@ -2,12 +2,12 @@ import { MailService } from '@sendgrid/mail';
 import { storage } from './storage.js';
 import { validateAndLookupPostcode } from '../client/src/lib/postcode-lookup.js';
 
-if (!process.env.SENDGRID_API_KEY) {
-  throw new Error("SENDGRID_API_KEY environment variable must be set");
-}
-
 const mailService = new MailService();
-mailService.setApiKey(process.env.SENDGRID_API_KEY);
+
+// Only set API key if it exists in environment
+if (process.env.SENDGRID_API_KEY) {
+  mailService.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 interface ParentingTip {
   title: string;

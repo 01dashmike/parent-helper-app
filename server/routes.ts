@@ -3,7 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { searchSchema, insertNewsletterSchema, listClassSchema } from "@shared/schema";
 import { sendClassSubmissionNotification } from "./email-service";
-import { sendNewsletterToAllSubscribers, sendNewsletterToSubscriber, scheduleWeeklyNewsletter } from "./newsletter-automation";
+// Newsletter automation temporarily disabled
+// import { sendNewsletterToAllSubscribers, sendNewsletterToSubscriber, scheduleWeeklyNewsletter } from "./newsletter-automation";
 import { z } from "zod";
 
 // Google Sheets integration for server-side
@@ -586,24 +587,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Newsletter automation endpoints
+  // Newsletter automation endpoints - temporarily disabled
   app.post("/api/newsletter/send-campaign", async (req, res) => {
-    try {
-      console.log("Starting newsletter campaign...");
-      const results = await sendNewsletterToAllSubscribers();
-      
-      res.json({
-        success: true,
-        message: `Newsletter campaign completed: ${results.sent} sent, ${results.failed} failed`,
-        results: results
-      });
-    } catch (error: any) {
-      console.error("Newsletter campaign failed:", error);
-      res.status(500).json({
-        error: "Failed to send newsletter campaign",
-        details: error.message
-      });
-    }
+    res.json({
+      success: false,
+      message: "Newsletter functionality temporarily disabled - SendGrid configuration needed"
+    });
   });
 
   // Send test newsletter to specific subscriber
