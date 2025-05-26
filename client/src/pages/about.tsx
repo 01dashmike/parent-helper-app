@@ -147,10 +147,10 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-4">
-              Growing Beyond Classes
+              Growing Beyond Classes: A Complete UK Parenting Ecosystem
             </h2>
             <p className="text-lg text-sage max-w-3xl mx-auto">
-              Our mission is expanding. We're building a comprehensive parent helper ecosystem that addresses all the daily challenges UK families face.
+              Our mission is expanding across England. We're building a comprehensive parent helper ecosystem that addresses all the daily challenges British families face, from baby classes to family nutrition and beyond.
             </p>
           </div>
 
@@ -216,12 +216,12 @@ export default function About() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-4">
+            <h3 className="text-3xl font-bold font-poppins text-teal-dark mb-4">
               <MessageCircle className="w-8 h-8 inline mr-3" />
-              Help Shape Parent Helper
-            </h2>
+              Help Shape Parent Helper for UK Families
+            </h3>
             <p className="text-lg text-sage max-w-2xl mx-auto">
-              What would you like to see added to Parent Helper? Your feedback helps us build the features that matter most to UK families.
+              What would you like to see added to Parent Helper? Your feedback helps us build the features that matter most to British families across England. Share your suggestions and help us create the perfect parenting directory.
             </p>
           </div>
 
