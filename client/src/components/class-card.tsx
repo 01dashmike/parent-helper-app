@@ -3,22 +3,35 @@ import { Badge } from "@/components/ui/badge";
 import { Baby, MapPin, Clock, Star, Building, Star as StarFilled, Car, Bus, Accessibility } from "lucide-react";
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
+import { useState } from "react";
 import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
 import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 import WhatsAppButton from "./whatsapp-button";
 import InstagramGallery from "./instagram-gallery";
 
 interface ClassCardProps {
-  classItem: Class;
+  classItem: Class & { 
+    sessions?: Array<{
+      id: number, 
+      day: string, 
+      time: string, 
+      ageMin: number, 
+      ageMax: number, 
+      name: string
+    }> 
+  };
 }
 
 export default function ClassCard({ classItem }: ClassCardProps) {
+  const [showDetails, setShowDetails] = useState(false);
   const isFree = !classItem.price || parseFloat(classItem.price) === 0;
   const price = isFree ? "FREE" : `£${classItem.price}`;
   
   // Check if this is a Baby Sensory or Toddler Sense class
   const isBabySensory = classItem.name.toLowerCase().includes('baby sensory');
   const isToddlerSense = classItem.name.toLowerCase().includes('toddler sense');
+  
+  const hasSessions = classItem.sessions && classItem.sessions.length > 0;
   
   const formatAgeRange = (min: number, max: number) => {
     if (max <= 12) {
@@ -115,7 +128,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
             </span>
             <span className="flex items-center">
               <Clock className="w-4 h-4 mr-1 text-coral" />
-              {classItem.dayOfWeek}s {classItem.time}
+              {hasSessions ? `${classItem.sessions.length} sessions available` : `${classItem.dayOfWeek}s ${classItem.time}`}
             </span>
           </div>
           
@@ -194,13 +207,44 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                 classItem={classItem} 
                 variant={isPremiumSensory ? "direct" : "concierge"}
               />
-              <Button className="bg-coral hover:bg-coral/90 text-white">
-                View Details
+              <Button 
+                className="bg-coral hover:bg-coral/90 text-white"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? 'Hide Details' : 'View Details'}
               </Button>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Session Details Panel */}
+      {showDetails && hasSessions && (
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <h5 className="font-semibold text-gray-900 mb-3">Available Sessions:</h5>
+          <div className="grid gap-3">
+            {classItem.sessions.map((session, index) => (
+              <div key={session.id} className="bg-gray-50 rounded-lg p-3 flex justify-between items-center">
+                <div className="flex-1">
+                  <div className="font-medium text-gray-900">
+                    {session.day} {session.time}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Ages {session.ageMin <= 12 ? `${session.ageMin}-${session.ageMax} months` : 
+                          `${Math.floor(session.ageMin/12)}-${Math.floor(session.ageMax/12)} years`}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-sm font-semibold text-coral">{price}</span>
+                  <Button size="sm" className="bg-sage hover:bg-sage/90 text-white">
+                    Book Now
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

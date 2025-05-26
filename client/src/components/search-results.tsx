@@ -67,7 +67,35 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
     );
   }
 
-  const sortedResults = [...results].sort((a, b) => {
+  // Group classes by business name (removing session specifics)
+  const groupedResults = results.reduce((acc, classItem) => {
+    // Extract base business name (remove session specifics like "- Wednesday", "- Thursday (Birth-6m)")
+    const baseName = classItem.name
+      .replace(/ - (Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday).*$/, '')
+      .replace(/ \((Birth|6).*\)$/, '');
+    
+    if (!acc[baseName]) {
+      acc[baseName] = {
+        ...classItem,
+        name: baseName,
+        sessions: []
+      };
+    }
+    
+    // Add this session to the business
+    acc[baseName].sessions.push({
+      id: classItem.id,
+      day: classItem.dayOfWeek,
+      time: classItem.time,
+      ageMin: classItem.ageGroupMin,
+      ageMax: classItem.ageGroupMax,
+      name: classItem.name
+    });
+    
+    return acc;
+  }, {} as Record<string, Class & { sessions: Array<{id: number, day: string, time: string, ageMin: number, ageMax: number, name: string}> }>);
+
+  const sortedResults = Object.values(groupedResults).sort((a, b) => {
     // Baby Sensory and Toddler Sense classes ALWAYS first - highest priority
     const aSensory = a.name.toLowerCase().includes('baby sensory') || a.name.toLowerCase().includes('toddler sense');
     const bSensory = b.name.toLowerCase().includes('baby sensory') || b.name.toLowerCase().includes('toddler sense');
