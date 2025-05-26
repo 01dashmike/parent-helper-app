@@ -1,9 +1,7 @@
-const { drizzle } = require('drizzle-orm/postgres-js');
-const postgres = require('postgres');
-
-// Import our fix scripts
-const { fixLocationData } = require('./fix-location-data.js');
-const { setupMultiLocationSystem } = require('./setup-multi-location-assignment.js');
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
 async function runCompleteLocationFix() {
   console.log('🚀 Starting comprehensive location data fix...');
