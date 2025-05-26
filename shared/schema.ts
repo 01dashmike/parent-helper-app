@@ -36,6 +36,7 @@ export const classes = pgTable("classes", {
   instagramHandle: text("instagram_handle"), // for fetching photos
   facebookPage: text("facebook_page"), // for fetching events
   category: text("category").notNull(), // music, swimming, sensory, yoga, etc.
+  serviceType: text("service_type").default("classes").notNull(), // classes, services, clubs
   rating: decimal("rating", { precision: 3, scale: 2 }),
   reviewCount: integer("review_count").default(0),
   popularity: integer("popularity").default(0), // for sorting
@@ -84,6 +85,7 @@ export const searchSchema = z.object({
   postcode: z.string().min(1, "Postcode is required"),
   ageGroup: z.string().optional(),
   category: z.string().optional(),
+  serviceType: z.string().optional(), // classes, services, clubs
   priceFilter: z.string().optional(),
   dayOfWeek: z.string().optional(), // Monday, Tuesday, etc.
   className: z.string().optional(), // Search by class name
