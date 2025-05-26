@@ -22,6 +22,7 @@ interface HeroSearchProps {
 export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const [postcode, setPostcode] = useState("");
   const [ageGroup, setAgeGroup] = useState<string>("all");
+  const [dayOfWeek, setDayOfWeek] = useState<string>("all");
   const [radius, setRadius] = useState([5]); // Default 5 miles
   const [priceFilter, setPriceFilter] = useState<string>("all");
 
@@ -31,6 +32,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     onSearch({
       postcode: postcode.trim(),
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
+      dayOfWeek: dayOfWeek === "all" ? undefined : dayOfWeek,
       radius: radius[0],
       priceFilter: priceFilter === "all" ? undefined : priceFilter,
       includeInactive: false,
@@ -43,6 +45,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     onSearch({
       postcode: postcode.trim(),
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
+      dayOfWeek: dayOfWeek === "all" ? undefined : dayOfWeek,
       category,
       radius: radius[0],
       priceFilter: priceFilter === "all" ? undefined : priceFilter,
@@ -71,7 +74,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
         
         {/* Search Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="md:col-span-1">
               <Label className="block text-sm font-semibold text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline text-coral mr-2" />
@@ -102,6 +105,30 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
                   <SelectItem value="1-2">1-2 years</SelectItem>
                   <SelectItem value="2-3">2-3 years</SelectItem>
                   <SelectItem value="3-5">3-5 years</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="md:col-span-1">
+              <Label className="block text-sm font-semibold text-gray-700 mb-2">
+                <svg className="w-4 h-4 inline text-coral mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Day of Week
+              </Label>
+              <Select value={dayOfWeek} onValueChange={setDayOfWeek}>
+                <SelectTrigger className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Any Day</SelectItem>
+                  <SelectItem value="Monday">Monday</SelectItem>
+                  <SelectItem value="Tuesday">Tuesday</SelectItem>
+                  <SelectItem value="Wednesday">Wednesday</SelectItem>
+                  <SelectItem value="Thursday">Thursday</SelectItem>
+                  <SelectItem value="Friday">Friday</SelectItem>
+                  <SelectItem value="Saturday">Saturday</SelectItem>
+                  <SelectItem value="Sunday">Sunday</SelectItem>
                 </SelectContent>
               </Select>
             </div>
