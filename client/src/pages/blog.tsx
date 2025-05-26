@@ -16,6 +16,7 @@ export default function Blog() {
   const filteredPosts = selectedCategory 
     ? posts.filter(post => {
         const categories = post.category?.split(',').map(cat => cat.trim()) || [];
+        console.log('Filtering post:', post.title, 'categories:', categories, 'looking for:', selectedCategory);
         return categories.includes(selectedCategory);
       })
     : posts;
@@ -246,6 +247,7 @@ export default function Blog() {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {console.log('Rendering filteredPosts:', filteredPosts)}
               {filteredPosts.map((post) => (
                 <Card key={post.id} className="group hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
