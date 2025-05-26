@@ -10,6 +10,7 @@ import {
 import { List, Map as MapIcon } from "lucide-react";
 import ClassCard from "./class-card";
 import InteractiveMap from "./interactive-map";
+import CoverageMap from "./coverage-map";
 import { findTownByPostcode, getImageSearchTerm } from "@/lib/town-lookup";
 import { imageService, type LocationImage } from "@/lib/image-service";
 import type { Class, SearchParams } from "@shared/schema";
@@ -227,7 +228,7 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
 
             {/* Map Sidebar */}
             <div className="lg:col-span-1">
-              <InteractiveMap 
+              <CoverageMap 
                 classes={sortedResults} 
                 searchPostcode={searchParams?.postcode} 
               />
@@ -236,7 +237,7 @@ export default function SearchResults({ results, searchParams, isLoading }: Sear
         ) : (
           /* Full Map View */
           <div className="h-[600px]">
-            <InteractiveMap 
+            <CoverageMap 
               classes={sortedResults} 
               fullScreen 
               searchPostcode={searchParams?.postcode} 
