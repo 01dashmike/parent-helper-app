@@ -654,7 +654,7 @@ class DatabaseStorage implements IStorage {
     
     console.log(`Final radius filtering: ${results.length} -> ${filteredResults.length} results (radius: ${params.radius} miles)`);
     
-    // Apply other filters if specified
+    // Apply other filters to the radius-filtered results
     
     // Filter by price if specified
     if (params.priceFilter && params.priceFilter !== 'all') {
