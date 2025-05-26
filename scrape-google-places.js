@@ -127,40 +127,54 @@ class GooglePlacesScraper {
     ];
   }
 
-  // Complete England coverage - all major towns and cities
+  // PRIORITY: Under-covered areas needing more classes
   getLocations() {
     return [
-      // Greater London
-      'London, England',
-      'Croydon, England',
-      'Barnet, England',
-      'Ealing, England',
-      'Bromley, England',
-      'Enfield, England',
-      'Brent, England',
-      'Wandsworth, England',
-      'Lambeth, England',
-      'Hillingdon, England',
-      
-      // West Midlands
-      'Birmingham, England',
-      'Wolverhampton, England',
-      'Coventry, England',
-      'Dudley, England',
-      'Walsall, England',
-      'West Bromwich, England',
-      'Solihull, England',
-      'Sutton Coldfield, England',
-      
-      // Greater Manchester
-      'Manchester, England',
+      // HIGHEST PRIORITY - Major gaps identified
+      'Oxford, England',
+      'Chester, England', 
       'Bolton, England',
+      'Wigan, England',
+      'Blackburn, England',
+      'Warrington, England',
+      'Harlow, England',
+      'Crawley, England',
+      'Tamworth, England',
+      'Bracknell, England',
+      'Kidderminster, England',
+      
+      // University cities with low coverage
+      'Cambridge, England',
+      'Bath, England',
+      'Canterbury, England',
+      'Winchester, England',
+      'Durham, England',
+      'Lancaster, England',
+      'York, England',
+      'Exeter, England',
+      
+      // Historic cities needing more coverage
+      'Chester-le-Street, England',
+      'Gloucester, England',
+      'Worcester, England',
+      'Derby, England',
+      'Nottingham, England',
+      'Leicester, England',
+      
+      // New Towns with growing populations
+      'Milton Keynes, England',
+      'Stevenage, England',
+      'Basildon, England',
+      'Redditch, England',
+      'Telford, England',
+      
+      // Greater Manchester gaps
+      'Manchester, England',
       'Stockport, England',
       'Oldham, England',
       'Rochdale, England',
       'Salford, England',
       'Bury, England',
-      'Wigan, England',
       'Tameside, England',
       
       // West Yorkshire
