@@ -107,17 +107,23 @@ async function importOutscraperData(csvFilePath) {
         .on('data', (row) => {
           totalRows++;
           
-          // Map Outscraper columns to our schema
+          // Map Outscraper columns to our schema - handle multiple possible column names
           const businessName = row['name'] || row['business_name'] || row['title'];
-          const address = row['address'] || row['full_address'];
-          const postcode = row['postcode'] || row['postal_code'] || extractPostcode(address);
+          const address = row['full_address'] || row['address'];
+          const postcode = row['postal_code'] || row['postcode'] || extractPostcode(address);
+          const city = row['city'] || '';
           const phone = cleanPhoneNumber(row['phone'] || row['phone_number']);
-          const website = row['website'] || row['site'];
+          const website = row['site'] || row['website'];
           const latitude = parseFloat(row['latitude'] || row['lat']);
           const longitude = parseFloat(row['longitude'] || row['lng']);
           const rating = parseFloat(row['rating'] || row['google_rating']);
-          const reviewCount = parseInt(row['reviews_count'] || row['review_count'] || 0);
-          const description = row['description'] || row['about'] || '';
+          const reviewCount = parseInt(row['reviews'] || row['reviews_count'] || row['review_count'] || 0);
+          const description = row['description'] || row['about'] || row['website_description'] || '';
+          
+          // Debug logging for Southampton entries
+          if (city && city.toLowerCase().includes('southampton')) {
+            console.log(`Southampton entry found: ${businessName}, Postcode: ${postcode}, Address: ${address}`);
+          }
           const category = row['category'] || row['type'] || '';
           
           // Skip if missing essential data
