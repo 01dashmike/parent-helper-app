@@ -1,0 +1,12 @@
+🚨 URGENT: These scripts contain DELETE operations that remove authentic businesses
+
+DISABLED TO PROTECT DATA:
+- rollout-andover-fixes-globally.js
+- separate-combined-classes.js  
+- fix-authentic-scheduling.js
+
+These scripts were accidentally removing authentic businesses that were properly added through our expansion efforts.
+
+DO NOT RUN THESE SCRIPTS until they are fixed to only target specific problematic entries.
+
+Current database has 5,189 authentic classes that must be protected.
