@@ -326,7 +326,7 @@ export class MemStorage implements IStorage {
 <h2>💷 Final Thoughts</h2>
 <p>Every baby is different. Some days will be easier than others. Trust your instincts, ask for help when needed, and remember: your baby doesn't need perfection — just love, presence, and care.</p>
 <p><strong>You're doing a great job. ❤️</strong></p>`,
-        category: "prenatal",
+        category: "0-6-months",
         imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3",
         readTimeMinutes: 6,
         isPublished: true,
