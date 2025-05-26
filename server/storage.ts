@@ -274,6 +274,20 @@ export class MemStorage implements IStorage {
       }
     }
 
+    // Filter by day of week if specified
+    if (params.dayOfWeek && params.dayOfWeek !== 'all') {
+      results = results.filter(c => {
+        const classDays = c.dayOfWeek.toLowerCase();
+        const searchDay = params.dayOfWeek!.toLowerCase();
+        
+        // Check if the class runs on the specified day
+        return classDays.includes(searchDay) || 
+               classDays.includes('multiple') || 
+               classDays.includes('various') ||
+               classDays.includes('daily');
+      });
+    }
+
     // Sort by priority: 1) Baby Sensory/Toddler Sense FIRST, 2) Featured, 3) Popularity
     results.sort((a, b) => {
       // Baby Sensory and Toddler Sense classes ALWAYS first - highest priority
@@ -450,15 +464,50 @@ class DatabaseStorage implements IStorage {
 
     const results = await db.select().from(classes).where(whereCondition);
     
-    // Apply price filter if specified
-    const filteredResults = params.priceFilter ? results.filter(c => {
-      if (params.priceFilter === 'free') {
-        return !c.price || parseFloat(c.price) === 0;
-      } else if (params.priceFilter === 'paid') {
-        return c.price && parseFloat(c.price) > 0;
-      }
-      return true;
-    }) : results;
+    // Apply filters if specified
+    let filteredResults = results;
+    
+    // Filter by price if specified
+    if (params.priceFilter && params.priceFilter !== 'all') {
+      filteredResults = filteredResults.filter(c => {
+        if (params.priceFilter === 'free') {
+          return !c.price || parseFloat(c.price) === 0;
+        } else if (params.priceFilter === 'paid') {
+          return c.price && parseFloat(c.price) > 0;
+        }
+        return true;
+      });
+    }
+    
+    // Filter by age group if specified
+    if (params.ageGroup && params.ageGroup !== 'all') {
+      const ageRanges: Record<string, [number, number]> = {
+        '0-6': [0, 6],
+        '6-12': [6, 12],
+        '1-2': [12, 24],
+        '2-3': [24, 36],
+        '3-5': [36, 60]
+      };
+      
+      const [minAge, maxAge] = ageRanges[params.ageGroup] || [0, 999];
+      filteredResults = filteredResults.filter(c => 
+        c.ageGroupMin <= maxAge && c.ageGroupMax >= minAge
+      );
+    }
+    
+    // Filter by day of week if specified
+    if (params.dayOfWeek && params.dayOfWeek !== 'all') {
+      filteredResults = filteredResults.filter(c => {
+        const classDays = c.dayOfWeek.toLowerCase();
+        const searchDay = params.dayOfWeek!.toLowerCase();
+        
+        // Check if the class runs on the specified day
+        return classDays.includes(searchDay) || 
+               classDays.includes('multiple') || 
+               classDays.includes('various') ||
+               classDays.includes('daily');
+      });
+    }
     
     return filteredResults.sort((a, b) => {
       // Baby Sensory and Toddler Sense classes ALWAYS first - highest priority
