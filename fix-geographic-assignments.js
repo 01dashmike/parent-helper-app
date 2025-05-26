@@ -58,8 +58,44 @@ function getCorrectTownAssignment(postcodeData, currentTown, postcode) {
     }
   }
   
-  // For other areas, prefer admin_district (borough) over current assignment
-  if (borough && borough !== currentTown) {
+  // Manchester metropolitan area logic
+  if (postcode.match(/^M\d/)) {
+    // Use admin_district to separate Manchester, Trafford, Salford, etc.
+    if (borough && borough !== currentTown) {
+      // Common Greater Manchester boroughs
+      const validManchester = ['Manchester', 'Trafford', 'Salford', 'Stockport', 'Tameside', 'Rochdale', 'Oldham', 'Bury', 'Bolton', 'Wigan'];
+      if (validManchester.includes(borough)) {
+        return borough;
+      }
+    }
+  }
+  
+  // Birmingham metropolitan area logic
+  if (postcode.match(/^B\d/)) {
+    // Use admin_district to separate Birmingham, Solihull, Wolverhampton, etc.
+    if (borough && borough !== currentTown) {
+      // Common West Midlands boroughs
+      const validBirmingham = ['Birmingham', 'Solihull', 'Coventry', 'Wolverhampton', 'Walsall', 'Dudley', 'Sandwell'];
+      if (validBirmingham.includes(borough)) {
+        return borough;
+      }
+    }
+  }
+  
+  // Yorkshire area logic
+  if (postcode.match(/^(LS|BD|WF|HX|HD)\d/)) {
+    // Use admin_district to separate Leeds, Bradford, Wakefield, etc.
+    if (borough && borough !== currentTown) {
+      // Common Yorkshire districts
+      const validYorkshire = ['Leeds', 'Bradford', 'Wakefield', 'Kirklees', 'Calderdale', 'City of Bradford'];
+      if (validYorkshire.includes(borough)) {
+        return borough;
+      }
+    }
+  }
+  
+  // For other areas, prefer admin_district (borough) over current assignment if significantly different
+  if (borough && borough !== currentTown && !currentTown.includes(borough)) {
     return borough;
   }
   
@@ -77,6 +113,9 @@ async function fixGeographicAssignments() {
       WHERE 
         (town = 'London' AND postcode ~ '^(E|EC|N|NW|SE|SW|W|WC)') OR
         (town IN ('Poole', 'Bournemouth') AND postcode ~ '^BH') OR
+        (town = 'Manchester' AND postcode ~ '^M') OR
+        (town = 'Birmingham' AND postcode ~ '^B') OR
+        (town IN ('Leeds', 'Bradford', 'Wakefield') AND postcode ~ '^(LS|BD|WF|HX|HD)') OR
         (town = 'London' AND postcode IS NOT NULL)
       ORDER BY town, postcode
     `);
@@ -85,6 +124,9 @@ async function fixGeographicAssignments() {
     
     let londonFixed = 0;
     let pooleFixed = 0;
+    let manchesterFixed = 0;
+    let birminghamFixed = 0;
+    let yorkshireFixed = 0;
     let otherFixed = 0;
     let failed = 0;
     
@@ -112,6 +154,12 @@ async function fixGeographicAssignments() {
             londonFixed++;
           } else if (classItem.town === 'Poole' || classItem.town === 'Bournemouth') {
             pooleFixed++;
+          } else if (classItem.town === 'Manchester') {
+            manchesterFixed++;
+          } else if (classItem.town === 'Birmingham') {
+            birminghamFixed++;
+          } else if (['Leeds', 'Bradford', 'Wakefield'].includes(classItem.town)) {
+            yorkshireFixed++;
           } else {
             otherFixed++;
           }
@@ -129,6 +177,9 @@ async function fixGeographicAssignments() {
     console.log(`\n🎉 Geographic assignment fixes complete!`);
     console.log(`London borough assignments: ${londonFixed}`);
     console.log(`Poole/Bournemouth fixes: ${pooleFixed}`);
+    console.log(`Manchester area fixes: ${manchesterFixed}`);
+    console.log(`Birmingham area fixes: ${birminghamFixed}`);
+    console.log(`Yorkshire area fixes: ${yorkshireFixed}`);
     console.log(`Other area fixes: ${otherFixed}`);
     console.log(`Failed lookups: ${failed}`);
     
