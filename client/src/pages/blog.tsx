@@ -191,6 +191,8 @@ export default function Blog() {
                   className="group cursor-pointer border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
                   onClick={() => {
                     console.log('Clicking category:', category.id);
+                    console.log('Current selectedCategory:', selectedCategory);
+                    console.log('Posts available:', posts);
                     setSelectedCategory(category.id);
                   }}
                 >
