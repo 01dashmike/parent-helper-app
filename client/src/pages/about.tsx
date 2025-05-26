@@ -2,9 +2,69 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, Check, MapPin, Users, Clock, Lightbulb } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Heart, Check, MapPin, Users, Clock, Lightbulb, MessageCircle, Send } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function About() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmitFeedback = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!message.trim()) {
+      toast({
+        title: "Message required",
+        description: "Please tell us what you'd like to see added to Parent Helper.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/send-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim() || 'Anonymous',
+          email: email.trim() || 'No email provided',
+          message: message.trim(),
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Feedback sent!",
+          description: "Thank you for your suggestions. We'll consider them for future features.",
+        });
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        throw new Error('Failed to send feedback');
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to send feedback",
+        description: "Please try again later or email us directly at notification@parenthelper.co.uk",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-cream">
       <Header />
