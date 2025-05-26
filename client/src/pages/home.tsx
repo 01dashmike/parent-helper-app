@@ -51,43 +51,33 @@ export default function Home() {
       <Header />
       <HeroSearch onSearch={performSearch} isLoading={isLoading} />
       
-      {/* Main Categories Section */}
-      {searchResults.length === 0 && (
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Discover What's Perfect for Your Family
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                From baby classes to family services, find everything you need for your parenting journey
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {mainCategories.map((category, index) => (
-                <Link key={index} href={category.href}>
-                  <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                    <div className="text-teal-600 mb-4 flex justify-center">
-                      {category.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-center mb-3">{category.title}</h3>
-                    <p className="text-gray-600 text-center mb-4 text-sm leading-relaxed">
-                      {category.description}
-                    </p>
-                    <div className="text-center">
-                      <span className="text-sm font-medium text-teal-600">{category.count}</span>
-                      <Button className={`w-full mt-3 ${category.color} text-white`}>
-                        Explore
-                      </Button>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+      {/* Featured Categories Section - Always visible */}
+      <section className="py-8 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Popular Categories</h2>
+            <p className="text-gray-600">Quick access to our most searched services</p>
           </div>
-        </section>
-      )}
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Baby Music", category: "music", icon: "🎵" },
+              { name: "Swimming", category: "swimming", icon: "🏊‍♀️" },
+              { name: "Baby Massage", category: "massage", icon: "👶" },
+              { name: "Sensory Play", category: "sensory", icon: "🎨" }
+            ].map((cat, index) => (
+              <button
+                key={index}
+                onClick={() => performSearch({ postcode: "London", category: cat.category, radius: 10, includeInactive: false })}
+                className="bg-teal-50 hover:bg-teal-100 rounded-lg p-4 text-center transition-colors group"
+              >
+                <div className="text-2xl mb-2">{cat.icon}</div>
+                <div className="text-sm font-medium text-teal-700 group-hover:text-teal-800">{cat.name}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
       
       {searchResults.length > 0 && (
         <SearchResults 
