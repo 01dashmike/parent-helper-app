@@ -75,11 +75,11 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             <div className="md:col-span-1">
               <Label className="block text-sm font-semibold text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline text-coral mr-2" />
-                Your Postcode
+                Your Location
               </Label>
               <Input
                 type="text"
-                placeholder="e.g. SW1A 1AA"
+                placeholder="e.g. Winchester, SO23 9EP, or RG21"
                 value={postcode}
                 onChange={(e) => setPostcode(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"

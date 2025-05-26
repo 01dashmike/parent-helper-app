@@ -119,12 +119,62 @@ async function getPostcodeForTown(town: string): Promise<string> {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Search classes
+  // Search classes (supports both postcodes and town names)
   app.get("/api/classes/search", async (req, res) => {
     try {
       console.log('Search request query:', req.query);
-      const params = searchSchema.parse(req.query);
-      console.log('Parsed search params:', params);
+      let params = searchSchema.parse(req.query);
+      console.log('Initial search params:', params);
+      
+      // If postcode doesn't look like a postcode, try to find it as a town name
+      if (params.postcode) {
+        const postcodePattern = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+        const partialPostcodePattern = /^[A-Z]{1,2}[0-9]/i;
+        
+        if (!postcodePattern.test(params.postcode) && !partialPostcodePattern.test(params.postcode)) {
+          // This looks like a town name, try to convert to postcode
+          const { majorTowns } = await import('../client/src/lib/town-lookup.js');
+          const normalizedSearch = params.postcode.toLowerCase().trim();
+          
+          // Find matching town
+          let foundTown = null;
+          
+          // Try exact match first
+          for (const town of majorTowns) {
+            if (town.name.toLowerCase() === normalizedSearch) {
+              foundTown = town;
+              break;
+            }
+          }
+          
+          // Try partial match if no exact match
+          if (!foundTown) {
+            for (const town of majorTowns) {
+              if (town.name.toLowerCase().startsWith(normalizedSearch)) {
+                foundTown = town;
+                break;
+              }
+            }
+          }
+          
+          // Try contains match if still no match
+          if (!foundTown) {
+            for (const town of majorTowns) {
+              if (town.name.toLowerCase().includes(normalizedSearch)) {
+                foundTown = town;
+                break;
+              }
+            }
+          }
+          
+          if (foundTown) {
+            console.log(`Converted town "${params.postcode}" to postcode "${foundTown.postcode}"`);
+            params = { ...params, postcode: foundTown.postcode };
+          }
+        }
+      }
+      
+      console.log('Final search params:', params);
       const classes = await storage.searchClasses(params);
       console.log('Found classes:', classes.length);
       res.json(classes);
