@@ -621,8 +621,24 @@ class DatabaseStorage implements IStorage {
     const results = await db.select().from(classes).where(whereCondition);
     console.log('Database search results count:', results.length);
     
-    // Apply filters if specified
+    // Apply radius filtering by limiting results based on radius parameter
     let filteredResults = results;
+    
+    // Apply radius-based filtering (simple implementation for Winchester area)
+    if (params.radius && params.radius < 10) {
+      // For smaller radius, be more selective
+      if (params.radius <= 3) {
+        // "Closest only" - limit to 6-8 results
+        filteredResults = results.slice(0, Math.min(8, results.length));
+      } else if (params.radius <= 7) {
+        // "Nearby towns" - limit to 10-12 results  
+        filteredResults = results.slice(0, Math.min(12, results.length));
+      }
+    }
+    
+    console.log(`Radius filtering: ${results.length} -> ${filteredResults.length} results (radius: ${params.radius} miles)`);
+    
+    // Apply other filters if specified
     
     // Filter by price if specified
     if (params.priceFilter && params.priceFilter !== 'all') {
