@@ -175,18 +175,57 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
             </div>
           </div>
           
-          {/* Free/Paid Filter */}
+          {/* Free/Paid Filter - Enhanced Style */}
           <div className="mt-6 pt-6 border-t border-gray-100">
-            <Label className="block text-sm font-semibold text-gray-700 mb-3">
+            <Label className="block text-sm font-semibold text-gray-700 mb-4">
               Class Type
             </Label>
-            <Tabs value={priceFilter} onValueChange={setPriceFilter} className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="all" className="text-sm">All Classes</TabsTrigger>
-                <TabsTrigger value="free" className="text-sm">Free Only</TabsTrigger>
-                <TabsTrigger value="paid" className="text-sm">Paid Only</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="grid grid-cols-3 gap-3">
+              <button
+                onClick={() => setPriceFilter("all")}
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                  priceFilter === "all" 
+                    ? "bg-gradient-to-r from-teal-400 to-sage-500 text-white shadow-xl" 
+                    : "bg-white border-2 border-gray-200 text-gray-700 hover:border-teal-300"
+                }`}
+                style={priceFilter === "all" ? {
+                  backgroundImage: `linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(132, 204, 22, 0.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='30' r='8' fill='%23ffffff' opacity='0.2'/%3E%3Ccircle cx='70' cy='70' r='10' fill='%23ffffff' opacity='0.15'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                } : {}}
+              >
+                <span className="font-semibold text-sm drop-shadow-sm">All Classes</span>
+              </button>
+              
+              <button
+                onClick={() => setPriceFilter("free")}
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                  priceFilter === "free" 
+                    ? "bg-gradient-to-r from-coral to-lavender text-white shadow-xl" 
+                    : "bg-white border-2 border-gray-200 text-gray-700 hover:border-coral"
+                }`}
+                style={priceFilter === "free" ? {
+                  backgroundImage: `linear-gradient(135deg, rgba(244, 166, 136, 0.9), rgba(184, 165, 199, 0.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 30l15-10v20zM65 25l15 10-15 10z' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23ffffff' opacity='0.2'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                } : {}}
+              >
+                <span className="font-semibold text-sm drop-shadow-sm">Free Only</span>
+              </button>
+              
+              <button
+                onClick={() => setPriceFilter("paid")}
+                className={`relative overflow-hidden rounded-xl py-4 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                  priceFilter === "paid" 
+                    ? "bg-gradient-to-r from-purple-400 to-blue-500 text-white shadow-xl" 
+                    : "bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300"
+                }`}
+                style={priceFilter === "paid" ? {
+                  backgroundImage: `linear-gradient(135deg, rgba(147, 51, 234, 0.9), rgba(59, 130, 246, 0.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='40' cy='40' r='6' fill='%23ffffff' opacity='0.3'/%3E%3Cpath d='M60 20h20v40H60z' fill='%23ffffff' opacity='0.2'/%3E%3C/svg%3E")`,
+                  backgroundSize: 'cover'
+                } : {}}
+              >
+                <span className="font-semibold text-sm drop-shadow-sm">Paid Only</span>
+              </button>
+            </div>
           </div>
           
           {/* Category Filters - Happity Style */}
@@ -274,24 +313,6 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
               >
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-white font-bold text-lg drop-shadow-lg">ART</span>
-                </div>
-              </button>
-            </div>
-            
-            {/* Free Classes Banner */}
-            <div className="mt-6">
-              <button
-                onClick={() => handleQuickFilter("free")}
-                disabled={!postcode.trim() || isLoading}
-                className="w-full relative overflow-hidden rounded-2xl bg-gradient-to-r from-coral to-lavender hover:scale-[1.02] transition-transform duration-300 shadow-lg"
-                style={{
-                  backgroundImage: `linear-gradient(135deg, rgba(244, 166, 136, 0.9), rgba(184, 165, 199, 0.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 30l15-10v20zM65 25l15 10-15 10z' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23ffffff' opacity='0.2'/%3E%3C/svg%3E")`,
-                  backgroundSize: 'cover'
-                }}
-              >
-                <div className="py-6 px-8 flex items-center justify-center">
-                  <Gift className="w-6 h-6 text-white mr-3" />
-                  <span className="text-white font-bold text-xl drop-shadow-lg">FREE CLASSES</span>
                 </div>
               </button>
             </div>
