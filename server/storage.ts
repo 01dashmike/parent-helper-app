@@ -259,6 +259,78 @@ export class MemStorage implements IStorage {
         readTimeMinutes: 8,
         isPublished: true,
         publishedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        title: "Understanding Your Newborn Baby: Cries, Body Language & Common Concerns",
+        slug: "newborn-behavior",
+        excerpt: "The first few weeks with your baby are magical — and often, overwhelming. Learn to decode cries, understand body language, and recognize common newborn behaviors and concerns...",
+        content: `<h1>👶 Understanding Your Newborn Baby: Cries, Body Language & Common Concerns</h1>
+<p>The first few weeks with your baby are magical — and often, overwhelming. Every sound, wriggle, and cry can leave you wondering: What do they need? Are they okay? Why won't they settle?</p>
+<p>The good news is that babies are communicating — just not with words. Once you learn the cues, patterns, and common issues that come with newborns, you'll feel more confident responding to their needs and supporting their development.</p>
+
+<h2>😭 Why Do Newborns Cry?</h2>
+<p>Crying is the most powerful — and normal — way a baby communicates in the early weeks. It's their signal that something needs attention. And while it can feel hard to decode at first, different types of cries often have different meanings.</p>
+
+<h3>Common Types of Newborn Cries</h3>
+<ul>
+<li><strong>Rhythmic, sucking sounds</strong> – Hunger (offer a feed)</li>
+<li><strong>Fussy whimpering</strong> – Tiredness or overstimulation (rock, swaddle, dim lights)</li>
+<li><strong>Sharp or gassy cries</strong> – Wind or tummy discomfort (burp or use tummy massage)</li>
+<li><strong>High-pitched, intense</strong> – Pain or colic (consult HV/GP if persistent)</li>
+<li><strong>Whiny, grumbling</strong> – Boredom or discomfort (check basics, cuddle)</li>
+</ul>
+
+<h2>🤲 Understanding Newborn Body Language</h2>
+<p>Your baby is always communicating — even when they're not crying. Learning to read their body language can help you respond before distress builds up.</p>
+
+<h3>Common Cues:</h3>
+<ul>
+<li><strong>Sucking hands, turning head:</strong> Hunger or comfort-seeking</li>
+<li><strong>Arching back:</strong> Wind or reflux discomfort</li>
+<li><strong>Red face, clenched fists:</strong> Tension or pain</li>
+<li><strong>Gaze aversion:</strong> Overstimulated or needs space</li>
+<li><strong>Jerky movements:</strong> Startled or needs calming</li>
+<li><strong>Yawning, slow blinking:</strong> Tired</li>
+<li><strong>Wide eyes and stillness:</strong> Alert or overstimulated</li>
+</ul>
+
+<h2>😰 What Is Colic? (And How Can You Help?)</h2>
+<p>Colic is defined as excessive crying for more than 3 hours per day, 3 days a week, for at least 3 weeks — often starting around 2–3 weeks and peaking at 6–8 weeks.</p>
+<p>Signs include intense evening crying, leg tucking, clenched fists, and difficulty settling.</p>
+
+<h3>What Might Help:</h3>
+<ul>
+<li>Hold baby upright after feeds</li>
+<li>Bicycle legs or tummy massage</li>
+<li>Use white noise or soft motion</li>
+<li>Try anti-colic bottles</li>
+</ul>
+
+<h2>📋 Other Common Newborn Behaviours & Concerns</h2>
+<p><strong>Cluster Feeding:</strong> Frequent evening feeds help increase milk supply and soothe baby — normal during growth spurts.</p>
+<p><strong>Reflux & Spit-Up:</strong> Common and usually harmless. Try feeding upright and smaller, more frequent feeds.</p>
+<p><strong>Wind & Night Grunting:</strong> Try burping during/after feeds, tummy time, massage, and warm baths.</p>
+
+<h2>🚨 When to Contact Your GP or HV</h2>
+<ul>
+<li>Fewer than 6 wet nappies per day</li>
+<li>Poor or refused feeding</li>
+<li>High-pitched or persistent crying</li>
+<li>Fever over 38°C</li>
+<li>Lethargy or floppy limbs</li>
+<li>Rash that doesn't fade</li>
+<li>Projectile or green vomit</li>
+<li>Concerns over weight or breathing</li>
+</ul>
+
+<h2>💷 Final Thoughts</h2>
+<p>Every baby is different. Some days will be easier than others. Trust your instincts, ask for help when needed, and remember: your baby doesn't need perfection — just love, presence, and care.</p>
+<p><strong>You're doing a great job. ❤️</strong></p>`,
+        category: "prenatal",
+        imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3",
+        readTimeMinutes: 6,
+        isPublished: true,
+        publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
       }
     ];
 
