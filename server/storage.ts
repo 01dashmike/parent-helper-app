@@ -621,28 +621,35 @@ class DatabaseStorage implements IStorage {
     const results = await db.select().from(classes).where(whereCondition);
     console.log('Database search results count:', results.length);
     console.log('Radius parameter received:', params.radius);
+    console.log('Radius type:', typeof params.radius);
     
     // Apply radius filtering by limiting results based on radius parameter
     let filteredResults = results;
     
     // Apply radius-based filtering for all locations
-    if (params.radius && params.radius > 0) {
-      console.log(`Applying radius filter: ${params.radius} miles`);
+    const radiusValue = Number(params.radius);
+    console.log(`Processing radius: ${radiusValue} (original: ${params.radius})`);
+    
+    if (radiusValue && radiusValue > 0) {
+      console.log(`Applying radius filter: ${radiusValue} miles`);
       
-      if (params.radius <= 3) {
+      if (radiusValue <= 3) {
         // "Closest only" - limit to 6-8 results
         filteredResults = results.slice(0, Math.min(8, results.length));
         console.log(`Closest only filter applied: ${results.length} -> ${filteredResults.length}`);
-      } else if (params.radius <= 7) {
+      } else if (radiusValue <= 7) {
         // "Nearby towns" - limit to 10-12 results  
         filteredResults = results.slice(0, Math.min(12, results.length));
         console.log(`Nearby towns filter applied: ${results.length} -> ${filteredResults.length}`);
-      } else if (params.radius <= 15) {
+      } else if (radiusValue <= 15) {
         // "Wider area" - limit to 15-18 results
         filteredResults = results.slice(0, Math.min(18, results.length));
         console.log(`Wider area filter applied: ${results.length} -> ${filteredResults.length}`);
+      } else {
+        console.log(`Regional search - showing all ${results.length} results`);
       }
-      // For radius > 15, show all results
+    } else {
+      console.log(`No radius filtering applied - radius value: ${radiusValue}`);
     }
     
     console.log(`Final radius filtering: ${results.length} -> ${filteredResults.length} results (radius: ${params.radius} miles)`);
