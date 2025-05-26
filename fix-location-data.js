@@ -1,11 +1,6 @@
-const { drizzle } = require('drizzle-orm/postgres-js');
-const postgres = require('postgres');
-const { classes } = require('./shared/schema.ts');
-const { eq } = require('drizzle-orm');
-
-// Initialize database connection
-const sql = postgres(process.env.DATABASE_URL);
-const db = drizzle(sql);
+import { db } from './server/db.ts';
+import { classes } from './shared/schema.ts';
+import { eq } from 'drizzle-orm';
 
 // UK Postcode regex for extraction
 const postcodeRegex = /([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})/gi;
