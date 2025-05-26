@@ -126,8 +126,22 @@ async function importOutscraperData(csvFilePath) {
           }
           const category = row['category'] || row['type'] || '';
           
-          // Skip if missing essential data
-          if (!businessName || !address || isNaN(latitude) || isNaN(longitude)) {
+          // Extract town name from city or address
+          let town = city || '';
+          if (!town && address) {
+            // Try to extract town from address
+            const addressParts = address.split(',').map(part => part.trim());
+            // Look for common UK town patterns
+            for (const part of addressParts) {
+              if (part && !part.match(/^\d+/) && !part.match(/road|street|lane|avenue|close|drive|way|place/i) && part.length > 2) {
+                town = part;
+                break;
+              }
+            }
+          }
+          
+          // Skip if missing essential data - but now postcode OR address is acceptable
+          if (!businessName || (!postcode && !address) || isNaN(latitude) || isNaN(longitude)) {
             skippedCount++;
             return;
           }
@@ -145,7 +159,7 @@ async function importOutscraperData(csvFilePath) {
             venue: businessName,
             address: address,
             postcode: postcode,
-            town: '', // Will be assigned by update-towns script
+            town: town || city || '',
             latitude: latitude.toString(),
             longitude: longitude.toString(),
             dayOfWeek: 'Multiple', // Default for Outscraper data
@@ -184,17 +198,16 @@ async function importOutscraperData(csvFilePath) {
                     INSERT INTO classes (
                       name, description, age_group_min, age_group_max, venue, address, 
                       postcode, town, latitude, longitude, day_of_week, time, category, 
-                      price, is_free, website, phone, rating, review_count, image_url, 
+                      price, website, phone, rating, review_count, image_url, 
                       is_active, is_featured
                     ) VALUES (
                       ${classData.name}, ${classData.description}, ${classData.ageGroupMin}, 
                       ${classData.ageGroupMax}, ${classData.venue}, ${classData.address}, 
                       ${classData.postcode}, ${classData.town}, ${classData.latitude}, 
                       ${classData.longitude}, ${classData.dayOfWeek}, ${classData.time}, 
-                      ${classData.category}, ${classData.price}, ${classData.isFree}, 
-                      ${classData.website}, ${classData.phone}, ${classData.rating}, 
-                      ${classData.reviewCount}, ${classData.imageUrl}, ${classData.isActive}, 
-                      ${classData.isFeatured}
+                      ${classData.category}, ${classData.price}, ${classData.website}, 
+                      ${classData.phone}, ${classData.rating}, ${classData.reviewCount}, 
+                      ${classData.imageUrl}, ${classData.isActive}, ${classData.isFeatured}
                     )
                   `;
                   importedCount++;
