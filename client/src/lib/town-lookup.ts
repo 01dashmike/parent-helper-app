@@ -83,6 +83,50 @@ export function findTownByPostcode(postcode: string): MajorTown | null {
   return null;
 }
 
+// Find town by name (case-insensitive partial matching)
+export function findTownByName(searchTerm: string): MajorTown | null {
+  const normalizedSearch = searchTerm.toLowerCase().trim();
+  
+  // First try exact match
+  for (const town of majorTowns) {
+    if (town.name.toLowerCase() === normalizedSearch) {
+      return town;
+    }
+  }
+  
+  // Then try partial match (starts with)
+  for (const town of majorTowns) {
+    if (town.name.toLowerCase().startsWith(normalizedSearch)) {
+      return town;
+    }
+  }
+  
+  // Finally try contains match
+  for (const town of majorTowns) {
+    if (town.name.toLowerCase().includes(normalizedSearch)) {
+      return town;
+    }
+  }
+  
+  return null;
+}
+
+// Smart search that handles both postcodes and town names
+export function findLocationByInput(input: string): MajorTown | null {
+  const cleanInput = input.trim();
+  
+  // Check if it looks like a postcode (contains letters and numbers)
+  const postcodePattern = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+  const partialPostcodePattern = /^[A-Z]{1,2}[0-9]/i;
+  
+  if (postcodePattern.test(cleanInput) || partialPostcodePattern.test(cleanInput)) {
+    return findTownByPostcode(cleanInput);
+  }
+  
+  // Otherwise treat as town name
+  return findTownByName(cleanInput);
+}
+
 // Get image search term for a town (for use with image APIs)
 export function getImageSearchTerm(town: MajorTown): string {
   // Return a search term optimized for finding attractive local images
