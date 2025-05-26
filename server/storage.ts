@@ -620,6 +620,7 @@ class DatabaseStorage implements IStorage {
     const whereCondition = conditions.length > 1 ? and(...conditions) : conditions[0];
     const results = await db.select().from(classes).where(whereCondition);
     console.log('Database search results count:', results.length);
+    console.log('🚨 ABOUT TO CHECK RADIUS FILTERING');
     console.log('Radius parameter received:', params.radius);
     console.log('Radius type:', typeof params.radius);
     
