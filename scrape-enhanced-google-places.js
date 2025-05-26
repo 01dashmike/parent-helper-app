@@ -187,7 +187,7 @@ class EnhancedGooglePlacesScraper {
       ageGroupMin: this.extractAgeRange(cleanBusinessName, searchTerm).min,
       ageGroupMax: this.extractAgeRange(cleanBusinessName, searchTerm).max,
       dayOfWeek: this.extractDayFromGoogleData(place) || 'Multiple',
-      timeOfDay: this.extractTimeFromGoogleData(place) || 'Various',
+      time: this.extractTimeFromGoogleData(place) || 'Various',
       price: this.determinePricing(place),
       isFeatured: this.isFeaturedBrand(cleanBusinessName),
       phone: place.formatted_phone_number || '',
@@ -381,7 +381,7 @@ class EnhancedGooglePlacesScraper {
           WHERE LOWER(name) = LOWER(${place.name}) 
           AND postcode = ${place.postcode}
           AND day_of_week = ${place.dayOfWeek}
-          AND time_of_day = ${place.timeOfDay}
+          AND time = ${place.time}
           AND category = ${place.category}
         `;
         
@@ -394,14 +394,14 @@ class EnhancedGooglePlacesScraper {
           INSERT INTO classes (
             name, description, venue, address, postcode, town, additional_towns,
             latitude, longitude, category, age_group_min, age_group_max,
-            day_of_week, time_of_day, price, is_featured, phone, email,
+            day_of_week, time, price, is_featured, contact_phone, contact_email,
             website, social_media, search_radius_km
           ) VALUES (
             ${place.name}, ${place.description}, ${place.venue}, ${place.address},
             ${place.postcode}, ${place.town}, ${place.additionalTowns},
             ${place.latitude}, ${place.longitude}, ${place.category},
             ${place.ageGroupMin}, ${place.ageGroupMax}, ${place.dayOfWeek},
-            ${place.timeOfDay}, ${place.price}, ${place.isFeatured},
+            ${place.time}, ${place.price}, ${place.isFeatured},
             ${place.phone}, ${place.email}, ${place.website}, ${place.socialMedia},
             ${place.searchRadiusKm}
           )
