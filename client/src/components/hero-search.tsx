@@ -61,7 +61,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   };
 
   return (
-    <section className="bg-gradient-to-br from-coral/10 to-sky-soft/10 py-16">
+    <section className="bg-gradient-to-br from-coral/10 to-sage/10 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold font-poppins text-gray-900 mb-4">

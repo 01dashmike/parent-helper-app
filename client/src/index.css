@@ -21,32 +21,33 @@
 }
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  --background: 34 20% 95%; /* #F5F1ED - Cream from logo */
+  --foreground: 174 20% 36%; /* #4A6B66 - Teal dark from logo */
+  --muted: 34 15% 90%;
+  --muted-foreground: 174 15% 45%;
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
+  --popover-foreground: 174 20% 36%;
   --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 348 83% 70%; /* Coral #FF6B8A */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 60 4.8% 95.9%;
-  --secondary-foreground: 24 9.8% 10%;
-  --accent: 195 53% 79%; /* Sky soft #87CEEB */
-  --accent-foreground: 24 9.8% 10%;
+  --card-foreground: 174 20% 36%;
+  --border: 174 15% 85%;
+  --input: 174 15% 85%;
+  --primary: 174 20% 36%; /* Teal dark from logo */
+  --primary-foreground: 34 20% 95%;
+  --secondary: 174 32% 61%; /* Sage green from logo */
+  --secondary-foreground: 174 20% 36%;
+  --accent: 272 25% 72%; /* Lavender from logo */
+  --accent-foreground: 174 20% 36%;
   --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 348 83% 70%;
+  --destructive-foreground: 34 20% 95%;
+  --ring: 174 32% 61%;
   --radius: 0.5rem;
   
-  /* Custom colors */
-  --coral: 348 83% 70%; /* #FF6B8A */
-  --sky-soft: 195 53% 79%; /* #87CEEB */
-  --gold-soft: 51 100% 50%; /* #FFD700 */
-  --warm-gray: 210 11% 98%; /* #F8F9FA */
+  /* Parent Helper brand colors from logo */
+  --coral: 14 85% 73%; /* #F4A688 - Heart color */
+  --sage: 174 32% 61%; /* #7FB3B3 - Child figure */
+  --lavender: 272 25% 72%; /* #B8A5C7 - Parent figure */
+  --teal-dark: 174 20% 36%; /* #4A6B66 - Outlines and text */
+  --cream: 34 20% 95%; /* #F5F1ED - Background */
 }
 
 .dark {
@@ -88,6 +89,7 @@
 }
 
 @layer utilities {
+  /* Parent Helper brand color utilities */
   .text-coral {
     color: hsl(var(--coral));
   }
@@ -104,24 +106,32 @@
     border-color: hsl(var(--coral));
   }
   
-  .text-sky-soft {
-    color: hsl(var(--sky-soft));
+  .text-sage {
+    color: hsl(var(--sage));
   }
   
-  .bg-sky-soft {
-    background-color: hsl(var(--sky-soft));
+  .bg-sage {
+    background-color: hsl(var(--sage));
   }
   
-  .text-gold-soft {
-    color: hsl(var(--gold-soft));
+  .text-lavender {
+    color: hsl(var(--lavender));
   }
   
-  .bg-gold-soft {
-    background-color: hsl(var(--gold-soft));
+  .bg-lavender {
+    background-color: hsl(var(--lavender));
   }
   
-  .bg-warm-gray {
-    background-color: hsl(var(--warm-gray));
+  .text-teal-dark {
+    color: hsl(var(--teal-dark));
+  }
+  
+  .bg-teal-dark {
+    background-color: hsl(var(--teal-dark));
+  }
+  
+  .bg-cream {
+    background-color: hsl(var(--cream));
   }
 
   .font-poppins {
