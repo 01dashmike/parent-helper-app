@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Heart, Check, MapPin, Users, Clock, Lightbulb, MessageCircle, Send } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import brandImage from "@assets/image_1748254024712.png";
 
@@ -66,6 +66,31 @@ export default function About() {
     }
   };
 
+  // Update document title and meta for SEO
+  useEffect(() => {
+    document.title = "About Parent Helper - UK Parents' Story | Baby & Toddler Classes";
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'The authentic story behind Parent Helper - how frustrated UK parents built a comprehensive directory to help families find baby classes, toddler activities, and parenting solutions across England.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'The authentic story behind Parent Helper - how frustrated UK parents built a comprehensive directory to help families find baby classes, toddler activities, and parenting solutions across England.';
+      document.head.appendChild(meta);
+    }
+
+    // Add keywords meta tag
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'parent helper story, UK parents, baby classes directory, toddler activities England, British families, parenting solutions, class finder UK';
+      document.head.appendChild(meta);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-cream">
       <Header />
@@ -75,16 +100,16 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl font-bold font-poppins text-teal-dark mb-6">
-                Our Story
+                Our Story: UK Parents Building Solutions for British Families
               </h1>
               <p className="text-lg text-sage mb-6">
-                As parents to three young children, we know the daily struggles all too well. Why is our baby crying? What sensory activities help development? Which classes should we try? Where do we go at weekends? What can we do on rainy evenings? How do we get them to eat healthy food they'll actually like? Which car seat is safest? The questions never end.
+                As parents to three young children in England, we know the daily struggles all too well. Why is our baby crying? What sensory activities help development? Which baby classes should we try? Where do we go at weekends? What can we do on rainy evenings? How do we get them to eat healthy food they'll actually like? Which car seat is safest? The questions never end for British families.
               </p>
               <p className="text-teal-dark mb-6">
-                The endless searching for baby classes, toddler activities, and family-friendly events had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different websites and social media pages.
+                The endless searching for baby classes across England, toddler activities in our local areas, and family-friendly events had become a time-consuming chore. We'd waste precious family time hunting down information that was scattered across dozens of different council websites, local Facebook groups, and community pages.
               </p>
               <p className="text-sage mb-6">
-                That's when we realised we could use our passion for technology to solve this frustrating problem - not just for us, but for thousands of other parents facing the same daily challenges across the UK.
+                That's when we realised we could use our passion for technology to solve this frustrating problem - not just for us, but for thousands of other UK parents facing the same daily challenges across England, from bustling cities to quiet market towns.
               </p>
               
               <div className="bg-gradient-to-r from-coral/10 to-sage/10 rounded-2xl p-6 mb-6">
