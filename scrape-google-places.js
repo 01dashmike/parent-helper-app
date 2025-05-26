@@ -9,35 +9,66 @@ class GooglePlacesScraper {
     this.importedCount = 0;
   }
 
-  // Search terms for authentic baby and toddler classes
+  // Enhanced search terms for authentic baby and toddler classes
   getSearchTerms() {
     return [
+      // Core baby classes
       'baby classes',
-      'toddler classes', 
-      'baby swimming',
-      'baby yoga',
-      'baby massage',
-      'baby sensory',
+      'baby sensory classes',
+      'baby yoga classes',
+      'baby massage classes',
+      'baby swimming lessons',
+      'baby signing classes',
+      'baby music classes',
+      'baby ballet classes',
+      
+      // Core toddler classes
+      'toddler classes',
       'toddler swimming',
-      'children music classes',
+      'toddler dance classes',
+      'toddler gym classes',
+      'toddler music classes',
+      'toddler sensory play',
+      
+      // Popular branded classes
+      'water babies',
+      'tumble tots',
+      'monkey music',
+      'jo jingles',
+      'sing and sign',
+      'toddler sense',
+      'little kickers',
+      'rugrats and halfpints',
+      
+      // Parent and child activities
       'mum and baby fitness',
       'postnatal exercise',
-      'baby signing',
-      'toddler dance',
-      'nursery rhyme time',
-      'baby ballet',
-      'toddler gym',
-      'soft play',
-      'children activities',
-      'early years',
-      'pre school activities',
-      'mother and baby groups'
+      'parent and toddler groups',
+      'mother and baby groups',
+      'stay and play sessions',
+      
+      // Venues and facilities
+      'children activity centre',
+      'soft play centre',
+      'nursery classes',
+      'children nursery',
+      'play centre',
+      'early years centre',
+      
+      // Specific activity types
+      'children swimming lessons',
+      'toddler football',
+      'children martial arts',
+      'kids drama classes',
+      'children art classes',
+      'messy play sessions'
     ];
   }
 
-  // Major England locations to ensure comprehensive coverage
+  // Comprehensive England locations for maximum coverage
   getLocations() {
     return [
+      // Major cities
       'London, England',
       'Birmingham, England', 
       'Manchester, England',
@@ -48,16 +79,52 @@ class GooglePlacesScraper {
       'Coventry, England',
       'Nottingham, England',
       'Newcastle, England',
+      
+      // Southern England
       'Brighton, England',
       'Southampton, England',
       'Portsmouth, England',
       'Reading, England',
-      'Cambridge, England',
-      'Oxford, England',
       'Winchester, England',
       'Bath, England',
       'Canterbury, England',
-      'York, England'
+      'Guildford, England',
+      'Bournemouth, England',
+      'Exeter, England',
+      
+      // Home Counties & Southeast
+      'Cambridge, England',
+      'Oxford, England',
+      'St Albans, England',
+      'Chelmsford, England',
+      'Maidstone, England',
+      'Basingstoke, England',
+      'Woking, England',
+      'Crawley, England',
+      
+      // Midlands
+      'Derby, England',
+      'Stoke-on-Trent, England',
+      'Wolverhampton, England',
+      'Warwick, England',
+      'Worcester, England',
+      'Hereford, England',
+      
+      // Northern England
+      'Leeds, England',
+      'York, England',
+      'Hull, England',
+      'Preston, England',
+      'Lancaster, England',
+      'Carlisle, England',
+      'Durham, England',
+      
+      // Southwest England
+      'Plymouth, England',
+      'Truro, England',
+      'Taunton, England',
+      'Gloucester, England',
+      'Swindon, England'
     ];
   }
 
