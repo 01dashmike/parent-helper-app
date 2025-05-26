@@ -114,7 +114,7 @@ export default function About() {
               
               <div className="bg-gradient-to-r from-coral/10 to-sage/10 rounded-2xl p-6 mb-6">
                 <h3 className="text-xl font-semibold text-teal-dark mb-4">
-                  <Lightbulb className="w-5 h-5 inline mr-2" />
+                  <Lightbulb className="w-5 h-5 inline mr-2 text-yellow-500" />
                   Parent Helper was born
                 </h3>
                 <p className="text-sage">
