@@ -186,8 +186,8 @@ class EnhancedGooglePlacesScraper {
       category: this.categorizeClass(searchTerm, cleanBusinessName, place.types),
       ageGroupMin: this.extractAgeRange(cleanBusinessName, searchTerm).min,
       ageGroupMax: this.extractAgeRange(cleanBusinessName, searchTerm).max,
-      dayOfWeek: 'Multiple',
-      timeOfDay: 'Various',
+      dayOfWeek: this.extractDayFromGoogleData(place) || 'Multiple',
+      timeOfDay: this.extractTimeFromGoogleData(place) || 'Various',
       price: this.determinePricing(place),
       isFeatured: this.isFeaturedBrand(cleanBusinessName),
       phone: place.formatted_phone_number || '',
@@ -207,7 +207,48 @@ class EnhancedGooglePlacesScraper {
   }
 
   async extractTown(address, postcode) {
-    // Extract town from address, preferring known major towns
+    // Use the same rigorous postcode-to-town mapping we established
+    if (postcode) {
+      try {
+        const response = await fetch(`http://api.postcodes.io/postcodes/${postcode}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.result) {
+            const adminDistrict = data.result.admin_district;
+            const adminWard = data.result.admin_ward;
+            
+            // Apply same geographic boundary logic as original data
+            if (adminDistrict === 'Bolton') return 'Bolton';
+            if (adminDistrict === 'Wigan') return 'Wigan';
+            if (adminDistrict === 'Blackburn with Darwen') return 'Blackburn';
+            if (adminDistrict === 'Warrington') return 'Warrington';
+            if (adminDistrict === 'Stockport') return 'Stockport';
+            if (adminDistrict === 'Oldham') return 'Oldham';
+            if (adminDistrict === 'Rochdale') return 'Rochdale';
+            if (adminDistrict === 'Chester') return 'Chester';
+            if (adminDistrict === 'Burnley') return 'Burnley';
+            if (adminDistrict === 'Blackpool') return 'Blackpool';
+            if (adminDistrict === 'Preston') return 'Preston';
+            
+            // For Greater Manchester, use proper borough mapping
+            if (adminDistrict === 'Manchester' && adminWard) {
+              if (adminWard.includes('Bolton')) return 'Bolton';
+              if (adminWard.includes('Wigan')) return 'Wigan';
+              if (adminWard.includes('Oldham')) return 'Oldham';
+              if (adminWard.includes('Rochdale')) return 'Rochdale';
+              if (adminWard.includes('Stockport')) return 'Stockport';
+              return 'Manchester';
+            }
+            
+            return adminDistrict;
+          }
+        }
+      } catch (error) {
+        console.log(`Postcode lookup failed for ${postcode}, falling back to address parsing`);
+      }
+    }
+
+    // Fallback to address parsing with same standards
     const addressParts = address.split(',').map(part => part.trim());
     
     const majorTowns = [
@@ -223,7 +264,6 @@ class EnhancedGooglePlacesScraper {
       }
     }
 
-    // Fallback to first substantial address part
     return addressParts.find(part => 
       part.length > 2 && 
       !part.match(/^[A-Z0-9\s]+$/i) && 
@@ -288,6 +328,43 @@ class EnhancedGooglePlacesScraper {
     );
   }
 
+  extractDayFromGoogleData(place) {
+    // Extract day information from place name or opening hours if available
+    const text = (place.name + ' ' + (place.vicinity || '')).toLowerCase();
+    
+    if (text.includes('monday')) return 'Monday';
+    if (text.includes('tuesday')) return 'Tuesday';
+    if (text.includes('wednesday')) return 'Wednesday';
+    if (text.includes('thursday')) return 'Thursday';
+    if (text.includes('friday')) return 'Friday';
+    if (text.includes('saturday')) return 'Saturday';
+    if (text.includes('sunday')) return 'Sunday';
+    
+    // Check opening hours if available
+    if (place.opening_hours && place.opening_hours.weekday_text) {
+      // This would contain specific day information
+      return 'Multiple'; // Most businesses run multiple days
+    }
+    
+    return null;
+  }
+
+  extractTimeFromGoogleData(place) {
+    // Extract time information from place name or description
+    const text = (place.name + ' ' + (place.vicinity || '')).toLowerCase();
+    
+    if (text.includes('morning') || text.includes('am')) return 'Morning';
+    if (text.includes('afternoon') || text.includes('pm')) return 'Afternoon';
+    if (text.includes('evening')) return 'Evening';
+    if (text.match(/\d{1,2}:\d{2}/)) {
+      // Contains specific time format
+      const timeMatch = text.match(/(\d{1,2}:\d{2})/);
+      return timeMatch ? timeMatch[1] : null;
+    }
+    
+    return null;
+  }
+
   generateDescription(businessName, searchTerm, types) {
     const category = this.categorizeClass(searchTerm, businessName, types);
     return `${businessName} offers ${category.toLowerCase()} for babies and toddlers. Professional instruction in a safe, fun environment for early childhood development.`;
@@ -298,11 +375,14 @@ class EnhancedGooglePlacesScraper {
     
     for (const place of places) {
       try {
-        // Check for duplicates by name and postcode
+        // Only prevent exact duplicates - allow same business with different schedules
         const existing = await sql`
           SELECT id FROM classes 
           WHERE LOWER(name) = LOWER(${place.name}) 
           AND postcode = ${place.postcode}
+          AND day_of_week = ${place.dayOfWeek}
+          AND time_of_day = ${place.timeOfDay}
+          AND category = ${place.category}
         `;
         
         if (existing.length > 0) {
