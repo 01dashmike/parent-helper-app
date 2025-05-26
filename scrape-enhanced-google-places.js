@@ -10,48 +10,49 @@ class EnhancedGooglePlacesScraper {
   }
 
   // Enhanced search terms focusing on businesses and service providers
-  getBusinessFocusedSearchTerms() {
+  getBusinessFocusedSearchTerms(location) {
+    const townName = location.split(',')[0];
     return [
       // Direct business searches
-      'baby classes Bolton',
-      'toddler classes Bolton', 
-      'children\'s activities Bolton',
-      'early years classes Bolton',
-      'parent and baby Bolton',
-      'mother and toddler Bolton',
+      `baby classes ${townName}`,
+      `toddler classes ${townName}`, 
+      `children's activities ${townName}`,
+      `early years classes ${townName}`,
+      `parent and baby ${townName}`,
+      `mother and toddler ${townName}`,
       
       // Service provider searches
-      'swimming instructors babies Bolton',
-      'music teachers toddlers Bolton',
-      'dance teachers children Bolton',
-      'yoga instructors babies Bolton',
-      'sensory play providers Bolton',
+      `swimming instructors babies ${townName}`,
+      `music teachers toddlers ${townName}`,
+      `dance teachers children ${townName}`,
+      `yoga instructors babies ${townName}`,
+      `sensory play providers ${townName}`,
       
       // Popular franchise/brand searches
-      'Water Babies Bolton',
-      'Tumble Tots Bolton',
-      'Monkey Music Bolton',
-      'Jo Jingles Bolton',
-      'Baby Sensory Bolton',
-      'Little Kickers Bolton',
-      'Toddler Sense Bolton',
-      'Rugrats and Halfpints Bolton',
+      `Water Babies ${townName}`,
+      `Tumble Tots ${townName}`,
+      `Monkey Music ${townName}`,
+      `Jo Jingles ${townName}`,
+      `Baby Sensory ${townName}`,
+      `Little Kickers ${townName}`,
+      `Toddler Sense ${townName}`,
+      `Rugrats and Halfpints ${townName}`,
       
       // Activity-based business searches
-      'children\'s swimming lessons Bolton',
-      'baby massage Bolton',
-      'baby signing Bolton',
-      'toddler gym Bolton',
-      'children\'s martial arts Bolton',
-      'kids dance classes Bolton',
-      'baby yoga Bolton',
-      'toddler ballet Bolton',
+      `children's swimming lessons ${townName}`,
+      `baby massage ${townName}`,
+      `baby signing ${townName}`,
+      `toddler gym ${townName}`,
+      `children's martial arts ${townName}`,
+      `kids dance classes ${townName}`,
+      `baby yoga ${townName}`,
+      `toddler ballet ${townName}`,
       
       // Broader service categories
-      'childcare services Bolton',
-      'children\'s fitness Bolton',
-      'early childhood development Bolton',
-      'parenting support groups Bolton'
+      `childcare services ${townName}`,
+      `children's fitness ${townName}`,
+      `early childhood development ${townName}`,
+      `parenting support groups ${townName}`
     ];
   }
 
@@ -422,33 +423,34 @@ class EnhancedGooglePlacesScraper {
     console.log('Starting enhanced Google Places scraping for under-covered areas...');
     
     const locations = this.getTargetLocations();
-    const searchTerms = this.getBusinessFocusedSearchTerms();
     
     for (const location of locations) {
       console.log(`\n🎯 Focusing on: ${location}`);
       
+      const searchTerms = this.getBusinessFocusedSearchTerms(location);
+      
       for (const searchTerm of searchTerms) {
-        if (searchTerm.includes(location.split(',')[0])) {
-          // Location-specific search
-          const places = await this.searchPlaces(searchTerm, '');
-          const processedPlaces = [];
-          
-          for (const place of places) {
-            const processed = await this.processPlace(place, searchTerm);
-            if (processed) {
-              processedPlaces.push(processed);
-            }
+        // Location-specific search
+        const places = await this.searchPlaces(searchTerm, '');
+        const processedPlaces = [];
+        
+        for (const place of places) {
+          const processed = await this.processPlace(place, searchTerm);
+          if (processed) {
+            processedPlaces.push(processed);
           }
-          
-          if (processedPlaces.length > 0) {
-            const saved = await this.saveToDatabase(processedPlaces);
-            console.log(`💾 Saved ${saved} new businesses for "${searchTerm}"`);
-            this.importedCount += saved;
-          }
-          
-          // Rate limiting
-          await new Promise(resolve => setTimeout(resolve, 1000));
         }
+        
+        if (processedPlaces.length > 0) {
+          const saved = await this.saveToDatabase(processedPlaces);
+          console.log(`💾 Saved ${saved} new businesses for "${searchTerm}"`);
+          this.importedCount += saved;
+        } else {
+          console.log(`💾 Saved 0 new businesses for "${searchTerm}"`);
+        }
+        
+        // Rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
       
       // Check progress for this location
