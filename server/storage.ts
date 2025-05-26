@@ -623,36 +623,29 @@ class DatabaseStorage implements IStorage {
     console.log('Radius parameter received:', params.radius);
     console.log('Radius type:', typeof params.radius);
     
-    // Apply radius filtering by limiting results based on radius parameter
+    // IMMEDIATELY apply radius filtering before any other processing
     let filteredResults = results;
-    
-    // Apply radius-based filtering for all locations
     const radiusValue = Number(params.radius);
     console.log(`Processing radius: ${radiusValue} (original: ${params.radius})`);
     
     if (radiusValue && radiusValue > 0) {
-      console.log(`Applying radius filter: ${radiusValue} miles`);
+      console.log(`Applying radius filter: ${radiusValue} miles to ${results.length} results`);
       
       if (radiusValue <= 3) {
-        // "Closest only" - limit to 6-8 results
         filteredResults = results.slice(0, Math.min(8, results.length));
-        console.log(`Closest only filter applied: ${results.length} -> ${filteredResults.length}`);
+        console.log(`Closest only filter: ${results.length} -> ${filteredResults.length}`);
       } else if (radiusValue <= 7) {
-        // "Nearby towns" - limit to 10-12 results  
         filteredResults = results.slice(0, Math.min(12, results.length));
-        console.log(`Nearby towns filter applied: ${results.length} -> ${filteredResults.length}`);
+        console.log(`Nearby towns filter: ${results.length} -> ${filteredResults.length}`);
       } else if (radiusValue <= 15) {
-        // "Wider area" - limit to 15-18 results
         filteredResults = results.slice(0, Math.min(18, results.length));
-        console.log(`Wider area filter applied: ${results.length} -> ${filteredResults.length}`);
+        console.log(`Wider area filter: ${results.length} -> ${filteredResults.length}`);
       } else {
         console.log(`Regional search - showing all ${results.length} results`);
       }
     } else {
-      console.log(`No radius filtering applied - radius value: ${radiusValue}`);
+      console.log(`No radius filtering - showing all ${results.length} results`);
     }
-    
-    console.log(`Final radius filtering: ${results.length} -> ${filteredResults.length} results (radius: ${params.radius} miles)`);
     
     // Apply other filters to the radius-filtered results
     
