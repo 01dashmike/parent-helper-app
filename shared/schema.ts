@@ -14,8 +14,10 @@ export const classes = pgTable("classes", {
   address: text("address").notNull(),
   postcode: text("postcode").notNull(),
   town: text("town").notNull(), // nearest major town with population > 15,000
+  additionalTowns: text("additional_towns").array(), // nearby towns for expanded search
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 10, scale: 8 }),
+  searchRadiusKm: integer("search_radius_km").default(5),
   dayOfWeek: text("day_of_week").notNull(),
   time: text("time").notNull(),
   contactEmail: text("contact_email"),
