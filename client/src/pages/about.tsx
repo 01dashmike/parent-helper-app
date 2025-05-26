@@ -112,34 +112,6 @@ export default function About() {
                 alt="Parent Helper brand identity - family logo and app design showing classes, clubs and activities" 
                 className="rounded-2xl shadow-lg w-full"
               />
-              
-              <Card className="absolute -bottom-4 -left-4 border border-gray-100">
-                <CardContent className="p-4">
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                      <Check className="w-4 h-4 text-green-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Verified Classes</div>
-                      <div className="text-sm text-gray-500">Quality assured</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card className="absolute -top-4 -right-4 border border-gray-100">
-                <CardContent className="p-4">
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-coral/20 rounded-full flex items-center justify-center mr-3">
-                      <MapPin className="w-4 h-4 text-coral" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Local Focus</div>
-                      <div className="text-sm text-gray-500">Classes near you</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
