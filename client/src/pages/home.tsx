@@ -7,9 +7,23 @@ import { useSearch } from "@/hooks/use-search";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Baby, Users, Camera, Clock } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 export default function Home() {
   const { searchResults, isLoading, searchParams, performSearch } = useSearch();
+  const searchResultsRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to results when search is performed
+  useEffect(() => {
+    if (searchResults.length > 0 && searchResultsRef.current) {
+      setTimeout(() => {
+        searchResultsRef.current?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // Small delay to ensure results are rendered
+    }
+  }, [searchResults]);
 
   const mainCategories = [
     {
@@ -80,11 +94,13 @@ export default function Home() {
       </section>
       
       {searchResults.length > 0 && (
-        <SearchResults 
-          results={searchResults} 
-          searchParams={searchParams}
-          isLoading={isLoading}
-        />
+        <div ref={searchResultsRef}>
+          <SearchResults 
+            results={searchResults} 
+            searchParams={searchParams}
+            isLoading={isLoading}
+          />
+        </div>
       )}
       
       <Newsletter />
