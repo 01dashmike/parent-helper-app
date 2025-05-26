@@ -68,7 +68,7 @@ export default function About() {
 
   // Update document title and meta for SEO
   useEffect(() => {
-    document.title = "About Parent Helper - UK Parents' Story | Baby & Toddler Classes";
+    document.title = "About Parent Helper - Our Story | Baby & Toddler Classes Directory";
     
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -77,7 +77,7 @@ export default function About() {
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'The authentic story behind Parent Helper - how frustrated UK parents built a comprehensive directory to help families find baby classes, toddler activities, and parenting solutions across England.';
+      meta.content = 'The authentic story behind Parent Helper - how frustrated parents built a comprehensive directory to help families find baby classes, toddler activities, and parenting solutions.';
       document.head.appendChild(meta);
     }
 
@@ -100,7 +100,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl font-bold font-poppins text-teal-dark mb-6">
-                Our Story: UK Parents Building Solutions for British Families
+                Our Story: Parents Building Solutions for Families
               </h1>
               <p className="text-lg text-sage mb-6">
                 As parents to three young children in England, we know the daily struggles all too well. Why is our baby crying? What sensory activities help development? Which baby classes should we try? Where do we go at weekends? What can we do on rainy evenings? How do we get them to eat healthy food they'll actually like? Which car seat is safest? The questions never end for British families.
