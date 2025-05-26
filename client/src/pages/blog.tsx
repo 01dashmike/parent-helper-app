@@ -21,10 +21,13 @@ export default function Blog() {
     : posts;
 
   const getCategoryCount = (categoryId: string) => {
-    return posts.filter(post => {
+    const count = posts.filter(post => {
       const categories = post.category?.split(',').map(cat => cat.trim()) || [];
+      console.log('Post:', post.title, 'Categories:', categories, 'Looking for:', categoryId);
       return categories.includes(categoryId);
     }).length;
+    console.log('Count for', categoryId, ':', count);
+    return count;
   };
 
   const categories = [
