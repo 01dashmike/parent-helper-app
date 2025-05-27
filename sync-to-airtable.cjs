@@ -5,7 +5,7 @@ async function syncToAirtable() {
     connectionString: process.env.DATABASE_URL,
   });
 
-  const airtableToken = process.env.AIRTABLE_API_KEY;
+  const airtableToken = process.env.AIRTABLE_API_KEY || 'patM7Cd2aY4t6ICC8';
   const baseId = 'app9eOTFWck1sZwTG'; // Your Parent Helper base
   
   if (!airtableToken) {

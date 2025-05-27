@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+// Using built-in fetch for Node.js 18+
 
 async function setupAirtableBase() {
   const airtableToken = process.env.AIRTABLE_API_KEY;
