@@ -6,7 +6,7 @@ async function syncToAirtable() {
   });
 
   const airtableToken = process.env.AIRTABLE_API_KEY;
-  const baseId = 'appYourBaseId'; // You'll need to provide your base ID
+  const baseId = 'app9eOTFWck1sZwTG'; // Your Parent Helper base
   
   if (!airtableToken) {
     console.log('❌ AIRTABLE_API_KEY not found - please add your personal access token');
@@ -85,8 +85,46 @@ async function syncToAirtable() {
       console.log(`   Featured: ${record.fields['Featured'] ? 'Yes' : 'No'} | Accessible: ${record.fields['Wheelchair Accessible'] ? 'Yes' : 'No'}`);
     });
 
-    // For now, just show the structure - actual sync would need base ID and proper API calls
-    console.log(`\n🎯 READY TO SYNC ${airtableRecords.length} RECORDS TO AIRTABLE!`);
+    // Sync to Airtable using the REST API
+    console.log(`\n🚀 SYNCING ${airtableRecords.length} RECORDS TO AIRTABLE...`);
+    
+    // Create records in batches of 10 (Airtable's limit)
+    const batchSize = 10;
+    let synced = 0;
+    
+    for (let i = 0; i < airtableRecords.length; i += batchSize) {
+      const batch = airtableRecords.slice(i, i + batchSize);
+      
+      try {
+        const response = await fetch(`https://api.airtable.com/v0/${baseId}/Family%20Businesses`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${airtableToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            records: batch,
+            typecast: true
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          synced += result.records.length;
+          console.log(`   ✅ Synced batch ${Math.floor(i/batchSize) + 1}: ${result.records.length} records`);
+        } else {
+          const error = await response.text();
+          console.log(`   ❌ Batch ${Math.floor(i/batchSize) + 1} failed: ${response.status} - ${error}`);
+        }
+      } catch (error) {
+        console.log(`   ❌ Batch ${Math.floor(i/batchSize) + 1} error:`, error.message);
+      }
+      
+      // Small delay between batches to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+    
+    console.log(`\n🎉 SYNC COMPLETED! ${synced} records successfully synced to Airtable!`);
     console.log('📊 Your data includes:');
     console.log(`   - Enhanced AI fields (quality scores, summaries)`);
     console.log(`   - Detailed booking information`);
