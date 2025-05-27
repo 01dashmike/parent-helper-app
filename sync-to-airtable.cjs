@@ -5,7 +5,7 @@ async function syncToAirtable() {
     connectionString: process.env.DATABASE_URL,
   });
 
-  const airtableToken = process.env.AIRTABLE_API_KEY || 'patM7Cd2aY4t6ICC8';
+  const airtableToken = process.env.AIRTABLE_API_KEY || 'pat9cXVmi4fHA3oxH.7b5b720f8f7ccd23a2eb22b8c90a1741ba8cb353e2f7033face614b3423b3811';
   const baseId = 'app9eOTFWck1sZwTG'; // Your Parent Helper base
   
   if (!airtableToken) {
@@ -36,7 +36,6 @@ async function syncToAirtable() {
       FROM classes 
       WHERE is_active = true 
       ORDER BY ai_quality_score DESC NULLS LAST, is_featured DESC
-      LIMIT 100
     `);
 
     console.log(`📈 Found ${result.rows.length} businesses ready for Airtable sync`);
@@ -44,37 +43,9 @@ async function syncToAirtable() {
     // Prepare data for Airtable format
     const airtableRecords = result.rows.map(row => ({
       fields: {
-        'Business Name': row.name,
-        'Description': row.description || '',
-        'Category': row.category || '',
-        'Town': row.town,
-        'Postcode': row.postcode || '',
-        'Address': row.address || '',
-        'Age Min (months)': row.age_group_min || 0,
-        'Age Max (months)': row.age_group_max || 60,
-        'Price': row.price || 'Contact for pricing',
-        'Day of Week': row.day_of_week || '',
-        'Time': row.time || '',
-        'Venue': row.venue || '',
-        'Phone': row.contact_phone || '',
-        'Website': row.website || '',
-        'Featured': row.is_featured || false,
-        'Rating': row.rating ? parseFloat(row.rating) : null,
-        'Wheelchair Accessible': row.wheelchair_accessible || false,
-        'Disability Support': row.disability_support || '',
-        'AI Quality Score': row.ai_quality_score || null,
-        'AI Summary': row.ai_summary || '',
-        'What to Expect': row.what_to_expect || '',
-        'What to Bring': row.what_to_bring || '',
-        'Provider Experience': row.provider_experience || '',
-        'Verification Status': row.verification_status || 'pending',
-        'Class Size': row.class_size || null,
-        'Parking Available': row.parking_available || false,
-        'Parking Type': row.parking_type || '',
-        'Fixed Course Dates': row.fixed_course_dates || false,
-        'Booking Required': row.booking_required || true,
-        'Free Trial Available': row.free_trial_available || false,
-        'Created Date': row.created_at ? new Date(row.created_at).toISOString() : null
+        'Name': row.name,
+        'Notes': `${row.description || ''}\n\nCategory: ${row.category}\nTown: ${row.town}\nPrice: ${row.price || 'Contact for pricing'}\nTime: ${row.day_of_week} ${row.time}\nVenue: ${row.venue}\nPhone: ${row.contact_phone || 'N/A'}\nWebsite: ${row.website || 'N/A'}`,
+        'Status': row.is_featured ? 'Featured' : 'Active'
       }
     }));
 
@@ -96,7 +67,7 @@ async function syncToAirtable() {
       const batch = airtableRecords.slice(i, i + batchSize);
       
       try {
-        const response = await fetch(`https://api.airtable.com/v0/${baseId}/Family%20Businesses`, {
+        const response = await fetch(`https://api.airtable.com/v0/${baseId}/Parent%20Helper`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${airtableToken}`,
