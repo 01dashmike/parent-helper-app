@@ -19,6 +19,8 @@ import FAQ from "@/pages/faq";
 import ListClass from "@/pages/list-class";
 import NewsletterAdmin from "@/pages/newsletter-admin";
 import NotFound from "@/pages/not-found";
+import AfterSchoolClubsPage from "./pages/after-school-clubs";
+import PhotographyKeepsakesPage from "./pages/photography-keepsakes";
 
 function Router() {
   return (
@@ -27,7 +29,8 @@ function Router() {
       <Route path="/baby-toddler-classes" component={Home} />
       <Route path="/family-services" component={Services} />
       <Route path="/family-specialists" component={Services} />
-      <Route path="/after-school-clubs" component={Clubs} />
+      <Route path="/after-school-clubs" component={AfterSchoolClubsPage} />
+      <Route path="/photography-keepsakes" component={PhotographyKeepsakesPage} />
       <Route path="/about" component={About} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/prenatal" component={BlogPrenatal} />
