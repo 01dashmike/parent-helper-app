@@ -129,7 +129,7 @@ function generateEnhancements(business) {
   const aiSummary = generateAISummary(business);
   
   // What to expect based on category
-  const whatToExpect = generateWhatToExpect(business);
+  const whatToExpected = generateWhatToExpected(business);
   
   // What to bring based on activity type
   const whatToBring = generateWhatToBring(business);
