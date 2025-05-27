@@ -8,6 +8,7 @@ import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Ban
 import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 import WhatsAppButton from "./whatsapp-button";
 import InstagramGallery from "./instagram-gallery";
+import { BookingSystem } from "./booking-system";
 
 interface ClassCardProps {
   classItem: Class & { 
@@ -219,30 +220,38 @@ export default function ClassCard({ classItem }: ClassCardProps) {
       </div>
       
       {/* Session Details Panel */}
-      {showDetails && hasSessions && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <h5 className="font-semibold text-gray-900 mb-3">Available Sessions:</h5>
-          <div className="grid gap-3">
-            {classItem.sessions.map((session, index) => (
-              <div key={session.id} className="bg-gray-50 rounded-lg p-3 flex justify-between items-center">
-                <div className="flex-1">
-                  <div className="font-medium text-gray-900">
-                    {session.day} {session.time}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Ages {session.ageMin <= 12 ? `${session.ageMin}-${session.ageMax} months` : 
-                          `${Math.floor(session.ageMin/12)}-${Math.floor(session.ageMax/12)} years`}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-sm font-semibold text-coral">{price}</span>
-                  <Button size="sm" className="bg-sage hover:bg-sage/90 text-white">
-                    Book Now
-                  </Button>
-                </div>
-              </div>
-            ))}
+      {showDetails && (
+        <div className="mt-4 pt-4 border-t border-gray-200 space-y-4">
+          {/* Booking System */}
+          <div>
+            <h5 className="font-semibold text-gray-900 mb-3">Book This Class:</h5>
+            <BookingSystem classItem={classItem} />
           </div>
+
+          {/* Sessions if available */}
+          {hasSessions && (
+            <div>
+              <h5 className="font-semibold text-gray-900 mb-3">Available Sessions:</h5>
+              <div className="grid gap-3">
+                {classItem.sessions.map((session, index) => (
+                  <div key={session.id} className="bg-gray-50 rounded-lg p-3 flex justify-between items-center">
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900">
+                        {session.day} {session.time}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        Ages {session.ageMin <= 12 ? `${session.ageMin}-${session.ageMax} months` : 
+                              `${Math.floor(session.ageMin/12)}-${Math.floor(session.ageMax/12)} years`}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="text-sm font-semibold text-coral">{price}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
