@@ -9,9 +9,12 @@ async function syncToAirtable() {
   const baseId = 'appYourBaseId'; // You'll need to provide your base ID
   
   if (!airtableToken) {
-    console.log('❌ AIRTABLE_API_KEY not found');
+    console.log('❌ AIRTABLE_API_KEY not found - please add your personal access token');
+    console.log('📝 I can see you created "Parent Helper Integration" token - please add it to environment');
     return;
   }
+
+  console.log('✅ Airtable token found - starting sync process!');
 
   try {
     await client.connect();
