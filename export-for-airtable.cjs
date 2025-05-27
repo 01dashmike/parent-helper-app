@@ -48,7 +48,7 @@ async function exportForAirtable() {
       FROM classes 
       WHERE is_active = true 
       ORDER BY ai_quality_score DESC NULLS LAST, is_featured DESC, town
-      LIMIT 1000
+      -- No limit - export all authentic businesses
     `);
 
     console.log(`📈 Found ${result.rows.length} authentic businesses to export`);
