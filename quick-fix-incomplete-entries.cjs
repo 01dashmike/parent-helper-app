@@ -11,7 +11,7 @@ const base = new Airtable({
 
 const table = base('tblDcOhMjN0kb8dk4');
 
-async function checkAndFixIncompleteEntries() {
+async function quickFixIncompleteEntries() {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
   });
@@ -20,43 +20,54 @@ async function checkAndFixIncompleteEntries() {
     await client.connect();
     console.log('Connected to database and Airtable');
 
-    // Get all records from Airtable to check for incomplete entries
-    console.log('Fetching all Airtable records...');
-    const airtableRecords = [];
+    // Get records in smaller batches to find incomplete ones
+    console.log('Scanning for incomplete records...');
+    let incompleteRecords = [];
+    let pageCount = 0;
     
     await table.select({
-      view: 'Grid view'
+      pageSize: 100,
+      filterByFormula: "AND({Business Name} != '', OR({Address} = '', {Town} = '', {Category} = '', {Description} = ''))"
     }).eachPage((records, fetchNextPage) => {
-      airtableRecords.push(...records);
+      pageCount++;
+      console.log(`Scanning page ${pageCount}... found ${records.length} incomplete records`);
+      
+      const incomplete = records.filter(record => {
+        const fields = record.fields;
+        return fields['Business Name'] && 
+               (!fields['Address'] || !fields['Town'] || !fields['Category'] || !fields['Description']);
+      });
+      
+      incompleteRecords.push(...incomplete);
+      
+      // Show progress for incomplete records found
+      if (incomplete.length > 0) {
+        incomplete.forEach(record => {
+          console.log(`Found incomplete: ${record.fields['Business Name']} (missing data)`);
+        });
+      }
+      
       fetchNextPage();
     });
 
-    console.log(`Found ${airtableRecords.length} total records in Airtable`);
-
-    // Find incomplete records (only have business name)
-    const incompleteRecords = airtableRecords.filter(record => {
-      const fields = record.fields;
-      return fields['Business Name'] && 
-             (!fields['Address'] || !fields['Town'] || !fields['Category'] || !fields['Description']);
-    });
-
-    console.log(`Found ${incompleteRecords.length} incomplete records to fix`);
+    console.log(`\nFound ${incompleteRecords.length} incomplete records to fix`);
 
     if (incompleteRecords.length === 0) {
-      console.log('No incomplete records found! All entries appear to have complete data.');
+      console.log('✅ No incomplete records found! All entries appear to have complete data.');
       return;
     }
 
     // Process incomplete records in small batches
-    const batchSize = 5;
+    const batchSize = 3;
     let fixed = 0;
 
     for (let i = 0; i < incompleteRecords.length; i += batchSize) {
       const batch = incompleteRecords.slice(i, i + batchSize);
-      console.log(`Processing batch ${Math.floor(i/batchSize) + 1} of ${Math.ceil(incompleteRecords.length/batchSize)}`);
+      console.log(`\nFixing batch ${Math.floor(i/batchSize) + 1} of ${Math.ceil(incompleteRecords.length/batchSize)}`);
 
-      const updatePromises = batch.map(async (record) => {
+      for (const record of batch) {
         const businessName = record.fields['Business Name'];
+        console.log(`Fixing: ${businessName}`);
         
         // Find complete data for this business in our database
         const query = `
@@ -110,14 +121,10 @@ async function checkAndFixIncompleteEntries() {
         } else {
           console.log(`⚠️  No database data found for: ${businessName}`);
         }
-      });
-
-      await Promise.all(updatePromises);
-      
-      // Small delay between batches
-      if (i + batchSize < incompleteRecords.length) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
       }
+
+      // Small delay between batches
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     console.log(`\n🎉 COMPLETION SUMMARY:`);
@@ -132,4 +139,4 @@ async function checkAndFixIncompleteEntries() {
   }
 }
 
-checkAndFixIncompleteEntries();
+quickFixIncompleteEntries();
