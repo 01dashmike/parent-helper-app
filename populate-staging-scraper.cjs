@@ -47,14 +47,25 @@ function extractTown(address, postcode) {
 function categorizeActivity(searchTerm, placeName) {
   const name = (placeName + ' ' + searchTerm).toLowerCase();
   
-  if (name.includes('music') || name.includes('sing')) return 'Music & Singing';
-  if (name.includes('swim') || name.includes('water')) return 'Swimming';
-  if (name.includes('dance') || name.includes('movement')) return 'Dance & Movement';
-  if (name.includes('sensory') || name.includes('baby sensory')) return 'Baby Development';
-  if (name.includes('yoga') || name.includes('pilates')) return 'Parent & Baby Fitness';
-  if (name.includes('massage') || name.includes('baby massage')) return 'Baby Massage';
-  if (name.includes('art') || name.includes('craft')) return 'Arts & Crafts';
-  if (name.includes('play') || name.includes('soft play')) return 'Play & Social';
+  // Check for Family Services first
+  if (name.includes('photo') || name.includes('keepsake') || name.includes('scan') || 
+      name.includes('portrait') || name.includes('newborn photo')) {
+    return 'Family Services';
+  }
+  
+  // Check for After School Clubs
+  if (name.includes('after school') || name.includes('school age') || 
+      name.includes('primary school') || name.includes('junior')) {
+    return 'After School Clubs';
+  }
+  
+  // Check for Weekend Activities
+  if (name.includes('weekend') || name.includes('family fun') || 
+      name.includes('family activity') || name.includes('family event')) {
+    return 'Weekend Activities';
+  }
+  
+  // Default to Baby & Toddler Classes for all early years activities
   return 'Baby & Toddler Classes';
 }
 
@@ -90,18 +101,38 @@ async function populateStagingDatabase() {
     await client.connect();
     console.log('🚀 Starting to populate staging database with fresh family business data...');
 
-    // Define search terms for family activities
+    // Define search terms matching your website categories
     const searchTerms = [
+      // Baby & Toddler Classes
       'baby sensory classes',
-      'baby music classes',
+      'baby music classes', 
       'baby swimming lessons',
       'toddler dance classes',
       'baby massage classes',
       'baby yoga classes',
-      'toddler music groups',
-      'children singing classes',
-      'baby development classes',
-      'parent toddler groups'
+      'toddler development classes',
+      'baby signing classes',
+      'sensory play classes',
+      
+      // Family Services
+      'newborn photography',
+      'family photography',
+      'baby scan services',
+      'keepsake services',
+      'baby handprint services',
+      
+      // After School Clubs
+      'after school sports clubs',
+      'children drama clubs',
+      'kids art clubs',
+      'junior football clubs',
+      'school age activities',
+      
+      // Weekend Activities  
+      'family weekend activities',
+      'weekend children events',
+      'family fun activities',
+      'weekend kids activities'
     ];
 
     // Define target locations to search
