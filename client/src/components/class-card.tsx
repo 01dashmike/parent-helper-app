@@ -103,6 +103,20 @@ export default function ClassCard({ classItem }: ClassCardProps) {
         </div>
       )}
       
+      {/* Street View Image for venues (when not showing premium banners) */}
+      {!isBabySensory && !isToddlerSense && classItem.streetViewImageUrl && (
+        <div className="w-full h-48 mb-4 rounded-lg overflow-hidden bg-gray-100">
+          <img 
+            src={classItem.streetViewImageUrl} 
+            alt={`Street view of ${classItem.name}`} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+            Street View
+          </div>
+        </div>
+      )}
+      
       {classItem.isFeatured && !isPremiumSensory && (
         <div className="absolute top-4 right-4">
           <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
