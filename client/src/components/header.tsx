@@ -36,7 +36,6 @@ export default function Header() {
               />
               <div>
                 <h1 className="text-2xl font-bold text-teal-600">Parent Helper</h1>
-                <p className="text-xs text-gray-500 -mt-1">Find Local Classes</p>
               </div>
             </div>
           </Link>

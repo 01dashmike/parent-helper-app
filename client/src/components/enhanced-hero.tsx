@@ -163,7 +163,7 @@ export function EnhancedHero() {
                   </div>
 
                   {/* Location Search */}
-                  <div className="lg:w-64 relative">
+                  <div className="lg:w-80 relative">
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <Input
                       type="text"
@@ -171,13 +171,13 @@ export function EnhancedHero() {
                       value={postcode}
                       onChange={(e) => setPostcode(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      className="pl-12 pr-12 h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                      className="pl-12 pr-12 h-16 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-1 top-1/2 -translate-y-1/2 h-12 w-10 p-0 hover:bg-purple-50"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-14 w-10 p-0 hover:bg-purple-50"
                       onClick={getCurrentLocation}
                       disabled={isLocating}
                     >
