@@ -616,6 +616,22 @@ class DatabaseStorage implements IStorage {
         conditions.push(ilike(classes.town, `%${searchTerm}%`));
       }
     }
+    
+    // Handle className search with keyword matching
+    if (params.className) {
+      const className = params.className.toLowerCase();
+      console.log('Searching by class name:', className);
+      
+      // Create flexible search conditions for name, description, venue, and address
+      const classNameConditions = [
+        ilike(classes.name, `%${className}%`),
+        ilike(classes.description, `%${className}%`),
+        ilike(classes.venue, `%${className}%`),
+        ilike(classes.address, `%${className}%`)
+      ];
+      
+      conditions.push(or(...classNameConditions));
+    }
 
     const whereCondition = conditions.length > 1 ? and(...conditions) : conditions[0];
     const results = await db.select().from(classes).where(whereCondition);
