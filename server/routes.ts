@@ -143,7 +143,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
           params.ageGroup = smartSearchResult.ageGroup;
         }
         
+        // If className contains a location, extract it to postcode
+        const locationKeywords = ['andover', 'winchester', 'basingstoke', 'southampton', 'portsmouth'];
+        const searchText = params.className.toLowerCase();
+        for (const location of locationKeywords) {
+          if (searchText.includes(location) && !params.postcode) {
+            params.postcode = location;
+            break;
+          }
+        }
+        
         console.log('Enhanced params after smart search:', params);
+      }
+      
+      // Ensure we have either postcode or className for search
+      if (!params.postcode && !params.className) {
+        return res.status(400).json({ 
+          message: "Either location or class name is required for search" 
+        });
       }
       
       // If postcode doesn't look like a postcode, try to find it as a town name
