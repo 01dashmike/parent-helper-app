@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Clock, MapPin, Users, Star, Phone, Mail, Globe } from 'lucide-react';
+import { Clock, MapPin, Users, Star, Phone, Mail, Globe, Sparkles, GraduationCap } from 'lucide-react';
 import { useState } from 'react';
 
 interface AfterSchoolClub {
@@ -40,14 +42,21 @@ export default function AfterSchoolClubsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-cream">
+      <Header />
+      
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              After School Clubs
-            </h1>
+      <section className="bg-gradient-to-br from-sage/10 via-lavender/10 to-coral/10 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-coral mr-2" />
+            <span className="text-sm font-medium text-teal-dark">After School Activities</span>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold font-poppins text-teal-dark mb-6 leading-tight">
+            After School 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral to-sage"> Clubs</span>
+          </h1>
             <p className="text-xl md:text-2xl mb-8 text-teal-100">
               Discover amazing after school activities and clubs for school-age children across the UK
             </p>

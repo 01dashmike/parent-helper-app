@@ -2,7 +2,8 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight, BookOpen, Baby, Heart, Users, GraduationCap, Apple, Brain, Moon, Activity, Shield, Smile } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Clock, ArrowRight, BookOpen, Baby, Heart, Users, GraduationCap, Apple, Brain, Moon, Activity, Shield, Smile, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import type { BlogPost } from "@shared/schema";
@@ -157,29 +158,49 @@ export default function Blog() {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold font-poppins text-teal-dark mb-4">
-              Parent Helper Blog Directory
-            </h1>
-            <p className="text-xl text-sage max-w-3xl mx-auto">
-              Expert advice, practical tips, and guidance for every stage of your parenting journey. 
-              Find exactly what you need with our easy-to-navigate directory designed for UK families.
-            </p>
+      <section className="bg-gradient-to-br from-sage/10 via-lavender/10 to-coral/10 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-coral mr-2" />
+            <span className="text-sm font-medium text-teal-dark">Expert Parenting Guidance</span>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold font-poppins text-teal-dark mb-6 leading-tight">
+            Parent Helper 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral to-sage"> Blog Directory</span>
+          </h1>
+          
+          <p className="text-xl text-sage mb-8 max-w-3xl mx-auto leading-relaxed">
+            Expert advice, practical tips, and guidance for every stage of your parenting journey. 
+            Find exactly what you need with our easy-to-navigate directory designed for UK families.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-3">
+            <Badge variant="secondary" className="bg-coral/10 text-coral border-coral/20">
+              <BookOpen className="w-3 h-3 mr-1" />
+              Expert Articles
+            </Badge>
+            <Badge variant="secondary" className="bg-sage/10 text-sage border-sage/20">
+              <Heart className="w-3 h-3 mr-1" />
+              UK Parents
+            </Badge>
+            <Badge variant="secondary" className="bg-lavender/10 text-lavender border-lavender/20">
+              <Baby className="w-3 h-3 mr-1" />
+              All Ages
+            </Badge>
           </div>
         </div>
       </section>
 
       {/* Category Directory */}
-      <section className="py-16 bg-gradient-to-br from-lavender/10 to-coral/10">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold font-poppins text-teal-dark mb-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold font-poppins text-teal-dark mb-4">
               Browse by Category
             </h2>
             <p className="text-lg text-sage max-w-2xl mx-auto">
-              Choose the category that matches your current parenting stage or interest.
+              Find the guidance you need at every stage of your parenting journey
             </p>
           </div>
 
