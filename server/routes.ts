@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { searchSchema, insertNewsletterSchema, listClassSchema } from "@shared/schema";
 import { sendClassSubmissionNotification } from "./email-service";
+import { parseSmartSearch } from "./smart-search";
 // Newsletter automation temporarily disabled
 // import { sendNewsletterToAllSubscribers, sendNewsletterToSubscriber, scheduleWeeklyNewsletter } from "./newsletter-automation";
 import { z } from "zod";

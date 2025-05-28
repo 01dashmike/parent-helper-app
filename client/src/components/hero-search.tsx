@@ -21,16 +21,18 @@ interface HeroSearchProps {
 
 export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const [postcode, setPostcode] = useState("");
+  const [className, setClassName] = useState("");
   const [ageGroup, setAgeGroup] = useState<string>("all");
   const [dayOfWeek, setDayOfWeek] = useState<string>("all");
   const [radius, setRadius] = useState([5]); // Default 5 miles
   const [priceFilter, setPriceFilter] = useState<string>("all");
 
   const handleSearch = () => {
-    if (!postcode.trim()) return;
+    if (!postcode.trim() && !className.trim()) return;
     
     onSearch({
-      postcode: postcode.trim(),
+      postcode: postcode.trim() || undefined,
+      className: className.trim() || undefined,
       ageGroup: ageGroup === "all" ? undefined : ageGroup,
       dayOfWeek: dayOfWeek === "all" ? undefined : dayOfWeek,
       radius: radius[0],
@@ -81,6 +83,21 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
         {/* Search Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="md:col-span-1">
+              <Label className="block text-sm font-semibold text-gray-700 mb-2">
+                <Search className="w-4 h-4 inline text-coral mr-2" />
+                Smart Search
+              </Label>
+              <Input
+                type="text"
+                placeholder="e.g. 'Baby Sensory classes' or 'swimming for toddlers'"
+                value={className}
+                onChange={(e) => setClassName(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-coral focus:border-coral transition-all duration-200"
+              />
+            </div>
+            
             <div className="md:col-span-1">
               <Label className="block text-sm font-semibold text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline text-coral mr-2" />
