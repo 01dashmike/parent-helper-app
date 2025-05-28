@@ -47,26 +47,26 @@ function extractTown(address, postcode) {
 function categorizeActivity(searchTerm, placeName) {
   const name = (placeName + ' ' + searchTerm).toLowerCase();
   
-  // Check for Family Services first
-  if (name.includes('photo') || name.includes('keepsake') || name.includes('scan') || 
-      name.includes('portrait') || name.includes('newborn photo')) {
-    return 'Family Services';
-  }
+  // Match your exact website categories
+  if (name.includes('swim') || name.includes('water')) return 'SWIMMING';
+  if (name.includes('music') || name.includes('sing') || name.includes('song')) return 'MUSIC';
+  if (name.includes('sensory') || name.includes('baby sensory')) return 'SENSORY';
+  if (name.includes('dance') || name.includes('yoga') || name.includes('gym') || 
+      name.includes('movement') || name.includes('fitness')) return 'MOVEMENT';
+  if (name.includes('sign') || name.includes('language') || name.includes('talk') || 
+      name.includes('communication')) return 'LANGUAGE';
+  if (name.includes('art') || name.includes('craft') || name.includes('paint') || 
+      name.includes('creative')) return 'ART';
   
-  // Check for After School Clubs
-  if (name.includes('after school') || name.includes('school age') || 
-      name.includes('primary school') || name.includes('junior')) {
-    return 'After School Clubs';
-  }
+  // Default based on search term
+  if (searchTerm.includes('swimming') || searchTerm.includes('water')) return 'SWIMMING';
+  if (searchTerm.includes('music') || searchTerm.includes('sing')) return 'MUSIC';
+  if (searchTerm.includes('sensory')) return 'SENSORY';
+  if (searchTerm.includes('dance') || searchTerm.includes('yoga')) return 'MOVEMENT';
+  if (searchTerm.includes('sign') || searchTerm.includes('language')) return 'LANGUAGE';
+  if (searchTerm.includes('art') || searchTerm.includes('craft')) return 'ART';
   
-  // Check for Weekend Activities
-  if (name.includes('weekend') || name.includes('family fun') || 
-      name.includes('family activity') || name.includes('family event')) {
-    return 'Weekend Activities';
-  }
-  
-  // Default to Baby & Toddler Classes for all early years activities
-  return 'Baby & Toddler Classes';
+  return 'SENSORY'; // Default for general baby/toddler activities
 }
 
 function getAgeGroup(searchTerm) {
