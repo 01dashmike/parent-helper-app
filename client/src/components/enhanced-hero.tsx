@@ -200,7 +200,7 @@ export function EnhancedHero() {
                 {/* Quick Examples */}
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
                   <span className="text-sm text-gray-500 mr-2">Popular searches:</span>
-                  {['Baby sensory', 'Swimming lessons', 'Music classes', 'Toddler groups'].map((term) => (
+                  {['Baby sensory', 'Swimming lessons', 'Music classes', 'Toddler sense'].map((term) => (
                     <button
                       key={term}
                       onClick={() => {
