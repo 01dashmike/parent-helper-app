@@ -30,6 +30,13 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const handleSearch = () => {
     if (!postcode.trim() && !className.trim()) return;
     
+    // If only className is provided, use smart search
+    if (className.trim() && !postcode.trim()) {
+      // Use the smart search endpoint
+      window.location.href = `/smart-search?q=${encodeURIComponent(className.trim())}`;
+      return;
+    }
+    
     const searchParams: any = {
       includeInactive: false,
       radius: radius[0],
@@ -38,11 +45,6 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
     // Add postcode if provided
     if (postcode.trim()) {
       searchParams.postcode = postcode.trim();
-    }
-    
-    // Add className if provided
-    if (className.trim()) {
-      searchParams.className = className.trim();
     }
     
     // Add other filters if specified

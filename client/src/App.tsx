@@ -23,6 +23,7 @@ import AfterSchoolClubsPage from "./pages/after-school-clubs";
 import PhotographyKeepsakesPage from "./pages/photography-keepsakes";
 import AdditionalNeedsPage from "./pages/additional-needs";
 import ParentSupportGroupsPage from "./pages/parent-support-groups";
+import SmartSearchPage from "./pages/smart-search";
 
 function Router() {
   return (

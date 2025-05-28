@@ -123,18 +123,30 @@ async function getPostcodeForTown(town: string): Promise<string> {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Smart search endpoint for class names
+  app.get("/api/classes/smart-search", async (req, res) => {
+    try {
+      const classNameQuery = req.query.q as string;
+      if (!classNameQuery) {
+        return res.status(400).json({ message: "Search query is required" });
+      }
+      
+      console.log(`Smart search for: "${classNameQuery}"`);
+      const classes = await storage.searchByClassName(classNameQuery);
+      console.log(`Found ${classes.length} classes for "${classNameQuery}"`);
+      return res.json(classes);
+    } catch (error) {
+      console.error('Smart search error:', error);
+      res.status(500).json({ message: "Search failed" });
+    }
+  });
+
   // Search classes (supports both postcodes and town names)
   app.get("/api/classes/search", async (req, res) => {
     try {
       console.log('Search request query:', req.query);
       
-      // Handle empty postcode for className-only searches
-      const queryParams = { ...req.query };
-      if (!queryParams.postcode && queryParams.className) {
-        queryParams.postcode = ''; // Add empty string to satisfy validation
-      }
-      
-      let params = searchSchema.parse(queryParams);
+      let params = searchSchema.parse(req.query);
       console.log('Initial search params:', params);
       
       // Handle smart search if className is provided

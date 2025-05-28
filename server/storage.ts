@@ -729,6 +729,46 @@ class DatabaseStorage implements IStorage {
     });
   }
 
+  async searchByClassName(className: string): Promise<Class[]> {
+    console.log(`Searching for className: "${className}"`);
+    
+    const searchTerm = className.toLowerCase();
+    
+    // Create flexible search conditions for name, description, venue, and address
+    const conditions = [
+      ilike(classes.name, `%${searchTerm}%`),
+      ilike(classes.description, `%${searchTerm}%`),
+      ilike(classes.venue, `%${searchTerm}%`),
+      ilike(classes.address, `%${searchTerm}%`),
+      ilike(classes.town, `%${searchTerm}%`)
+    ];
+    
+    // Only show active classes
+    const whereCondition = and(
+      eq(classes.isActive, true),
+      or(...conditions)
+    );
+    
+    const results = await db.select().from(classes).where(whereCondition);
+    console.log(`Found ${results.length} results for className search`);
+    
+    // Sort with Baby Sensory classes first
+    return results.sort((a, b) => {
+      const aSensory = a.name.toLowerCase().includes('baby sensory') || a.name.toLowerCase().includes('toddler sense');
+      const bSensory = b.name.toLowerCase().includes('baby sensory') || b.name.toLowerCase().includes('toddler sense');
+      
+      if (aSensory !== bSensory) {
+        return aSensory ? -1 : 1;
+      }
+      
+      if (a.isFeatured !== b.isFeatured) {
+        return a.isFeatured ? -1 : 1;
+      }
+      
+      return (parseFloat(b.rating || '0') || b.popularity || 0) - (parseFloat(a.rating || '0') || a.popularity || 0);
+    });
+  }
+
   async createClass(classData: InsertClass): Promise<Class> {
     const result = await db.insert(classes).values(classData).returning();
     return result[0];
