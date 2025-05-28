@@ -24,6 +24,7 @@ import PhotographyKeepsakesPage from "./pages/photography-keepsakes";
 import AdditionalNeedsPage from "./pages/additional-needs";
 import ParentSupportGroupsPage from "./pages/parent-support-groups";
 import SmartSearchPage from "./pages/smart-search";
+import ProviderDashboard from "./pages/provider-dashboard";
 
 function Router() {
   return (
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/smart-search" component={SmartSearchPage} />
       <Route path="/list-class" component={ListClass} />
       <Route path="/newsletter-admin" component={NewsletterAdmin} />
+      <Route path="/provider-dashboard" component={ProviderDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -2,12 +2,21 @@ import {
   classes, 
   newsletters, 
   blogPosts,
+  providers,
+  bookingRequests,
+  bookings,
   type Class, 
   type InsertClass,
   type Newsletter,
   type InsertNewsletter,
   type BlogPost,
   type InsertBlogPost,
+  type Provider,
+  type InsertProvider,
+  type BookingRequest,
+  type InsertBookingRequest,
+  type Booking,
+  type InsertBooking,
   type SearchParams
 } from "@shared/schema";
 
@@ -37,6 +46,17 @@ export interface IStorage {
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
   updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
   deleteBlogPost(id: number): Promise<boolean>;
+
+  // Booking System
+  createProvider(provider: InsertProvider): Promise<Provider>;
+  getProvider(id: number): Promise<Provider | undefined>;
+  createBookingRequest(request: InsertBookingRequest): Promise<BookingRequest>;
+  getBookingRequest(id: number): Promise<BookingRequest | undefined>;
+  getBookingRequests(): Promise<BookingRequest[]>;
+  updateBookingRequestStatus(id: number, status: string, response?: string): Promise<void>;
+  createBooking(booking: InsertBooking): Promise<Booking>;
+  getBooking(id: number): Promise<Booking | undefined>;
+  getBookings(): Promise<Booking[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -847,6 +867,56 @@ class DatabaseStorage implements IStorage {
   async deleteBlogPost(id: number): Promise<boolean> {
     const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
     return result.rowCount > 0;
+  }
+
+  // Revolutionary Booking System Storage Methods
+  
+  async createProvider(provider: InsertProvider): Promise<Provider> {
+    const result = await db.insert(providers).values(provider).returning();
+    return result[0];
+  }
+
+  async getProvider(id: number): Promise<Provider | undefined> {
+    const result = await db.select().from(providers).where(eq(providers.id, id));
+    return result[0];
+  }
+
+  async createBookingRequest(request: InsertBookingRequest): Promise<BookingRequest> {
+    const result = await db.insert(bookingRequests).values(request).returning();
+    return result[0];
+  }
+
+  async getBookingRequest(id: number): Promise<BookingRequest | undefined> {
+    const result = await db.select().from(bookingRequests).where(eq(bookingRequests.id, id));
+    return result[0];
+  }
+
+  async getBookingRequests(): Promise<BookingRequest[]> {
+    return await db.select().from(bookingRequests);
+  }
+
+  async updateBookingRequestStatus(id: number, status: string, response?: string): Promise<void> {
+    await db.update(bookingRequests)
+      .set({ 
+        status, 
+        providerResponse: response,
+        respondedAt: new Date()
+      })
+      .where(eq(bookingRequests.id, id));
+  }
+
+  async createBooking(booking: InsertBooking): Promise<Booking> {
+    const result = await db.insert(bookings).values(booking).returning();
+    return result[0];
+  }
+
+  async getBooking(id: number): Promise<Booking | undefined> {
+    const result = await db.select().from(bookings).where(eq(bookings.id, id));
+    return result[0];
+  }
+
+  async getBookings(): Promise<Booking[]> {
+    return await db.select().from(bookings);
   }
 }
 

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { searchSchema, insertNewsletterSchema, listClassSchema } from "@shared/schema";
+import { searchSchema, insertNewsletterSchema, listClassSchema, bookingFormSchema, insertBookingRequestSchema } from "@shared/schema";
 import { sendClassSubmissionNotification } from "./email-service";
 import { parseSmartSearch } from "./smart-search";
 // Newsletter automation temporarily disabled
@@ -636,6 +636,162 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error submitting class listing:", error);
       res.status(400).json({ 
         error: error.message || "Failed to submit class listing" 
+      });
+    }
+  });
+
+  // Revolutionary Booking System API Routes
+  
+  // Create booking request (handles both instant booking and availability checks)
+  app.post("/api/booking-requests", async (req, res) => {
+    try {
+      const bookingData = bookingFormSchema.parse(req.body);
+      const { classId } = req.body;
+
+      // Get class details
+      const classItem = await storage.getClass(classId);
+      if (!classItem) {
+        return res.status(404).json({ message: "Class not found" });
+      }
+
+      // Calculate pricing
+      let totalAmount = 0;
+      if (bookingData.bookingType === 'block' && classItem.blockBookingAvailable && classItem.blockBookingPrice) {
+        totalAmount = Number(classItem.blockBookingPrice);
+      } else {
+        totalAmount = Number(classItem.bookingPrice || 0) * bookingData.sessionsRequested;
+      }
+
+      const commissionRate = 0.07; // 7% commission
+      const commissionAmount = totalAmount * commissionRate;
+      const providerAmount = totalAmount - commissionAmount;
+
+      // Create booking request
+      const bookingRequest = await storage.createBookingRequest({
+        classId,
+        providerId: classItem.providerId || 0,
+        parentName: bookingData.parentName,
+        parentEmail: bookingData.parentEmail,
+        parentPhone: bookingData.parentPhone,
+        parentWhatsapp: bookingData.parentWhatsapp,
+        childName: bookingData.childName,
+        childAge: bookingData.childAge,
+        bookingType: bookingData.bookingType,
+        sessionsRequested: bookingData.sessionsRequested,
+        preferredDate: new Date(bookingData.preferredDate),
+        specialRequirements: bookingData.specialRequirements,
+        totalAmount: totalAmount.toString(),
+        commissionAmount: commissionAmount.toString(),
+        providerAmount: providerAmount.toString(),
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      });
+
+      // For instant bookings, auto-approve and create booking
+      if (classItem.bookingType === 'instant') {
+        const confirmationCode = `PH${Date.now().toString().slice(-6)}`;
+        
+        const booking = await storage.createBooking({
+          bookingRequestId: bookingRequest.id,
+          classId,
+          providerId: classItem.providerId || 0,
+          parentName: bookingData.parentName,
+          parentEmail: bookingData.parentEmail,
+          childName: bookingData.childName,
+          sessionDate: new Date(bookingData.preferredDate),
+          sessionsBooked: bookingData.sessionsRequested,
+          totalPaid: totalAmount.toString(),
+          confirmationCode,
+        });
+
+        return res.json({
+          success: true,
+          type: 'instant',
+          confirmationCode,
+          bookingId: booking.id,
+          message: 'Booking confirmed instantly!'
+        });
+      }
+
+      // For availability checks, send notification to provider
+      // TODO: Send WhatsApp/Email notification to provider
+      
+      res.json({
+        success: true,
+        type: 'inquiry',
+        requestId: bookingRequest.id,
+        message: 'Availability check sent to provider. You\'ll hear back within 2 hours.'
+      });
+
+    } catch (error: any) {
+      console.error('Booking request error:', error);
+      res.status(500).json({ 
+        message: error.message || "Failed to process booking request" 
+      });
+    }
+  });
+
+  // Get booking requests for a provider
+  app.get("/api/provider/booking-requests", async (req, res) => {
+    try {
+      // TODO: Add provider authentication
+      const requests = await storage.getBookingRequests();
+      res.json(requests);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch booking requests" });
+    }
+  });
+
+  // Approve/decline booking request
+  app.post("/api/booking-requests/:id/respond", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { action, response } = req.body; // 'approve' or 'decline'
+
+      const bookingRequest = await storage.getBookingRequest(Number(id));
+      if (!bookingRequest) {
+        return res.status(404).json({ message: "Booking request not found" });
+      }
+
+      if (action === 'approve') {
+        const confirmationCode = `PH${Date.now().toString().slice(-6)}`;
+        
+        const booking = await storage.createBooking({
+          bookingRequestId: bookingRequest.id,
+          classId: bookingRequest.classId,
+          providerId: bookingRequest.providerId,
+          parentName: bookingRequest.parentName,
+          parentEmail: bookingRequest.parentEmail,
+          childName: bookingRequest.childName,
+          sessionDate: bookingRequest.preferredDate!,
+          sessionsBooked: bookingRequest.sessionsRequested,
+          totalPaid: bookingRequest.totalAmount,
+          confirmationCode,
+        });
+
+        await storage.updateBookingRequestStatus(Number(id), 'approved', response);
+        
+        // TODO: Send confirmation email to parent
+        
+        res.json({
+          success: true,
+          message: 'Booking approved and confirmed',
+          confirmationCode,
+          bookingId: booking.id
+        });
+      } else {
+        await storage.updateBookingRequestStatus(Number(id), 'declined', response);
+        
+        // TODO: Send decline notification to parent
+        
+        res.json({
+          success: true,
+          message: 'Booking request declined'
+        });
+      }
+
+    } catch (error: any) {
+      res.status(500).json({ 
+        message: error.message || "Failed to respond to booking request" 
       });
     }
   });
