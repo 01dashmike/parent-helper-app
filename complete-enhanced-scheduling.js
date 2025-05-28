@@ -217,8 +217,8 @@ class CompleteEnhancedScheduling {
         session_type = $4,
         age_specific_session = $5,
         time_category = $6,
-        typical_day = $7,
-        typical_time = $8
+        day_of_week = $7,
+        time = $8
       WHERE id = $9
     `;
 
@@ -238,11 +238,11 @@ class CompleteEnhancedScheduling {
   async createAdditionalSession(classItem, session, sessionGroupId, weeklySchedule, sessionCount) {
     const query = `
       INSERT INTO classes (
-        name, venue_name, address, postcode, town, category, subcategory,
-        company_name, phone, email, website, description, age_range,
-        pricing, is_free, typical_day, typical_time, session_group_id,
-        primary_session, session_count, weekly_schedule_summary,
-        session_type, age_specific_session, time_category, is_active
+        name, venue, address, postcode, town, category, subcategory,
+        phone, email, website, description, price, is_featured,
+        day_of_week, time, session_group_id, primary_session, session_count, 
+        weekly_schedule_summary, session_type, age_specific_session, time_category, 
+        is_active, age_group_min, age_group_max
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
         $16, $17, $18, $19, $20, $21, $22, $23, $24, $25
@@ -251,20 +251,18 @@ class CompleteEnhancedScheduling {
 
     await this.client.query(query, [
       classItem.name,
-      classItem.venue_name,
+      classItem.venue,
       classItem.address,
       classItem.postcode,
       classItem.town,
       classItem.category,
       classItem.subcategory,
-      classItem.company_name,
       classItem.phone,
       classItem.email,
       classItem.website,
       classItem.description,
-      session.ageSpecific,
-      classItem.pricing,
-      classItem.is_free,
+      classItem.price,
+      classItem.is_featured,
       session.day,
       session.time,
       sessionGroupId,
@@ -274,7 +272,9 @@ class CompleteEnhancedScheduling {
       session.sessionType,
       session.ageSpecific,
       session.sessionType,
-      true
+      true, // is_active
+      classItem.age_group_min,
+      classItem.age_group_max
     ]);
   }
 
