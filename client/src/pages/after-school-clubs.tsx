@@ -79,8 +79,7 @@ export default function AfterSchoolClubsPage() {
               </div>
             </form>
           </div>
-        </div>
-      </div>
+      </section>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
