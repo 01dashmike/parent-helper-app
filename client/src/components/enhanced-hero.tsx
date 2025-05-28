@@ -230,7 +230,7 @@ export function EnhancedHero() {
               </div>
               <div className="text-center">
                 <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">4.8★</div>
-                <div className="text-gray-600 font-medium">Average Rating</div>
+                <div className="text-gray-600 font-medium">Average Class Rating</div>
               </div>
             </div>
           </div>
