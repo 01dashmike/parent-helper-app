@@ -1,5 +1,5 @@
-const { Pool } = require('pg');
-const puppeteer = require('puppeteer');
+import { Pool } from 'pg';
+import puppeteer from 'puppeteer';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -313,8 +313,8 @@ async function runAuthenticSchedulingScraper() {
 }
 
 // Run if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   runAuthenticSchedulingScraper().catch(console.error);
 }
 
-module.exports = { AuthenticSchedulingScraper };
+export { AuthenticSchedulingScraper };
