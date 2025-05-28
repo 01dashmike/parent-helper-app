@@ -39,7 +39,7 @@ async function syncEnhancedToAirtable() {
       
       // Look for this business in our database with complete address data
       const result = await client.query(`
-        SELECT name, address, venue, postcode, town, category, age_range, pricing, phone, email, website
+        SELECT name, address, venue, postcode, age_group_min, age_group_max, price, contact_phone, contact_email, website
         FROM classes 
         WHERE name ILIKE $1 AND address IS NOT NULL AND address != '' AND address != 'Unknown'
         LIMIT 1
@@ -53,12 +53,12 @@ async function syncEnhancedToAirtable() {
         if (data.address) updateFields['Full_Address'] = data.address;
         if (data.venue) updateFields['Venue_Name'] = data.venue;
         if (data.postcode) updateFields['Postcode'] = data.postcode;
-        if (data.town) updateFields['Town'] = data.town;
-        if (data.category) updateFields['Category'] = data.category;
-        if (data.age_range) updateFields['Age_Groups'] = data.age_range;
-        if (data.pricing) updateFields['Pricing'] = data.pricing;
-        if (data.phone) updateFields['Phone'] = data.phone;
-        if (data.email) updateFields['Email'] = data.email;
+        if (data.age_group_min && data.age_group_max) {
+          updateFields['Age_Groups'] = `${data.age_group_min}-${data.age_group_max} months`;
+        }
+        if (data.price) updateFields['Pricing'] = data.price;
+        if (data.contact_phone) updateFields['Phone'] = data.contact_phone;
+        if (data.contact_email) updateFields['Email'] = data.contact_email;
         if (data.website) updateFields['Website'] = data.website;
 
         if (Object.keys(updateFields).length > 0) {
