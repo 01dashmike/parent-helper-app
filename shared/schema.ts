@@ -82,7 +82,7 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
 });
 
 export const searchSchema = z.object({
-  postcode: z.string().optional(),
+  postcode: z.string().default(""),
   className: z.string().optional(), // Smart search by class name
   ageGroup: z.string().optional(),
   category: z.string().optional(),
@@ -91,7 +91,12 @@ export const searchSchema = z.object({
   dayOfWeek: z.string().optional(), // Monday, Tuesday, etc.
   radius: z.coerce.number().default(10),
   includeInactive: z.coerce.boolean().default(false),
-});
+}).refine(
+  (data) => data.postcode || data.className,
+  {
+    message: "Either postcode or className must be provided",
+  }
+);
 
 // Schema for "List Your Class" form
 export const listClassSchema = z.object({

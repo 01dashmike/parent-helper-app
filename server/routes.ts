@@ -127,7 +127,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/classes/search", async (req, res) => {
     try {
       console.log('Search request query:', req.query);
-      let params = searchSchema.parse(req.query);
+      
+      // Handle empty postcode for className-only searches
+      const queryParams = { ...req.query };
+      if (!queryParams.postcode && queryParams.className) {
+        queryParams.postcode = ''; // Add empty string to satisfy validation
+      }
+      
+      let params = searchSchema.parse(queryParams);
       console.log('Initial search params:', params);
       
       // Handle smart search if className is provided

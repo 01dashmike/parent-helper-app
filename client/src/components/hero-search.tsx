@@ -30,7 +30,7 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const handleSearch = () => {
     if (!postcode.trim() && !className.trim()) return;
     
-    const searchParams = {
+    const searchParams: any = {
       includeInactive: false,
       radius: radius[0],
     };
