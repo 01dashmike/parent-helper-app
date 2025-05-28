@@ -5,7 +5,9 @@ import Newsletter from "@/components/newsletter";
 import Footer from "@/components/footer";
 import { useSearch } from "@/hooks/use-search";
 import { Button } from "@/components/ui/button";
-import { Camera, Heart, Baby, Palette, Gift, Star } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Camera, Heart, Baby, Palette, Gift, Star, ArrowRight, Sparkles } from "lucide-react";
 
 export default function Services() {
   const { searchResults, isLoading, searchParams, performSearch } = useSearch();
@@ -66,42 +68,71 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-warm-gray">
+    <div className="min-h-screen bg-cream">
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-teal-50 to-purple-50 py-16">
+      <section className="bg-gradient-to-br from-sage/10 via-lavender/10 to-coral/10 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Family Services & Specialists
+          <div className="inline-flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-coral mr-2" />
+            <span className="text-sm font-medium text-teal-dark">Professional Family Services</span>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold font-poppins text-teal-dark mb-6 leading-tight">
+            Family Services & 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral to-sage"> Specialists</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          
+          <p className="text-xl text-sage mb-8 max-w-3xl mx-auto leading-relaxed">
             Discover trusted family photographers, bespoke baby services, and specialized providers 
-            to capture and celebrate your precious moments
+            to capture and celebrate your precious moments across England
           </p>
+          
+          <div className="flex flex-wrap justify-center gap-3">
+            <Badge variant="secondary" className="bg-coral/10 text-coral border-coral/20">
+              Photography & Portraits
+            </Badge>
+            <Badge variant="secondary" className="bg-sage/10 text-sage border-sage/20">
+              Baby Keepsakes
+            </Badge>
+            <Badge variant="secondary" className="bg-lavender/10 text-lavender border-lavender/20">
+              Health & Wellness
+            </Badge>
+          </div>
         </div>
       </section>
 
       {/* Service Categories */}
-      <section className="py-16">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Browse Service Categories</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold font-poppins text-teal-dark mb-4">
+              Browse Service Categories
+            </h2>
+            <p className="text-lg text-sage max-w-2xl mx-auto">
+              From capturing precious moments to creating lasting memories, find the perfect specialists for your family
+            </p>
+          </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviceCategories.map((service, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className={`w-16 h-16 rounded-full ${service.color} flex items-center justify-center mb-4`}>
-                  {service.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
-                <Button 
-                  onClick={() => handleCategorySearch(service.category)}
-                  className="w-full bg-teal-600 hover:bg-teal-700"
-                >
-                  Find {service.title}
-                </Button>
-              </div>
+              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <CardContent className="p-8">
+                  <div className={`w-16 h-16 rounded-2xl ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold font-poppins text-teal-dark mb-3">{service.title}</h3>
+                  <p className="text-sage mb-6 leading-relaxed">{service.description}</p>
+                  <Button 
+                    onClick={() => handleCategorySearch(service.category)}
+                    className="w-full bg-gradient-to-r from-coral to-coral/90 hover:from-coral/90 hover:to-coral text-white rounded-xl font-medium group-hover:shadow-lg transition-all duration-300"
+                  >
+                    Find {service.title}
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Button>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

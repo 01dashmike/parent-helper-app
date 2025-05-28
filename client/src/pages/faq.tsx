@@ -1,11 +1,14 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { HelpCircle, MessageSquare, Heart } from "lucide-react";
 
 const faqItems = [
   {
@@ -52,38 +55,63 @@ const faqItems = [
 
 export default function FAQ() {
   return (
-    <div className="min-h-screen bg-warm-gray">
+    <div className="min-h-screen bg-cream">
       <Header />
       
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl font-bold font-poppins text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h1>
-            <p className="text-xl text-gray-600">
-              Everything you need to know about finding and booking classes for your little one.
-            </p>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-sage/10 via-lavender/10 to-coral/10 py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+            <HelpCircle className="w-4 h-4 text-coral mr-2" />
+            <span className="text-sm font-medium text-teal-dark">Help & Support</span>
           </div>
           
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqItems.map((item, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`}
-                className="bg-warm-gray rounded-2xl border-none"
-              >
-                <AccordionTrigger className="text-left p-6 hover:no-underline">
-                  <h3 className="text-lg font-semibold text-gray-900 pr-4">
-                    {item.question}
-                  </h3>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-6 text-gray-600">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <h1 className="text-4xl md:text-6xl font-bold font-poppins text-teal-dark mb-6 leading-tight">
+            Frequently Asked 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral to-sage"> Questions</span>
+          </h1>
+          
+          <p className="text-xl text-sage mb-8 max-w-3xl mx-auto leading-relaxed">
+            Everything you need to know about finding and booking the perfect classes for your little one across England
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-3">
+            <Badge variant="secondary" className="bg-coral/10 text-coral border-coral/20">
+              <MessageSquare className="w-3 h-3 mr-1" />
+              Quick Answers
+            </Badge>
+            <Badge variant="secondary" className="bg-sage/10 text-sage border-sage/20">
+              <Heart className="w-3 h-3 mr-1" />
+              Parent Friendly
+            </Badge>
+          </div>
+        </div>
+      </section>
+      
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="border-none shadow-xl">
+            <CardContent className="p-8">
+              <Accordion type="single" collapsible className="space-y-6">
+                {faqItems.map((item, index) => (
+                  <AccordionItem 
+                    key={index} 
+                    value={`item-${index}`}
+                    className="bg-gradient-to-r from-sage/5 to-coral/5 rounded-2xl border-none px-6 py-2"
+                  >
+                    <AccordionTrigger className="text-left hover:no-underline py-6 group">
+                      <h3 className="text-lg font-semibold font-poppins text-teal-dark pr-4 group-hover:text-coral transition-colors duration-300">
+                        {item.question}
+                      </h3>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-6 pb-6 text-sage leading-relaxed">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
         </div>
       </section>
       
