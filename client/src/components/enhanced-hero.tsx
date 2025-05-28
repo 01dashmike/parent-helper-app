@@ -128,9 +128,9 @@ export function EnhancedHero() {
             {/* Search Section */}
             <div className="max-w-4xl mx-auto mb-16">
               <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 sm:p-8">
-                <div className="flex flex-col lg:flex-row gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
                   {/* Activity Search */}
-                  <div className="flex-1 relative">
+                  <div className="lg:col-span-2 relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <Input
                       type="text"
@@ -138,14 +138,14 @@ export function EnhancedHero() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      className="pl-12 h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                      className="pl-12 h-16 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     />
                   </div>
 
                   {/* Day of Week Selector */}
-                  <div className="lg:w-48 relative">
+                  <div className="relative">
                     <Select value={selectedDay} onValueChange={setSelectedDay}>
-                      <SelectTrigger className="h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                      <SelectTrigger className="h-16 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500">
                         <Calendar className="w-5 h-5 text-gray-400 mr-2" />
                         <SelectValue placeholder="Any day" />
                       </SelectTrigger>
@@ -163,7 +163,7 @@ export function EnhancedHero() {
                   </div>
 
                   {/* Location Search */}
-                  <div className="lg:w-80 relative">
+                  <div className="relative">
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <Input
                       type="text"
@@ -184,11 +184,13 @@ export function EnhancedHero() {
                       <Locate className={`w-4 h-4 text-purple-600 ${isLocating ? 'animate-pulse' : ''}`} />
                     </Button>
                   </div>
+                </div>
 
-                  {/* Search Button */}
+                {/* Search Button - Full width below */}
+                <div className="mt-4">
                   <Button 
                     onClick={handleSearch}
-                    className="h-14 px-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="w-full h-16 px-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
                   >
                     Search
                     <ArrowRight className="ml-2 w-5 h-5" />
