@@ -10,19 +10,13 @@ const base = new Airtable({
 
 const table = base('tblDcOhMjN0kb8dk4');
 
-async function isExactSessionInAirtable(businessName, venueName, dayOfWeek, timeSlot) {
+async function isBusinessInAirtable(businessName, venueName) {
   try {
-    // Check for exact match: same business, venue, day AND time
+    // Check for business and venue combination
     let formula = `AND({Business_Name} = "${businessName.replace(/"/g, '\\"')}"`;
     
     if (venueName) {
       formula += `, {Venue_Name} = "${venueName.replace(/"/g, '\\"')}"`;
-    }
-    if (dayOfWeek) {
-      formula += `, {Day_of_Week} = "${dayOfWeek.replace(/"/g, '\\"')}"`;
-    }
-    if (timeSlot) {
-      formula += `, {Time_Slot} = "${timeSlot.replace(/"/g, '\\"')}"`;
     }
     
     formula += ')';
@@ -34,7 +28,7 @@ async function isExactSessionInAirtable(businessName, venueName, dayOfWeek, time
     
     return records.length > 0;
   } catch (error) {
-    console.log(`Error checking session ${businessName}: ${error.message}`);
+    console.log(`Error checking ${businessName}: ${error.message}`);
     return true; // Assume exists to avoid duplicates if error
   }
 }
@@ -69,35 +63,21 @@ async function syncStagingToAirtable() {
       const businessName = business.business_name;
       console.log(`\nChecking: ${businessName}`);
 
-      // Check if this exact session already exists in Airtable
-      const exists = await isExactSessionInAirtable(
-        businessName, 
-        business.venue_name, 
-        business.day_of_week, 
-        business.time_slot
-      );
+      // Check if business already exists in Airtable
+      const exists = await isBusinessInAirtable(businessName, business.venue_name);
       
       if (exists) {
-        console.log(`⚠️  Session already exists: ${businessName} - ${business.day_of_week} ${business.time_slot}`);
+        console.log(`⚠️  Already exists: ${businessName}`);
         skipped++;
       } else {
-        // Add new business to Airtable
+        // Add new business to Airtable with correct field names
         const airtableFields = {
           'Business_Name': business.business_name,
           'Full_Address': business.full_address || '',
           'Venue_Name': business.venue_name || '',
           'Postcode': business.postcode || '',
           'Town': business.town || '',
-          'Category': business.category || '',
-          'Age_Groups': business.age_groups || '',
-          'Pricing': business.pricing || '',
-          'Phone': business.phone || '',
-          'Email': business.email || '',
-          'Website': business.website || '',
-          'Featured': business.featured || false,
-          'Description': business.description || '',
-          'Day_of_Week': business.day_of_week || '',
-          'Time_Slot': business.time_slot || ''
+          'Category': business.category || ''
         };
 
         try {
