@@ -46,6 +46,7 @@ function Router() {
       <Route path="/blog/weaning-guide" component={BlogWeaningGuide} />
       <Route path="/blog/newborn-behavior" component={BlogNewbornBehavior} />
       <Route path="/faq" component={FAQ} />
+      <Route path="/smart-search" component={SmartSearchPage} />
       <Route path="/list-class" component={ListClass} />
       <Route path="/newsletter-admin" component={NewsletterAdmin} />
       <Route component={NotFound} />
