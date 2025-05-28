@@ -30,15 +30,35 @@ export default function HeroSearch({ onSearch, isLoading }: HeroSearchProps) {
   const handleSearch = () => {
     if (!postcode.trim() && !className.trim()) return;
     
-    onSearch({
-      postcode: postcode.trim() || undefined,
-      className: className.trim() || undefined,
-      ageGroup: ageGroup === "all" ? undefined : ageGroup,
-      dayOfWeek: dayOfWeek === "all" ? undefined : dayOfWeek,
-      radius: radius[0],
-      priceFilter: priceFilter === "all" ? undefined : priceFilter,
+    const searchParams = {
       includeInactive: false,
-    });
+      radius: radius[0],
+    };
+    
+    // Add postcode if provided
+    if (postcode.trim()) {
+      searchParams.postcode = postcode.trim();
+    }
+    
+    // Add className if provided
+    if (className.trim()) {
+      searchParams.className = className.trim();
+    }
+    
+    // Add other filters if specified
+    if (ageGroup !== "all") {
+      searchParams.ageGroup = ageGroup;
+    }
+    
+    if (dayOfWeek !== "all") {
+      searchParams.dayOfWeek = dayOfWeek;
+    }
+    
+    if (priceFilter !== "all") {
+      searchParams.priceFilter = priceFilter;
+    }
+    
+    onSearch(searchParams);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
