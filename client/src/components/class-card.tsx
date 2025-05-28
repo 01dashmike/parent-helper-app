@@ -221,27 +221,29 @@ export default function ClassCard({ classItem }: ClassCardProps) {
             </div>
           )}
           
-          <div className="flex justify-between items-center">
+          <div className="space-y-3">
             <p className="text-sm text-gray-600 flex items-center">
               <Building className="w-4 h-4 mr-1" />
               {classItem.venue}
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button 
                 variant="outline"
                 size="sm"
-                className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                className="border-blue-500 text-blue-600 hover:bg-blue-50 flex-1 sm:flex-none"
                 onClick={handleDirections}
               >
                 <Navigation className="w-4 h-4 mr-1" />
                 Directions
               </Button>
-              <WhatsAppButton 
-                classItem={classItem} 
-                variant={isPremiumSensory ? "direct" : "concierge"}
-              />
+              <div className="flex-1 sm:flex-none">
+                <WhatsAppButton 
+                  classItem={classItem} 
+                  variant={isPremiumSensory ? "direct" : "concierge"}
+                />
+              </div>
               <Button 
-                className="bg-coral hover:bg-coral/90 text-white"
+                className="bg-coral hover:bg-coral/90 text-white flex-1 sm:flex-none"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? 'Hide Details' : 'View Details'}
