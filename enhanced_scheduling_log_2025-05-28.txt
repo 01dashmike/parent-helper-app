@@ -1,0 +1,7 @@
+2025-05-28T19:04:21.859Z: System initialized
+2025-05-28T19:04:21.861Z: 
+🔄 Processing batch 1...
+2025-05-28T19:04:21.955Z: ❌ Batch processing error: column "venue_name" does not exist
+2025-05-28T19:04:21.956Z: ❌ Batch 1 failed (attempt 1): column "venue_name" does not exist
+2025-05-28T19:04:27.038Z: ❌ Batch processing error: column "venue_name" does not exist
+2025-05-28T19:04:27.039Z: ❌ Batch 1 failed (attempt 2): column "venue_name" does not exist
