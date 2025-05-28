@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Baby, MapPin, Clock, Star, Building, Star as StarFilled, Car, Bus, Accessibility } from "lucide-react";
+import { Baby, MapPin, Clock, Star, Building, Star as StarFilled, Car, Bus, Accessibility, Navigation } from "lucide-react";
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import { useState } from "react";
@@ -58,6 +58,15 @@ export default function ClassCard({ classItem }: ClassCardProps) {
     };
     
     return imageMap[category] || imageMap.sensory;
+  };
+
+  const handleDirections = () => {
+    // Create Google Maps directions URL
+    const destination = `${classItem.address}, ${classItem.postcode}`;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+    
+    // Open in new tab
+    window.open(mapsUrl, '_blank');
   };
 
   // Check if this is a premium sensory class
@@ -204,6 +213,15 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               {classItem.venue}
             </p>
             <div className="flex gap-2">
+              <Button 
+                variant="outline"
+                size="sm"
+                className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                onClick={handleDirections}
+              >
+                <Navigation className="w-4 h-4 mr-1" />
+                Directions
+              </Button>
               <WhatsAppButton 
                 classItem={classItem} 
                 variant={isPremiumSensory ? "direct" : "concierge"}
