@@ -229,8 +229,8 @@ export function EnhancedHero() {
                 <div className="text-gray-600 font-medium">Online Booking</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">98%</div>
-                <div className="text-gray-600 font-medium">Parent Satisfaction</div>
+                <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">4.8★</div>
+                <div className="text-gray-600 font-medium">Average Rating</div>
               </div>
             </div>
           </div>
