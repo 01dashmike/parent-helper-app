@@ -130,6 +130,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let params = searchSchema.parse(req.query);
       console.log('Initial search params:', params);
       
+      // Handle smart search if className is provided
+      if (params.className) {
+        const smartSearchResult = parseSmartSearch(params.className);
+        console.log('Smart search result:', smartSearchResult);
+        
+        // Apply smart search results to params
+        if (smartSearchResult.category && !params.category) {
+          params.category = smartSearchResult.category;
+        }
+        if (smartSearchResult.ageGroup && !params.ageGroup) {
+          params.ageGroup = smartSearchResult.ageGroup;
+        }
+        
+        console.log('Enhanced params after smart search:', params);
+      }
+      
       // If postcode doesn't look like a postcode, try to find it as a town name
       if (params.postcode) {
         const postcodePattern = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
