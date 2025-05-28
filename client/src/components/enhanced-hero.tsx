@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, MapPin, Clock, Star, ArrowRight, Calendar } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, MapPin, Clock, Star, ArrowRight, Calendar, Locate } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,15 @@ export function EnhancedHero() {
   const [searchQuery, setSearchQuery] = useState('');
   const [postcode, setPostcode] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+
+  // Auto-populate location on component mount
+  useEffect(() => {
+    const savedLocation = localStorage.getItem('userLocation');
+    if (savedLocation && !postcode) {
+      setPostcode(savedLocation);
+    }
+  }, []);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -33,6 +42,50 @@ export function EnhancedHero() {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
+    }
+  };
+
+  const getCurrentLocation = async () => {
+    setIsLocating(true);
+    
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by this browser');
+      setIsLocating(false);
+      return;
+    }
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      
+      // Convert coordinates to postcode/town using reverse geocoding
+      const response = await fetch(
+        `https://api.postcodes.io/postcodes?lon=${longitude}&lat=${latitude}`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.result && data.result.length > 0) {
+          const nearestPostcode = data.result[0].postcode;
+          setPostcode(nearestPostcode);
+          localStorage.setItem('userLocation', nearestPostcode);
+        }
+      } else {
+        // Fallback: use approximate location
+        setPostcode(`${latitude.toFixed(3)},${longitude.toFixed(3)}`);
+      }
+    } catch (error) {
+      console.error('Error getting location:', error);
+      alert('Unable to get your location. Please enter your postcode manually.');
+    } finally {
+      setIsLocating(false);
     }
   };
 
@@ -118,8 +171,18 @@ export function EnhancedHero() {
                       value={postcode}
                       onChange={(e) => setPostcode(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      className="pl-12 h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                      className="pl-12 pr-12 h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-12 w-10 p-0 hover:bg-purple-50"
+                      onClick={getCurrentLocation}
+                      disabled={isLocating}
+                    >
+                      <Locate className={`w-4 h-4 text-purple-600 ${isLocating ? 'animate-pulse' : ''}`} />
+                    </Button>
                   </div>
 
                   {/* Search Button */}
