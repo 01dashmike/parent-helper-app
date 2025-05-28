@@ -15,10 +15,10 @@ export default function SmartSearchPage() {
   }, []);
 
   const { data: classes, isLoading, error } = useQuery({
-    queryKey: ["/api/classes/smart-search", searchQuery],
+    queryKey: ["/api/smart-search", searchQuery],
     queryFn: async () => {
       if (!searchQuery) return [];
-      const response = await fetch(`/api/classes/smart-search?q=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`/api/smart-search?q=${encodeURIComponent(searchQuery)}`);
       if (!response.ok) {
         throw new Error('Search failed');
       }

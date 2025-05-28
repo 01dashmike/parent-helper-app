@@ -124,7 +124,7 @@ async function getPostcodeForTown(town: string): Promise<string> {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Smart search endpoint for class names
-  app.get("/api/classes/smart-search", async (req, res) => {
+  app.get("/api/smart-search", async (req, res) => {
     try {
       const classNameQuery = req.query.q as string;
       if (!classNameQuery) {
