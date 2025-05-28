@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Search, MapPin, Clock, Star, ArrowRight } from 'lucide-react';
+import { Search, MapPin, Clock, Star, ArrowRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollingCategories } from './scrolling-categories';
 import { useLocation } from 'wouter';
 
@@ -10,12 +11,17 @@ export function EnhancedHero() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [postcode, setPostcode] = useState('');
+  const [selectedDay, setSelectedDay] = useState('');
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      const query = postcode.trim() 
-        ? `${searchQuery} ${postcode}` 
-        : searchQuery;
+      let query = searchQuery.trim();
+      if (postcode.trim()) {
+        query += ` ${postcode.trim()}`;
+      }
+      if (selectedDay && selectedDay !== 'any') {
+        query += ` ${selectedDay}`;
+      }
       setLocation(`/smart-search?q=${encodeURIComponent(query)}`);
     }
   };
@@ -81,6 +87,26 @@ export function EnhancedHero() {
                       onKeyPress={handleKeyPress}
                       className="pl-12 h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     />
+                  </div>
+
+                  {/* Day of Week Selector */}
+                  <div className="lg:w-48 relative">
+                    <Select value={selectedDay} onValueChange={setSelectedDay}>
+                      <SelectTrigger className="h-14 text-lg border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                        <Calendar className="w-5 h-5 text-gray-400 mr-2" />
+                        <SelectValue placeholder="Any day" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any day</SelectItem>
+                        <SelectItem value="Monday">Monday</SelectItem>
+                        <SelectItem value="Tuesday">Tuesday</SelectItem>
+                        <SelectItem value="Wednesday">Wednesday</SelectItem>
+                        <SelectItem value="Thursday">Thursday</SelectItem>
+                        <SelectItem value="Friday">Friday</SelectItem>
+                        <SelectItem value="Saturday">Saturday</SelectItem>
+                        <SelectItem value="Sunday">Sunday</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Location Search */}
