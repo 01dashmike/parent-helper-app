@@ -8,7 +8,7 @@ import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Ban
 import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 import WhatsAppButton from "./whatsapp-button";
 import InstagramGallery from "./instagram-gallery";
-import { BookingSystem } from "./booking-system";
+import { BookingButton } from "./booking-button";
 
 interface ClassCardProps {
   classItem: Class & { 
@@ -256,10 +256,10 @@ export default function ClassCard({ classItem }: ClassCardProps) {
       {/* Session Details Panel */}
       {showDetails && (
         <div className="mt-4 pt-4 border-t border-gray-200 space-y-4">
-          {/* Booking System */}
+          {/* Revolutionary Booking System */}
           <div>
             <h5 className="font-semibold text-gray-900 mb-3">Book This Class:</h5>
-            <BookingSystem classItem={classItem} />
+            <BookingButton classItem={classItem} />
           </div>
 
           {/* Sessions if available */}
