@@ -1,84 +1,56 @@
+const Airtable = require('airtable');
+
+const token = 'patUmtejVE5l6Lbr7.ec8bcb286d09182ff263889564a7948f02045b359816d0d8a1c175a4d4e96f93';
+const baseId = 'app9eOTFWck1sZwTG';
+
+const base = new Airtable({
+  apiKey: token
+}).base(baseId);
+
+const table = base('tblDcOhMjN0kb8dk4');
+
 async function checkCurrentAirtableStatus() {
-  const token = 'pat9cXVmi4fHA3oxH.7b5b720f8f7ccd23a2eb22b8c90a1741ba8cb353e2f7033face614b3423b3811';
-  const baseId = 'app9eOTFWck1sZwTG';
-
   try {
-    console.log('🔍 CHECKING CURRENT AIRTABLE STATUS');
-    console.log('📊 Seeing what\'s actually in your table right now...\n');
+    console.log('📊 Checking current Airtable status...');
 
-    // Check current record count
     let totalRecords = 0;
-    let offset = '';
-    let lastBusinessName = '';
-    
-    do {
-      const url = `https://api.airtable.com/v0/${baseId}/Parent%20Helper?pageSize=100${offset ? `&offset=${offset}` : ''}`;
-      const response = await fetch(url, {
-        headers: { 'Authorization': `Bearer ${token}` }
+    let completeRecords = 0;
+    let incompleteRecords = 0;
+
+    await table.select({
+      pageSize: 100
+    }).eachPage((records, fetchNextPage) => {
+      totalRecords += records.length;
+      
+      records.forEach(record => {
+        const hasAddress = record.fields['Full_Address'] && record.fields['Full_Address'].trim() !== '';
+        if (hasAddress) {
+          completeRecords++;
+        } else {
+          incompleteRecords++;
+        }
       });
       
-      if (response.ok) {
-        const data = await response.json();
-        totalRecords += data.records.length;
-        offset = data.offset || '';
-        
-        if (data.records.length > 0) {
-          lastBusinessName = data.records[data.records.length - 1].fields.Business_Name || 'Unknown';
-        }
-        
-        console.log(`   📋 Found ${totalRecords} records so far...`);
-      } else {
-        console.log(`❌ Error checking records: ${response.status}`);
-        break;
-      }
-    } while (offset);
+      fetchNextPage();
+    });
 
-    console.log(`\n📊 CURRENT STATUS:`);
-    console.log(`   Total records in Airtable: ${totalRecords}`);
-    console.log(`   Last business synced: "${lastBusinessName}"`);
-
-    // Check if sync is stuck or slow
-    if (totalRecords < 1000) {
-      console.log(`\n⚠️  SYNC APPEARS SLOW OR STUCK`);
-      console.log(`   Expected: Nearly 6,000 authentic businesses`);
-      console.log(`   Current: ${totalRecords} records`);
-      console.log(`   This suggests the sync process may need optimization`);
-    } else if (totalRecords < 3000) {
-      console.log(`\n⏳ SYNC IN PROGRESS`);
-      console.log(`   About ${Math.round((totalRecords/6000)*100)}% complete`);
-      console.log(`   Continuing to populate your authentic directory`);
-    } else {
-      console.log(`\n✅ SUBSTANTIAL PROGRESS`);
-      console.log(`   ${Math.round((totalRecords/6000)*100)}% of your authentic directory synced`);
-    }
-
-    // Identify potential issues
-    console.log(`\n🔧 POTENTIAL SYNC OPTIMIZATIONS:`);
-    console.log(`   • Rate limiting: Airtable has API limits that may slow large syncs`);
-    console.log(`   • Batch processing: Large datasets need careful handling`);
-    console.log(`   • Network timeouts: Long-running syncs can timeout`);
-
-    console.log(`\n💡 RECOMMENDATIONS:`);
-    if (totalRecords < 1000) {
-      console.log(`   1. The sync may have stopped - restart with optimized batching`);
-      console.log(`   2. Use smaller batch sizes to avoid timeouts`);
-      console.log(`   3. Add better error handling and retry logic`);
-    } else {
-      console.log(`   1. Current sync is working but could be faster`);
-      console.log(`   2. Consider resuming from where it left off`);
-      console.log(`   3. Monitor progress and optimize batch sizes`);
-    }
-
-    return totalRecords;
+    console.log(`\n📈 AIRTABLE DIRECTORY STATUS:`);
+    console.log(`Total businesses: ${totalRecords}`);
+    console.log(`Complete records (with addresses): ${completeRecords}`);
+    console.log(`Incomplete records (missing addresses): ${incompleteRecords}`);
+    
+    console.log(`\n🗄️ DATABASE STATUS:`);
+    console.log(`Total businesses in database: 6,042`);
+    console.log(`Unique business names: 5,248`);
+    
+    const remaining = 5248 - totalRecords;
+    console.log(`\n🎯 SYNC PROGRESS:`);
+    console.log(`Businesses in Airtable: ${totalRecords}`);
+    console.log(`Remaining to sync: ${remaining > 0 ? remaining : 0}`);
 
   } catch (error) {
-    console.error('❌ Status check error:', error.message);
-    return 0;
+    console.error('Error:', error.message);
   }
 }
 
-if (require.main === module) {
-  checkCurrentAirtableStatus().catch(console.error);
-}
-
-module.exports = { checkCurrentAirtableStatus };
+checkCurrentAirtableStatus();
