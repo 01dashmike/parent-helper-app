@@ -2,9 +2,12 @@ const { Client } = require('pg');
 const Airtable = require('airtable');
 
 // Configure Airtable
+const token = 'pat9cXVmi4fHA3oxH.7b5b720f8f7ccd23a2eb22b8c90a1741ba8cb353e2f7033face614b3423b3811';
+const baseId = 'app9eOTFWck1sZwTG';
+
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY
-}).base('appNQcWwJH9wzg6UO');
+  apiKey: token
+}).base(baseId);
 
 const table = base('tblX8ZLilzQMN85VO');
 
