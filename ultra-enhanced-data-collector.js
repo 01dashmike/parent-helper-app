@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { Client } = require('pg');
+import { Client } from 'pg';
 
 class UltraEnhancedDataCollector {
   constructor() {
@@ -30,7 +30,7 @@ class UltraEnhancedDataCollector {
 
   async getUniqueVenuesNeedingEnhancement() {
     const query = `
-      SELECT DISTINCT 
+      SELECT DISTINCT ON (name, venue, postcode)
         name, venue, postcode, town, latitude, longitude, website, phone, email
       FROM classes 
       WHERE is_active = true 
@@ -42,7 +42,7 @@ class UltraEnhancedDataCollector {
           OR email IS NULL
           OR phone IS NULL
         )
-      ORDER BY RANDOM()
+      ORDER BY name, venue, postcode, id
       LIMIT ${this.batchSize}
     `;
     
@@ -563,6 +563,4 @@ async function runUltraEnhancedDataCollector() {
   }
 }
 
-if (require.main === module) {
-  runUltraEnhancedDataCollector();
-}
+runUltraEnhancedDataCollector();
