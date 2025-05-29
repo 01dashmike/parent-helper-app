@@ -1,0 +1,80 @@
+2025-05-29T20:02:25.992Z: System initialized with turbo settings
+2025-05-29T20:02:25.994Z: 
+🔄 Processing batch 1...
+2025-05-29T20:02:26.524Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:02:27.139Z: ✅ Enhanced venue: Angmering Community Centre
+2025-05-29T20:02:27.221Z: ✅ Enhanced venue: Abbots Vale Community Centre
+2025-05-29T20:02:27.305Z: ✅ Enhanced venue: All Seasons Leisure Centre
+2025-05-29T20:02:27.413Z: ✅ Enhanced venue: BCP Leisure Poole Dolphin Leisure Centre
+2025-05-29T20:02:27.498Z: ✅ Enhanced venue: Archway Leisure Centre
+2025-05-29T20:02:27.577Z: ✅ Enhanced venue: Atherton Leisure Centre
+2025-05-29T20:02:27.657Z: ✅ Enhanced venue: Andover Leisure Centre
+2025-05-29T20:02:27.739Z: ✅ Enhanced venue: Ashill Community Centre
+2025-05-29T20:02:28.716Z: ✅ Enhanced venue: Castle Street Community Centre
+2025-05-29T20:02:28.798Z: ✅ Enhanced venue: Brookhill Children's and Community Centre
+2025-05-29T20:02:28.880Z: ✅ Enhanced venue: Badger Farm Community Centre
+2025-05-29T20:02:28.960Z: ✅ Enhanced venue: Bingham Leisure Centre
+2025-05-29T20:02:29.040Z: ✅ Enhanced venue: Beeston Youth & Community Centre
+2025-05-29T20:02:29.119Z: ✅ Enhanced venue: Castle Connections - Queenborough Town Community Centre
+2025-05-29T20:02:29.199Z: ✅ Enhanced venue: Botwell Green Sports and Leisure Centre
+2025-05-29T20:02:29.278Z: ✅ Enhanced venue: Botcherby Community Centre
+2025-05-29T20:02:30.240Z: ✅ Enhanced venue: Chaul End Community Centre
+2025-05-29T20:02:30.321Z: ✅ Enhanced venue: Clapham Leisure Centre - Active Lambeth
+2025-05-29T20:02:30.402Z: ✅ Enhanced venue: Cockermouth Leisure Centre
+2025-05-29T20:02:30.483Z: ✅ Enhanced venue: Community Centre
+2025-05-29T20:02:30.563Z: ✅ Enhanced venue: Crowborough Leisure Centre
+2025-05-29T20:02:30.642Z: ✅ Enhanced venue: Crowborough Community Centre
+2025-05-29T20:02:30.722Z: ✅ Enhanced venue: Crystal Leisure Centre
+2025-05-29T20:02:30.801Z: ✅ Enhanced venue: Cirencester Leisure Centre - Freedom Leisure
+2025-05-29T20:02:31.747Z: ✅ Enhanced venue: Des Moffatt Western Community Centre
+2025-05-29T20:02:31.837Z: ✅ Enhanced venue: Drake Community Centre
+2025-05-29T20:02:31.916Z: ✅ Enhanced venue: Emsworth Community Centre
+2025-05-29T20:02:31.997Z: ✅ Enhanced venue: Easton Community Centre
+2025-05-29T20:02:32.078Z: ✅ Enhanced venue: Energise Leisure Centre
+2025-05-29T20:02:32.160Z: ✅ Enhanced venue: Durrington Community Centre
+2025-05-29T20:02:32.240Z: ✅ Enhanced venue: Dalton Leisure Centre
+2025-05-29T20:02:32.319Z: ✅ Enhanced venue: Equilibrium North West Family Hub Livingstone Street Play & Community Centre
+2025-05-29T20:02:52.797Z: System initialized with turbo settings
+2025-05-29T20:02:52.798Z: 
+🔄 Processing batch 1...
+2025-05-29T20:02:52.986Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:02:53.453Z: ✅ Enhanced venue: Gosport Leisure Centre
+2025-05-29T20:02:53.544Z: ✅ Enhanced venue: Greenwood Community Centre
+2025-05-29T20:02:53.633Z: ✅ Enhanced venue: Haggerston Community Centre
+2025-05-29T20:02:53.719Z: ✅ Enhanced venue: Ferndown Leisure Centre
+2025-05-29T20:02:53.798Z: ✅ Enhanced venue: Faringdon Leisure Centre
+2025-05-29T20:02:53.878Z: ✅ Enhanced venue: Greystone community centre
+2025-05-29T20:02:53.960Z: ✅ Enhanced venue: Fitzrovia Community Centre
+2025-05-29T20:02:54.044Z: ✅ Enhanced venue: Gainsborough Sports & Community Centre
+2025-05-29T20:02:54.970Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:02:55.049Z: ✅ Enhanced venue: Hallgarth Community Centre
+2025-05-29T20:02:55.136Z: ✅ Enhanced venue: Heaton Community Centre
+2025-05-29T20:02:55.215Z: ✅ Enhanced venue: Hargrave Hall Community Centre
+2025-05-29T20:02:55.294Z: ✅ Enhanced venue: Henley Leisure Centre
+2025-05-29T20:02:55.373Z: ✅ Enhanced venue: Henfield Leisure Centre
+2025-05-29T20:02:55.456Z: ✅ Enhanced venue: Hendon Leisure centre
+2025-05-29T20:02:55.538Z: ✅ Enhanced venue: Harrow Leisure Centre
+2025-05-29T20:02:56.463Z: ✅ Enhanced venue: John Moulton Hall Community Centre
+2025-05-29T20:02:56.550Z: ✅ Enhanced venue: Isleworth Leisure Centre and Library
+2025-05-29T20:02:56.636Z: ✅ Enhanced venue: Kirk Merrington Community Centre
+2025-05-29T20:02:56.716Z: ✅ Enhanced venue: Hornsey Lane Estate Community Centre
+2025-05-29T20:02:56.796Z: ✅ Enhanced venue: Kendal Leisure Centre
+2025-05-29T20:02:56.875Z: ✅ Enhanced venue: Highbury Leisure Centre
+2025-05-29T20:02:56.955Z: ✅ Enhanced venue: Holt Community Centre
+2025-05-29T20:02:57.033Z: ✅ Enhanced venue: Hutton Moor Leisure Centre
+2025-05-29T20:02:57.972Z: ✅ Enhanced venue: Leys Pools & Leisure Centre
+2025-05-29T20:02:58.051Z: ✅ Enhanced venue: Lingfield & Dormansland Community Centre
+2025-05-29T20:02:58.139Z: ✅ Enhanced venue: Knighton and District Community Centre
+2025-05-29T20:02:58.217Z: ✅ Enhanced venue: Liverpool Road Community Centre
+2025-05-29T20:02:58.305Z: ✅ Enhanced venue: Lukes Lane Community Centre
+2025-05-29T20:02:58.386Z: ✅ Enhanced venue: Lamerton Hall (A Sports and Community Centre)
+2025-05-29T20:02:58.465Z: ✅ Enhanced venue: Launceston Community Leisure Centre
+2025-05-29T20:02:58.547Z: ✅ Enhanced venue: Lordswood Leisure Centre
+2025-05-29T20:02:59.518Z: ✅ Enhanced venue: Newcourt Community Centre
+2025-05-29T20:02:59.601Z: ✅ Enhanced venue: Mandhata Youth & Community Centre
+2025-05-29T20:02:59.681Z: ✅ Enhanced venue: Meadowside Leisure Centre
+2025-05-29T20:02:59.760Z: ✅ Enhanced venue: Meadows Leisure Centre
+2025-05-29T20:02:59.841Z: ✅ Enhanced venue: Mid Suffolk Leisure Centre
+2025-05-29T20:02:59.923Z: ✅ Enhanced venue: Much Wenlock Leisure Centre
+2025-05-29T20:03:00.003Z: ✅ Enhanced venue: Nene Valley Community Centre
+2025-05-29T20:03:00.082Z: ✅ Enhanced venue: Meadowlands Leisure Centre
