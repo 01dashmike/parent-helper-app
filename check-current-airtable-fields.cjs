@@ -15,9 +15,9 @@ async function checkCurrentAirtableFields() {
     console.log('Base ID:', baseId);
     console.log('Table ID:', 'tblDcOhMjN0kb8dk4');
 
+    // Try without specifying a view first
     const records = await table.select({
-      maxRecords: 1,
-      view: 'Grid view'
+      maxRecords: 5
     }).firstPage();
 
     if (records.length > 0) {
@@ -44,6 +44,11 @@ async function checkCurrentAirtableFields() {
       } else {
         console.log('No obvious scheduling fields found');
       }
+      
+      console.log('\nSample record data:');
+      console.log(JSON.stringify(records[0].fields, null, 2));
+    } else {
+      console.log('No records found in the table');
     }
 
   } catch (error) {
