@@ -48,7 +48,7 @@ export function NavigationHeader() {
       path: "/free-samples", 
       label: "Free Samples", 
       icon: Gift,
-      description: "Baby freebies",
+      description: "Free baby offers",
       isNew: true
     },
     { 
