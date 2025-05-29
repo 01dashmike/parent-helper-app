@@ -12,9 +12,12 @@ const table = base('tblDcOhMjN0kb8dk4');
 async function checkCurrentAirtableFields() {
   try {
     console.log('🔍 Checking current Airtable field structure...');
+    console.log('Base ID:', baseId);
+    console.log('Table ID:', 'tblDcOhMjN0kb8dk4');
 
     const records = await table.select({
-      maxRecords: 1
+      maxRecords: 1,
+      view: 'Grid view'
     }).firstPage();
 
     if (records.length > 0) {
