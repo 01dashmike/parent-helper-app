@@ -42,32 +42,48 @@ class WebsitePricingScraper {
       if (!url.startsWith('http')) {
         url = 'https://' + url;
       }
+      url = url.replace(/\/$/, '');
       
-      // Remove common suffixes that might cause issues
-      url = url.replace(/\/$/, ''); // Remove trailing slash
-      
-      const response = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        },
-        timeout: 10000,
-        redirect: 'follow'
-      });
+      // Try multiple pricing-related pages
+      const pricingUrls = [
+        url,
+        `${url}/prices`,
+        `${url}/pricing`,
+        `${url}/book`,
+        `${url}/booking`,
+        `${url}/classes`,
+        `${url}/sessions`
+      ];
 
-      if (!response.ok) {
-        console.log(`⚠️ Website returned ${response.status} for ${business.name}`);
-        return null;
-      }
+      for (const testUrl of pricingUrls) {
+        try {
+          const response = await fetch(testUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            },
+            timeout: 8000,
+            redirect: 'follow'
+          });
 
-      const html = await response.text();
-      const pricing = this.extractPricingFromHTML(html, business.name);
-      
-      if (pricing) {
-        console.log(`💰 Found pricing on website: ${pricing}`);
-        return {
-          price: pricing,
-          source: business.website
-        };
+          if (response.ok) {
+            const html = await response.text();
+            const pricing = this.extractPricingFromHTML(html, business.name);
+            
+            if (pricing) {
+              console.log(`💰 Found pricing: ${pricing} (from ${testUrl})`);
+              return {
+                price: pricing,
+                source: testUrl
+              };
+            }
+          }
+        } catch (pageError) {
+          // Continue to next URL
+          continue;
+        }
+        
+        // Brief delay between page requests
+        await this.sleep(500);
       }
 
     } catch (error) {
@@ -78,7 +94,7 @@ class WebsitePricingScraper {
   }
 
   extractPricingFromHTML(html, businessName) {
-    // Remove HTML tags and clean up text
+    // Clean HTML and extract text
     const text = html
       .replace(/<script[^>]*>.*?<\/script>/gis, '')
       .replace(/<style[^>]*>.*?<\/style>/gis, '')
@@ -86,63 +102,85 @@ class WebsitePricingScraper {
       .replace(/\s+/g, ' ')
       .toLowerCase();
 
-    // Pricing patterns to look for
+    // Enhanced pricing patterns
     const pricePatterns = [
-      // Standard UK pricing
+      // Direct pricing with currency
       /£\s*(\d+(?:\.\d{2})?)/g,
-      /(\d+(?:\.\d{2})?)\s*(?:pounds?|gbp)/gi,
+      /(\d+(?:\.\d{2})?)\s*pounds?/gi,
       
-      // Context-aware pricing
-      /(?:cost|price|fee|charge)[s]?\s*[:\-]?\s*£?\s*(\d+(?:\.\d{2})?)/gi,
-      /(?:from|starting)\s*(?:at)?\s*£?\s*(\d+(?:\.\d{2})?)/gi,
-      /£?\s*(\d+(?:\.\d{2})?)\s*(?:per|each|session|class|lesson)/gi,
+      // Contextual pricing phrases
+      /(?:price|cost|fee|charge)[s]?\s*(?:is|are|:|-|from)?\s*£?\s*(\d+(?:\.\d{2})?)/gi,
+      /(?:starting|from)\s*(?:at|just)?\s*£?\s*(\d+(?:\.\d{2})?)/gi,
+      /(?:only|just)\s*£?\s*(\d+(?:\.\d{2})?)/gi,
       
-      // Block booking patterns
-      /(\d+(?:\.\d{2})?)\s*(?:for|per)\s*\d+\s*(?:sessions|classes|lessons)/gi
+      // Per session/class pricing
+      /£?\s*(\d+(?:\.\d{2})?)\s*(?:per|each|\/)\s*(?:session|class|lesson|visit)/gi,
+      /(?:session|class|lesson)\s*[:@]\s*£?\s*(\d+(?:\.\d{2})?)/gi,
+      
+      // Block booking
+      /£?\s*(\d+(?:\.\d{2})?)\s*for\s*\d+\s*(?:sessions|classes)/gi,
+      /\d+\s*(?:sessions|classes)\s*for\s*£?\s*(\d+(?:\.\d{2})?)/gi
     ];
 
-    // Pricing sections to focus on
-    const pricingSections = [
-      'price', 'pricing', 'cost', 'fee', 'fees', 'rates', 'charges',
-      'book', 'booking', 'payment', 'session', 'class', 'lesson'
+    // Target pricing-related sections
+    const pricingKeywords = [
+      'price', 'pricing', 'cost', 'fee', 'book', 'booking', 'payment', 'session', 'class'
     ];
 
-    let foundPrices = [];
+    let allPrices = [];
 
-    // Look for pricing in relevant sections
-    for (const section of pricingSections) {
-      const sectionIndex = text.indexOf(section);
-      if (sectionIndex !== -1) {
-        // Extract text around the pricing section
-        const start = Math.max(0, sectionIndex - 300);
-        const end = Math.min(text.length, sectionIndex + 300);
-        const sectionText = text.substring(start, end);
-        
-        // Apply pricing patterns to this section
-        for (const pattern of pricePatterns) {
-          const matches = [...sectionText.matchAll(pattern)];
-          for (const match of matches) {
-            const priceStr = match[1] || match[0];
-            const price = parseFloat(priceStr.replace(/[£\s]/g, ''));
-            
-            // Validate price is reasonable for UK classes
-            if (price >= 3 && price <= 100) {
-              foundPrices.push(price);
-            }
-          }
+    // Search the entire text first
+    for (const pattern of pricePatterns) {
+      const matches = [...text.matchAll(pattern)];
+      for (const match of matches) {
+        const priceValue = parseFloat(match[1] || match[0].replace(/[£\s]/g, ''));
+        if (priceValue >= 3 && priceValue <= 200) {
+          allPrices.push(priceValue);
         }
       }
     }
 
-    // If we found prices, return the most common or reasonable one
-    if (foundPrices.length > 0) {
-      // Remove duplicates and sort
-      const uniquePrices = [...new Set(foundPrices)].sort((a, b) => a - b);
-      
-      // Return the most reasonable price (not too low, not too high)
-      const reasonablePrice = uniquePrices.find(p => p >= 5 && p <= 50) || uniquePrices[0];
-      
-      return `£${reasonablePrice.toFixed(2)}`;
+    // Also search around pricing keywords for better context
+    for (const keyword of pricingKeywords) {
+      let keywordIndex = text.indexOf(keyword);
+      while (keywordIndex !== -1) {
+        const start = Math.max(0, keywordIndex - 200);
+        const end = Math.min(text.length, keywordIndex + 200);
+        const contextText = text.substring(start, end);
+        
+        for (const pattern of pricePatterns) {
+          const matches = [...contextText.matchAll(pattern)];
+          for (const match of matches) {
+            const priceValue = parseFloat(match[1] || match[0].replace(/[£\s]/g, ''));
+            if (priceValue >= 3 && priceValue <= 200) {
+              allPrices.push(priceValue);
+            }
+          }
+        }
+        
+        keywordIndex = text.indexOf(keyword, keywordIndex + 1);
+      }
+    }
+
+    if (allPrices.length > 0) {
+      // Count frequency of each price
+      const priceFreq = {};
+      allPrices.forEach(price => {
+        priceFreq[price] = (priceFreq[price] || 0) + 1;
+      });
+
+      // Sort by frequency, then by reasonableness
+      const sortedPrices = Object.keys(priceFreq)
+        .map(p => parseFloat(p))
+        .sort((a, b) => {
+          // Prefer prices between £5-£50
+          const aScore = (a >= 5 && a <= 50 ? 100 : 0) + priceFreq[a];
+          const bScore = (b >= 5 && b <= 50 ? 100 : 0) + priceFreq[b];
+          return bScore - aScore;
+        });
+
+      const bestPrice = sortedPrices[0];
+      return `£${bestPrice.toFixed(2)}`;
     }
 
     return null;
