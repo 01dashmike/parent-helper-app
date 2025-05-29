@@ -84,8 +84,8 @@ class TurboTransportAccessibilityCollector {
       if (searchData.candidates && searchData.candidates.length > 0) {
         const placeId = searchData.candidates[0].place_id;
         
-        // Get comprehensive place information including contact details
-        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,wheelchair_accessible_entrance,business_status,opening_hours,photos,geometry,website,formatted_phone_number&key=${this.apiKey}`;
+        // Get comprehensive place information including contact details and reviews
+        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,wheelchair_accessible_entrance,business_status,opening_hours,photos,geometry,website,formatted_phone_number,reviews,rating,user_ratings_total,price_level,types&key=${this.apiKey}`;
         
         const detailsResponse = await fetch(detailsUrl);
         const detailsData = await detailsResponse.json();
@@ -236,22 +236,20 @@ class TurboTransportAccessibilityCollector {
     return degrees * (Math.PI/180);
   }
 
-  async extractEmailFromWebsite(website) {
-    try {
-      if (!website) return null;
+  async extractContactFromReviews(reviews) {
+    if (!reviews || reviews.length === 0) return { email: null, additionalInfo: null };
+    
+    let emailFound = null;
+    const additionalInfo = [];
+    
+    for (const review of reviews.slice(0, 5)) { // Check first 5 reviews
+      const reviewText = review.text || '';
       
-      const response = await fetch(website, { 
-        timeout: 5000,
-        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ParentHelper/1.0)' }
-      });
-      const html = await response.text();
-      
-      // Look for email addresses in the HTML
+      // Look for email addresses in reviews
       const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-      const emails = html.match(emailRegex);
+      const emails = reviewText.match(emailRegex);
       
-      if (emails && emails.length > 0) {
-        // Filter out common generic emails and return the first relevant one
+      if (emails && emails.length > 0 && !emailFound) {
         const filteredEmails = emails.filter(email => 
           !email.includes('noreply') && 
           !email.includes('no-reply') &&
@@ -260,12 +258,73 @@ class TurboTransportAccessibilityCollector {
           !email.includes('test@')
         );
         
-        return filteredEmails[0] || null;
+        if (filteredEmails.length > 0) {
+          emailFound = filteredEmails[0];
+        }
       }
       
-      return null;
+      // Extract useful information from reviews
+      if (reviewText.toLowerCase().includes('booking') || 
+          reviewText.toLowerCase().includes('contact') ||
+          reviewText.toLowerCase().includes('phone') ||
+          reviewText.toLowerCase().includes('website')) {
+        additionalInfo.push(reviewText.substring(0, 200));
+      }
+    }
+    
+    return { 
+      email: emailFound, 
+      additionalInfo: additionalInfo.length > 0 ? additionalInfo.join(' | ') : null 
+    };
+  }
+
+  async extractEmailFromWebsite(website) {
+    try {
+      if (!website) return { email: null, socialMedia: null };
+      
+      const response = await fetch(website, { 
+        timeout: 8000,
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ParentHelper/1.0)' }
+      });
+      const html = await response.text();
+      
+      // Look for email addresses in the HTML
+      const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+      const emails = html.match(emailRegex);
+      
+      // Look for social media links
+      const socialMedia = [];
+      const facebookRegex = /facebook\.com\/[a-zA-Z0-9._-]+/g;
+      const instagramRegex = /instagram\.com\/[a-zA-Z0-9._-]+/g;
+      
+      const facebookMatches = html.match(facebookRegex);
+      const instagramMatches = html.match(instagramRegex);
+      
+      if (facebookMatches) socialMedia.push(`Facebook: ${facebookMatches[0]}`);
+      if (instagramMatches) socialMedia.push(`Instagram: ${instagramMatches[0]}`);
+      
+      let emailFound = null;
+      if (emails && emails.length > 0) {
+        // Filter out common generic emails and return the first relevant one
+        const filteredEmails = emails.filter(email => 
+          !email.includes('noreply') && 
+          !email.includes('no-reply') &&
+          !email.includes('donotreply') &&
+          !email.includes('example.com') &&
+          !email.includes('test@') &&
+          !email.includes('privacy@') &&
+          !email.includes('legal@')
+        );
+        
+        emailFound = filteredEmails[0] || null;
+      }
+      
+      return { 
+        email: emailFound, 
+        socialMedia: socialMedia.length > 0 ? socialMedia.join(' | ') : null 
+      };
     } catch (error) {
-      return null;
+      return { email: null, socialMedia: null };
     }
   }
 
@@ -287,18 +346,31 @@ class TurboTransportAccessibilityCollector {
       const { parkingData, tubeData, busData } = nearbyServices;
       const businessPhotos = await this.getBusinessPhotosOptimized(placeDetails);
 
-      // Extract contact information
+      // Extract comprehensive contact information from multiple sources
       let contactEmail = null;
       let contactPhone = null;
       let businessWebsite = null;
+      let socialMedia = null;
+      let reviewInfo = null;
+      let businessRating = null;
+      let priceLevel = null;
 
       if (placeDetails) {
         contactPhone = placeDetails.formatted_phone_number || null;
         businessWebsite = placeDetails.website || null;
+        businessRating = placeDetails.rating || null;
+        priceLevel = placeDetails.price_level || null;
         
-        // Try to extract email from the business website
-        if (businessWebsite) {
-          contactEmail = await this.extractEmailFromWebsite(businessWebsite);
+        // Extract information from Google Reviews
+        const reviewData = await this.extractContactFromReviews(placeDetails.reviews);
+        if (reviewData.email) contactEmail = reviewData.email;
+        reviewInfo = reviewData.additionalInfo;
+        
+        // Try to extract email and social media from the business website
+        if (businessWebsite && !contactEmail) {
+          const websiteData = await this.extractEmailFromWebsite(businessWebsite);
+          contactEmail = websiteData.email;
+          socialMedia = websiteData.socialMedia;
         }
       }
 
@@ -335,7 +407,7 @@ class TurboTransportAccessibilityCollector {
         ? transportParts.join(' | ') 
         : 'Transport details to be confirmed';
 
-      // Update all classes for this venue
+      // Update all classes for this venue with comprehensive data
       await this.updateAllClassesForVenue(classItem, {
         parkingAvailable: parkingData ? parkingData.available : null,
         parkingType: parkingData ? parkingData.type : null,
@@ -348,7 +420,11 @@ class TurboTransportAccessibilityCollector {
         imageUrls: businessPhotos,
         contactEmail: contactEmail,
         contactPhone: contactPhone,
-        businessWebsite: businessWebsite
+        businessWebsite: businessWebsite,
+        socialMedia: socialMedia,
+        reviewInfo: reviewInfo,
+        businessRating: businessRating,
+        priceLevel: priceLevel
       });
 
       this.processedVenues.add(venueKey);
@@ -362,6 +438,16 @@ class TurboTransportAccessibilityCollector {
   }
 
   async updateAllClassesForVenue(classItem, data) {
+    // First check if we need to add new columns for enhanced data
+    try {
+      await this.client.query('ALTER TABLE classes ADD COLUMN IF NOT EXISTS social_media TEXT');
+      await this.client.query('ALTER TABLE classes ADD COLUMN IF NOT EXISTS review_info TEXT');
+      await this.client.query('ALTER TABLE classes ADD COLUMN IF NOT EXISTS business_rating DECIMAL(2,1)');
+      await this.client.query('ALTER TABLE classes ADD COLUMN IF NOT EXISTS price_level INTEGER');
+    } catch (error) {
+      // Columns might already exist
+    }
+
     const query = `
       UPDATE classes 
       SET 
@@ -376,9 +462,13 @@ class TurboTransportAccessibilityCollector {
         image_urls = $9,
         email = COALESCE($10, email),
         phone = COALESCE($11, phone),
-        website = COALESCE($12, website)
-      WHERE (venue = $13 OR name = $13) 
-        AND postcode = $14 
+        website = COALESCE($12, website),
+        social_media = COALESCE($13, social_media),
+        review_info = COALESCE($14, review_info),
+        business_rating = COALESCE($15, business_rating),
+        price_level = COALESCE($16, price_level)
+      WHERE (venue = $17 OR name = $17) 
+        AND postcode = $18 
         AND is_active = true
     `;
 
@@ -395,6 +485,10 @@ class TurboTransportAccessibilityCollector {
       data.contactEmail,
       data.contactPhone,
       data.businessWebsite,
+      data.socialMedia,
+      data.reviewInfo,
+      data.businessRating,
+      data.priceLevel,
       classItem.venue || classItem.name,
       classItem.postcode
     ]);

@@ -130,3 +130,21 @@
 2025-05-29T20:05:59.393Z: ✅ Enhanced venue: Steyning Leisure Centre
 2025-05-29T20:05:59.918Z: ✅ Enhanced venue: Studley Leisure Centre
 2025-05-29T20:06:03.565Z: ✅ Enhanced venue: Kirk Merrington Community Centre
+2025-05-29T20:09:38.042Z: System initialized with turbo settings
+2025-05-29T20:09:38.043Z: 
+🔄 Processing batch 1...
+2025-05-29T20:09:38.442Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:09:39.293Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:09:40.637Z: ✅ Enhanced venue: Swaffham Leisure Centre
+2025-05-29T20:09:40.797Z: ✅ Enhanced venue: Stanleys Community Centre (with email)
+2025-05-29T20:09:41.251Z: ✅ Enhanced venue: The Hive Community Centre (with email)
+2025-05-29T20:09:41.404Z: ✅ Enhanced venue: John Moulton Hall Community Centre (with email)
+2025-05-29T20:10:07.865Z: System initialized with turbo settings
+2025-05-29T20:10:07.866Z: 
+🔄 Processing batch 1...
+2025-05-29T20:10:08.049Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:10:08.750Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:10:10.119Z: ✅ Enhanced venue: Stanleys Community Centre (with email)
+2025-05-29T20:10:10.283Z: ✅ Enhanced venue: The Leisure Centre, Keighley
+2025-05-29T20:10:10.517Z: ✅ Enhanced venue: John Moulton Hall Community Centre (with email)
+2025-05-29T20:10:11.864Z: ✅ Enhanced venue: The Junction Sports & Leisure Centre (with email)
