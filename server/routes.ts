@@ -270,6 +270,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const classes = await storage.getAllClasses();
       res.json(classes);
     } catch (error) {
+      console.error("Database error:", error);
       res.status(500).json({ message: "Failed to fetch classes" });
     }
   });
