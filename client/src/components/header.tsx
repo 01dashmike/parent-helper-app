@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Baby, GraduationCap, Camera, Gift, Heart, MessageCircle } from "lucide-react";
 import parentHelperLogo from "@assets/image_1748252869136.png";
 
 export default function Header() {
@@ -10,11 +11,45 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { href: "/baby-toddler-classes", label: "BABY & TODDLER CLASSES" },
-    { href: "/after-school-clubs", label: "AFTER SCHOOL CLUBS" },
-    { href: "/family-services", label: "PHOTOGRAPHY & KEEPSAKES" },
-    { href: "/blog", label: "BLOG" },
-    { href: "/about", label: "ABOUT" },
+    { 
+      href: "/baby-toddler-classes", 
+      label: "BABY & TODDLER CLASSES",
+      icon: Baby,
+      description: "0-5 years"
+    },
+    { 
+      href: "/after-school-clubs", 
+      label: "AFTER SCHOOL CLUBS",
+      icon: GraduationCap,
+      description: "5+ years"
+    },
+    { 
+      href: "/photography-keepsakes", 
+      label: "PHOTOGRAPHY & KEEPSAKES",
+      icon: Camera,
+      description: "Memories"
+    },
+    { 
+      href: "/free-samples", 
+      label: "FREE SAMPLES",
+      icon: Gift,
+      description: "Free baby offers",
+      isNew: true
+    },
+    { 
+      href: "/additional-needs", 
+      label: "ADDITIONAL NEEDS",
+      icon: Heart,
+      description: "Specialist support",
+      isNew: true
+    },
+    { 
+      href: "/parent-support-groups", 
+      label: "PARENT SUPPORT",
+      icon: MessageCircle,
+      description: "Community groups",
+      isNew: true
+    }
   ];
 
   const isActivePath = (path: string) => {
@@ -41,16 +76,35 @@ export default function Header() {
           </Link>
 
           {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-semibold text-gray-700 hover:text-teal-600 transition-colors tracking-wide"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center space-x-4">
+            {navItems.map((item) => {
+              const IconComponent = item.icon;
+              const isActive = isActivePath(item.href);
+              
+              return (
+                <Link key={item.href} href={item.href}>
+                  <Button
+                    variant={isActive ? "default" : "ghost"}
+                    className={`relative h-12 px-3 flex flex-col items-center gap-1 ${
+                      isActive 
+                        ? "bg-teal-100 text-teal-700 hover:bg-teal-200" 
+                        : "hover:bg-gray-100"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1">
+                      <IconComponent className="h-3 w-3" />
+                      <span className="text-xs font-medium">{item.label}</span>
+                      {item.isNew && (
+                        <Badge className="bg-pink-500 text-white text-xs px-1 py-0 h-4 ml-1">
+                          NEW
+                        </Badge>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-500">{item.description}</span>
+                  </Button>
+                </Link>
+              );
+            })}
           </nav>
           
           {/* Add Class Button */}
@@ -70,20 +124,36 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <div className="flex flex-col space-y-4 mt-8">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`text-lg font-medium transition-colors duration-200 ${
-                        isActivePath(item.href)
-                          ? "text-coral"
-                          : "text-teal-dark hover:text-coral"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  {navItems.map((item) => {
+                    const IconComponent = item.icon;
+                    const isActive = isActivePath(item.href);
+                    
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 ${
+                          isActive
+                            ? "bg-teal-100 text-teal-700"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        <IconComponent className="h-5 w-5" />
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{item.label}</span>
+                            {item.isNew && (
+                              <Badge className="bg-pink-500 text-white text-xs px-2 py-0 h-5">
+                                NEW
+                              </Badge>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-500">{item.description}</span>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </SheetContent>
             </Sheet>
