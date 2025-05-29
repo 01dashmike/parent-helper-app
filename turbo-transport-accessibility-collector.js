@@ -84,8 +84,8 @@ class TurboTransportAccessibilityCollector {
       if (searchData.candidates && searchData.candidates.length > 0) {
         const placeId = searchData.candidates[0].place_id;
         
-        // Get comprehensive place information in one call
-        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,wheelchair_accessible_entrance,business_status,opening_hours,photos,geometry&key=${this.apiKey}`;
+        // Get comprehensive place information including contact details
+        const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,wheelchair_accessible_entrance,business_status,opening_hours,photos,geometry,website,formatted_phone_number&key=${this.apiKey}`;
         
         const detailsResponse = await fetch(detailsUrl);
         const detailsData = await detailsResponse.json();
@@ -236,6 +236,39 @@ class TurboTransportAccessibilityCollector {
     return degrees * (Math.PI/180);
   }
 
+  async extractEmailFromWebsite(website) {
+    try {
+      if (!website) return null;
+      
+      const response = await fetch(website, { 
+        timeout: 5000,
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ParentHelper/1.0)' }
+      });
+      const html = await response.text();
+      
+      // Look for email addresses in the HTML
+      const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+      const emails = html.match(emailRegex);
+      
+      if (emails && emails.length > 0) {
+        // Filter out common generic emails and return the first relevant one
+        const filteredEmails = emails.filter(email => 
+          !email.includes('noreply') && 
+          !email.includes('no-reply') &&
+          !email.includes('donotreply') &&
+          !email.includes('example.com') &&
+          !email.includes('test@')
+        );
+        
+        return filteredEmails[0] || null;
+      }
+      
+      return null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async enhanceClassTransportDataOptimized(classItem) {
     try {
       const venueKey = `${classItem.venue || classItem.name}_${classItem.postcode}`;
@@ -253,6 +286,21 @@ class TurboTransportAccessibilityCollector {
 
       const { parkingData, tubeData, busData } = nearbyServices;
       const businessPhotos = await this.getBusinessPhotosOptimized(placeDetails);
+
+      // Extract contact information
+      let contactEmail = null;
+      let contactPhone = null;
+      let businessWebsite = null;
+
+      if (placeDetails) {
+        contactPhone = placeDetails.formatted_phone_number || null;
+        businessWebsite = placeDetails.website || null;
+        
+        // Try to extract email from the business website
+        if (businessWebsite) {
+          contactEmail = await this.extractEmailFromWebsite(businessWebsite);
+        }
+      }
 
       // Determine accessibility
       let venueAccessibility = 'To be confirmed';
@@ -297,11 +345,14 @@ class TurboTransportAccessibilityCollector {
         transportAccessibility: transportAccessibility,
         venueAccessibility: venueAccessibility,
         accessibilityNotes: accessibilityNotes,
-        imageUrls: businessPhotos
+        imageUrls: businessPhotos,
+        contactEmail: contactEmail,
+        contactPhone: contactPhone,
+        businessWebsite: businessWebsite
       });
 
       this.processedVenues.add(venueKey);
-      this.log(`✅ Enhanced venue: ${classItem.venue || classItem.name}`);
+      this.log(`✅ Enhanced venue: ${classItem.venue || classItem.name}${contactEmail ? ' (with email)' : ''}`);
       return true;
 
     } catch (error) {
@@ -322,9 +373,12 @@ class TurboTransportAccessibilityCollector {
         transport_accessibility = $6,
         venue_accessibility = $7,
         accessibility_notes = $8,
-        image_urls = $9
-      WHERE (venue = $10 OR name = $10) 
-        AND postcode = $11 
+        image_urls = $9,
+        email = COALESCE($10, email),
+        phone = COALESCE($11, phone),
+        website = COALESCE($12, website)
+      WHERE (venue = $13 OR name = $13) 
+        AND postcode = $14 
         AND is_active = true
     `;
 
@@ -338,6 +392,9 @@ class TurboTransportAccessibilityCollector {
       data.venueAccessibility,
       data.accessibilityNotes,
       data.imageUrls,
+      data.contactEmail,
+      data.contactPhone,
+      data.businessWebsite,
       classItem.venue || classItem.name,
       classItem.postcode
     ]);

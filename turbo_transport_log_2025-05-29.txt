@@ -78,3 +78,44 @@
 2025-05-29T20:02:59.923Z: ✅ Enhanced venue: Much Wenlock Leisure Centre
 2025-05-29T20:03:00.003Z: ✅ Enhanced venue: Nene Valley Community Centre
 2025-05-29T20:03:00.082Z: ✅ Enhanced venue: Meadowlands Leisure Centre
+2025-05-29T20:04:31.010Z: System initialized with turbo settings
+2025-05-29T20:04:31.013Z: 
+🔄 Processing batch 1...
+2025-05-29T20:04:31.200Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:04:31.588Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:04:32.103Z: ✅ Enhanced venue: Olympiad Leisure Centre
+2025-05-29T20:04:32.181Z: ✅ Enhanced venue: Northwood Community Centre Association
+2025-05-29T20:04:32.529Z: ✅ Enhanced venue: Perdiswell Leisure Centre (with email)
+2025-05-29T20:04:32.785Z: ✅ Enhanced venue: Pembury Community Centre - Peabody (with email)
+2025-05-29T20:04:32.863Z: ✅ Enhanced venue: Percy Community Centre (with email)
+2025-05-29T20:04:33.101Z: ✅ Enhanced venue: John Moulton Hall Community Centre (with email)
+2025-05-29T20:04:34.230Z: ✅ Enhanced venue: Kirk Merrington Community Centre
+2025-05-29T20:04:35.930Z: ✅ Enhanced venue: Quarry House Leisure Centre
+2025-05-29T20:04:36.045Z: ✅ Enhanced venue: Riverside Youth & Community Centre
+2025-05-29T20:04:36.135Z: ✅ Enhanced venue: Queen's Hills Community Centre
+2025-05-29T20:04:36.226Z: ✅ Enhanced venue: Redhouse Community Centre (with email)
+2025-05-29T20:04:36.665Z: ✅ Enhanced venue: Pewsham Community Centre (with email)
+2025-05-29T20:04:37.259Z: ✅ Enhanced venue: Poynton Leisure Centre (with email)
+2025-05-29T20:04:37.472Z: ✅ Enhanced venue: Queensbridge Sports and Community Centre (with email)
+2025-05-29T20:05:00.060Z: System initialized with turbo settings
+2025-05-29T20:05:00.061Z: 
+🔄 Processing batch 1...
+2025-05-29T20:05:00.242Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:05:00.672Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:05:01.335Z: ✅ Enhanced venue: Runnymede Leisure Centre (with email)
+2025-05-29T20:05:01.557Z: ✅ Enhanced venue: Sedbergh Sports and Leisure Centre
+2025-05-29T20:05:02.165Z: ✅ Enhanced venue: John Moulton Hall Community Centre (with email)
+2025-05-29T20:05:02.957Z: ✅ Enhanced venue: Saltash Leisure Centre (with email)
+2025-05-29T20:05:04.408Z: ✅ Enhanced venue: Sedbergh Youth & Community Centre
+2025-05-29T20:05:07.608Z: ✅ Enhanced venue: Kirk Merrington Community Centre
+2025-05-29T20:05:16.404Z: System initialized with turbo settings
+2025-05-29T20:05:16.405Z: 
+🔄 Processing batch 1...
+2025-05-29T20:05:16.587Z: 📦 Processing batch of 100 unique venues...
+2025-05-29T20:05:17.002Z: ✅ Enhanced venue: Halewood Youth In Community Centre
+2025-05-29T20:05:17.736Z: ✅ Enhanced venue: St Werburghs Community Centre
+2025-05-29T20:05:17.816Z: ✅ Enhanced venue: South Wimbledon Community Centre (with email)
+2025-05-29T20:05:18.036Z: ✅ Enhanced venue: South Portslade Community Centre (with email)
+2025-05-29T20:05:18.649Z: ✅ Enhanced venue: John Moulton Hall Community Centre (with email)
+2025-05-29T20:05:19.446Z: ✅ Enhanced venue: Sobell Leisure Centre (with email)
+2025-05-29T20:05:23.026Z: ✅ Enhanced venue: Kirk Merrington Community Centre
