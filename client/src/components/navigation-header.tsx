@@ -9,6 +9,7 @@ import {
   Camera, 
   Heart, 
   MessageCircle,
+  Gift,
   Menu,
   X
 } from "lucide-react";
@@ -42,6 +43,13 @@ export function NavigationHeader() {
       label: "Photography & Keepsakes", 
       icon: Camera,
       description: "Memories"
+    },
+    { 
+      path: "/free-samples", 
+      label: "Free Samples", 
+      icon: Gift,
+      description: "Baby freebies",
+      isNew: true
     },
     { 
       path: "/additional-needs", 

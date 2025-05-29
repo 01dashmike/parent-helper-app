@@ -25,6 +25,7 @@ import AdditionalNeedsPage from "./pages/additional-needs";
 import ParentSupportGroupsPage from "./pages/parent-support-groups";
 import SmartSearchPage from "./pages/smart-search";
 import ProviderDashboard from "./pages/provider-dashboard";
+import FreeSamplesPage from "./pages/free-samples";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/family-specialists" component={Services} />
       <Route path="/after-school-clubs" component={AfterSchoolClubsPage} />
       <Route path="/photography-keepsakes" component={PhotographyKeepsakesPage} />
+      <Route path="/free-samples" component={FreeSamplesPage} />
       <Route path="/additional-needs" component={AdditionalNeedsPage} />
       <Route path="/parent-support-groups" component={ParentSupportGroupsPage} />
       <Route path="/about" component={About} />
