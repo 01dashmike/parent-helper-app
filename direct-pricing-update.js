@@ -24,20 +24,9 @@ async function updateAuthenticPricing() {
       console.log(`   • ${row.name}: ${row.price}`);
     });
     
-    // Update Baby Sensory with the £27 pricing we found
-    const result2 = await client.query(`
-      UPDATE classes 
-      SET price = '£27.00', last_verified = CURRENT_TIMESTAMP
-      WHERE name LIKE '%Baby Sensory%' 
-      AND website LIKE '%babysensory.com%'
-      AND (price IS NULL OR price = '' OR price = 'Contact for pricing')
-      RETURNING id, name, price
-    `);
-    
-    console.log(`✅ Updated Baby Sensory: ${result2.rowCount} records`);
-    result2.rows.forEach(row => {
-      console.log(`   • ${row.name}: ${row.price}`);
-    });
+    // Removed: Generic franchise pricing violates data integrity policy
+    // Only individual business pricing from authentic sources should be used
+    console.log('⚠️ Skipping franchise pricing - only authentic individual business data allowed');
     
     // Check overall pricing coverage
     const coverage = await client.query(`
