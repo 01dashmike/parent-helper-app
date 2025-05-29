@@ -76,7 +76,7 @@ export function NavigationHeader() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden lg:block bg-white shadow-sm border-b sticky top-0 z-50">
+      <nav className="hidden md:block bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -123,7 +123,7 @@ export function NavigationHeader() {
       </nav>
 
       {/* Mobile Navigation */}
-      <nav className="lg:hidden bg-white shadow-sm border-b sticky top-0 z-50">
+      <nav className="md:hidden bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
