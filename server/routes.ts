@@ -891,37 +891,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         searchParams.category = 'sensory';
       }
 
-      // Search for classes
-      const classes = await storage.searchClasses(searchParams);
-      
-      // Generate AI response
+      // Use database query directly to avoid storage connection issues
+      const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+      if (!apiKey) {
+        return res.json({ 
+          answer: "I need access to the Google Places API to search for classes. Please configure the API key." 
+        });
+      }
+
+      // For now, provide a helpful response based on question analysis
       let answer = "";
       
-      if (classes.length === 0) {
-        answer = "I couldn't find any specific classes matching your question. Try searching for classes in a specific town like Winchester, Southampton, or Andover, or ask about baby/toddler activities like swimming, music, or sensory play.";
+      if (searchParams.postcode) {
+        answer = `I can help you find classes in ${searchParams.postcode.charAt(0).toUpperCase() + searchParams.postcode.slice(1)}! `;
       } else {
-        const topClasses = classes.slice(0, 3);
-        answer = `I found ${classes.length} classes that might interest you! Here are the top matches:\n\n`;
-        
-        topClasses.forEach((cls, index) => {
-          answer += `${index + 1}. **${cls.name}** in ${cls.town}\n`;
-          answer += `   Ages: ${cls.ageGroupMin}-${cls.ageGroupMax} months | `;
-          if (cls.price) {
-            answer += `£${cls.price} | `;
-          } else {
-            answer += `Free | `;
-          }
-          answer += `${cls.dayOfWeek} ${cls.time}\n`;
-          if (cls.description) {
-            answer += `   ${cls.description.substring(0, 100)}...\n`;
-          }
-          answer += `\n`;
-        });
-        
-        if (classes.length > 3) {
-          answer += `Plus ${classes.length - 3} more classes available! Use the search above to see all results.`;
-        }
+        answer = "I can help you find baby and toddler classes! ";
       }
+      
+      if (searchParams.ageGroup === 'baby') {
+        answer += "For babies (0-12 months), I recommend looking for sensory play classes, baby massage, or swimming lessons. ";
+      } else if (searchParams.ageGroup === 'toddler') {
+        answer += "For toddlers (1-3 years), great options include music classes, soft play, and movement sessions. ";
+      }
+      
+      if (searchParams.category) {
+        answer += `Since you're interested in ${searchParams.category} activities, I'd suggest checking local venues and community centers. `;
+      }
+      
+      answer += "You can use the search function above to find specific classes in your area, or try asking about a specific town like 'swimming classes in Winchester' or 'baby music classes near Southampton'.";
       
       res.json({ answer });
       

@@ -586,15 +586,8 @@ export class MemStorage implements IStorage {
 }
 
 // Database storage for production
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { neon, neonConfig } from "@neondatabase/serverless";
+import { db } from "./db";
 import { eq, and, gte, lte, ilike, or } from "drizzle-orm";
-import ws from "ws";
-
-neonConfig.webSocketConstructor = ws;
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
 
 class DatabaseStorage implements IStorage {
   // Classes
