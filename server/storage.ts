@@ -750,50 +750,36 @@ class DatabaseStorage implements IStorage {
     
     const searchTerm = className.toLowerCase();
     
-    // Split search term to identify location and activity
-    const words = searchTerm.split(' ').filter(word => word.length > 2);
-    const locationWords = ['southampton', 'winchester', 'brighton', 'london', 'andover', 'portsmouth'];
-    const activityWords = ['swimming', 'sensory', 'music', 'yoga', 'massage', 'dance'];
-    
-    let locationQuery = null;
-    let activityQuery = null;
-    
-    // Identify location and activity from search
-    for (const word of words) {
-      if (locationWords.includes(word)) {
-        locationQuery = word;
-      }
-      if (activityWords.some(activity => word.includes(activity))) {
-        activityQuery = word;
-      }
-    }
-    
     const conditions = [];
     
-    // If search contains specific brand names, prioritize exact matches
+    // Split search into words for better matching
+    const words = searchTerm.split(' ').filter(word => word.length > 2);
+    
+    // If search contains brand names, search by name and location
     if (searchTerm.includes('baby sensory') || searchTerm.includes('water babies') || searchTerm.includes('toddler sense')) {
-      conditions.push(ilike(classes.name, `%${searchTerm}%`));
-    }
-    
-    // Location + activity specific search
-    if (locationQuery && activityQuery) {
-      conditions.push(
-        and(
-          or(
-            ilike(classes.town, `%${locationQuery}%`),
-            ilike(classes.address, `%${locationQuery}%`)
-          ),
-          or(
-            ilike(classes.name, `%${activityQuery}%`),
-            ilike(classes.category, `%${activityQuery}%`),
-            ilike(classes.mainCategory, `%${activityQuery}%`)
-          )
-        )
-      );
-    }
-    
-    // Fallback to name search if no specific patterns found
-    if (conditions.length === 0) {
+      // For brand searches, look in name and consider location
+      if (words.some(word => ['winchester', 'southampton', 'andover', 'brighton'].includes(word))) {
+        // Brand + location search
+        const brands = words.filter(word => ['baby', 'sensory', 'water', 'babies', 'toddler', 'sense'].includes(word));
+        const locations = words.filter(word => ['winchester', 'southampton', 'andover', 'brighton'].includes(word));
+        
+        for (const brand of brands) {
+          conditions.push(ilike(classes.name, `%${brand}%`));
+        }
+        for (const location of locations) {
+          conditions.push(
+            or(
+              ilike(classes.town, `%${location}%`),
+              ilike(classes.address, `%${location}%`)
+            )
+          );
+        }
+      } else {
+        // Just brand name search
+        conditions.push(ilike(classes.name, `%${searchTerm}%`));
+      }
+    } else {
+      // For other searches, search in name only
       conditions.push(ilike(classes.name, `%${searchTerm}%`));
     }
     

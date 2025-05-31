@@ -959,33 +959,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (classes.length === 0) {
           answer = "I couldn't find any classes matching your search. Try asking about classes in a different town or with different activities. For example: 'baby classes in Southampton' or 'toddler music classes'.";
         } else {
-          const topClasses = classes.slice(0, 5); // Show top 5 results
-          const location = searchParams.postcode ? searchParams.postcode.charAt(0).toUpperCase() + searchParams.postcode.slice(1) : "your area";
+          const topClasses = classes.slice(0, 8); // Show up to 8 results
           
-          answer = `I found ${classes.length} classes in ${location}! Here are the top matches:\n\n`;
+          answer = `I found ${classes.length} classes matching your search:\n\n`;
           
           topClasses.forEach((cls, index) => {
-            answer += `${index + 1}. **${cls.name}** in ${cls.town}\n`;
-            answer += `   Ages: ${cls.age_group_min}-${cls.age_group_max} months | `;
-            if (cls.price) {
-              answer += `£${cls.price} | `;
-            } else {
-              answer += `Free | `;
-            }
-            answer += `${cls.day_of_week} ${cls.time}\n`;
-            if (cls.venue) {
-              answer += `   Venue: ${cls.venue}\n`;
-            }
-            if (cls.description && cls.description.length > 10) {
-              answer += `   ${cls.description.substring(0, 80)}...\n`;
-            }
-            answer += `\n`;
+            // Create clean, clickable links to class pages
+            const classUrl = `/class/${cls.id}`;
+            answer += `• [${cls.name}](${classUrl}) - ${cls.town} (${cls.dayOfWeek} ${cls.time})\n`;
           });
           
-          if (classes.length > 5) {
-            answer += `Plus ${classes.length - 5} more classes available! Use the search above to see all results.`;
-          } else {
-            answer += `Use the search function above to find more classes or get booking information.`;
+          if (classes.length > 8) {
+            answer += `\n[View all ${classes.length} results →](/search)`;
           }
         }
         
