@@ -865,7 +865,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let searchParams: any = {};
       
       // Extract location from question
-      const locationKeywords = ['andover', 'winchester', 'basingstoke', 'southampton', 'portsmouth', 'fareham', 'eastleigh', 'fleet', 'aldershot'];
+      const locationKeywords = ['andover', 'winchester', 'basingstoke', 'southampton', 'portsmouth', 'fareham', 'eastleigh', 'fleet', 'aldershot', 'guildford', 'woking', 'reading', 'salisbury', 'bournemouth', 'poole'];
       for (const location of locationKeywords) {
         if (searchTerms.includes(location)) {
           searchParams.postcode = location;
@@ -891,36 +891,170 @@ export async function registerRoutes(app: Express): Promise<Server> {
         searchParams.category = 'sensory';
       }
 
-      // Use database query directly to avoid storage connection issues
-      const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-      if (!apiKey) {
-        return res.json({ 
-          answer: "I need access to the Google Places API to search for classes. Please configure the API key." 
-        });
+      // Search using the same logic as the search endpoint
+      try {
+        console.log('Chatbot search params:', searchParams);
+        
+        // Use the same search logic as /api/classes/search
+        let params = searchParams;
+        
+        // If postcode doesn't look like a postcode, try to find it as a town name
+        if (params.postcode) {
+          const postcodePattern = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+          const partialPostcodePattern = /^[A-Z]{1,2}[0-9]/i;
+          
+          if (!postcodePattern.test(params.postcode) && !partialPostcodePattern.test(params.postcode)) {
+            // This looks like a town name, try to convert to postcode
+            const normalizedSearch = params.postcode.toLowerCase().trim();
+            
+            // Define major towns directly in server for reliable lookup
+            const majorTowns = [
+              { name: "Winchester", postcode: "SO23" },
+              { name: "Southampton", postcode: "SO14" },
+              { name: "Portsmouth", postcode: "PO1" },
+              { name: "Basingstoke", postcode: "RG21" },
+              { name: "Andover", postcode: "SP10" },
+              { name: "Fareham", postcode: "PO14" },
+              { name: "Eastleigh", postcode: "SO50" },
+              { name: "Fleet", postcode: "GU51" },
+              { name: "Aldershot", postcode: "GU11" },
+              { name: "Farnborough", postcode: "GU14" },
+              { name: "Gosport", postcode: "PO12" },
+              { name: "Havant", postcode: "PO9" },
+              { name: "Waterlooville", postcode: "PO7" },
+              { name: "Reading", postcode: "RG1" },
+              { name: "Guildford", postcode: "GU1" },
+              { name: "Woking", postcode: "GU21" },
+              { name: "Salisbury", postcode: "SP1" },
+              { name: "Bournemouth", postcode: "BH1" },
+              { name: "Poole", postcode: "BH15" }
+            ];
+            
+            // Try exact match first
+            for (const town of majorTowns) {
+              if (town.name.toLowerCase() === normalizedSearch) {
+                params.postcode = town.postcode;
+                break;
+              }
+            }
+          }
+        }
+        
+        // Search for classes using direct database query to avoid schema issues
+        const { Pool } = require('pg');
+        const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+        
+        let searchQuery = `
+          SELECT name, town, venue, address, age_group_min, age_group_max, price, day_of_week, time, description, postcode
+          FROM classes 
+          WHERE is_active = true
+        `;
+        const queryParams = [];
+        let paramIndex = 1;
+        
+        // Add location filter
+        if (params.postcode) {
+          if (params.postcode.match(/^[A-Z]{1,2}[0-9]/i)) {
+            // Looks like a postcode
+            searchQuery += ` AND LOWER(postcode) LIKE $${paramIndex}`;
+            queryParams.push(`${params.postcode.toLowerCase()}%`);
+            paramIndex++;
+          } else {
+            // Looks like a town name
+            searchQuery += ` AND LOWER(town) LIKE $${paramIndex}`;
+            queryParams.push(`%${params.postcode.toLowerCase()}%`);
+            paramIndex++;
+          }
+        }
+        
+        // Add age group filter
+        if (params.ageGroup === 'baby') {
+          searchQuery += ` AND age_group_min <= 12`;
+        } else if (params.ageGroup === 'toddler') {
+          searchQuery += ` AND age_group_max >= 12`;
+        }
+        
+        // Add category filter
+        if (params.category) {
+          searchQuery += ` AND (LOWER(name) LIKE $${paramIndex} OR LOWER(description) LIKE $${paramIndex})`;
+          queryParams.push(`%${params.category.toLowerCase()}%`);
+          paramIndex++;
+        }
+        
+        searchQuery += ` ORDER BY CASE 
+          WHEN LOWER(name) LIKE '%baby sensory%' THEN 1 
+          WHEN LOWER(name) LIKE '%water babies%' THEN 2
+          WHEN LOWER(name) LIKE '%tumble tots%' THEN 3
+          ELSE 4 
+        END LIMIT 20`;
+        
+        const result = await pool.query(searchQuery, queryParams);
+        const classes = result.rows;
+        console.log(`Chatbot found ${classes.length} classes`);
+        await pool.end();
+        
+        // Generate response with actual search results
+        let answer = "";
+        
+        if (classes.length === 0) {
+          answer = "I couldn't find any classes matching your search. Try asking about classes in a different town or with different activities. For example: 'baby classes in Southampton' or 'toddler music classes'.";
+        } else {
+          const topClasses = classes.slice(0, 5); // Show top 5 results
+          const location = searchParams.postcode ? searchParams.postcode.charAt(0).toUpperCase() + searchParams.postcode.slice(1) : "your area";
+          
+          answer = `I found ${classes.length} classes in ${location}! Here are the top matches:\n\n`;
+          
+          topClasses.forEach((cls, index) => {
+            answer += `${index + 1}. **${cls.name}** in ${cls.town}\n`;
+            answer += `   Ages: ${cls.age_group_min}-${cls.age_group_max} months | `;
+            if (cls.price) {
+              answer += `£${cls.price} | `;
+            } else {
+              answer += `Free | `;
+            }
+            answer += `${cls.day_of_week} ${cls.time}\n`;
+            if (cls.venue) {
+              answer += `   Venue: ${cls.venue}\n`;
+            }
+            if (cls.description && cls.description.length > 10) {
+              answer += `   ${cls.description.substring(0, 80)}...\n`;
+            }
+            answer += `\n`;
+          });
+          
+          if (classes.length > 5) {
+            answer += `Plus ${classes.length - 5} more classes available! Use the search above to see all results.`;
+          } else {
+            answer += `Use the search function above to find more classes or get booking information.`;
+          }
+        }
+        
+        res.json({ answer });
+        
+      } catch (searchError) {
+        console.error('Chatbot search error:', searchError);
+        
+        // Fallback response if search fails
+        let answer = "I'm having trouble searching the database right now, but I can help you find the right classes! ";
+        
+        if (searchParams.postcode) {
+          answer += `For classes in ${searchParams.postcode.charAt(0).toUpperCase() + searchParams.postcode.slice(1)}, `;
+        }
+        
+        if (searchParams.ageGroup === 'baby') {
+          answer += "try looking for Baby Sensory, swimming lessons, or baby massage classes. ";
+        } else if (searchParams.ageGroup === 'toddler') {
+          answer += "try looking for music classes, soft play, or toddler activities. ";
+        }
+        
+        if (searchParams.category) {
+          answer += `For ${searchParams.category} activities, check local community centers and leisure facilities. `;
+        }
+        
+        answer += "Use the search function above to find specific classes in your area.";
+        
+        res.json({ answer });
       }
-
-      // For now, provide a helpful response based on question analysis
-      let answer = "";
-      
-      if (searchParams.postcode) {
-        answer = `I can help you find classes in ${searchParams.postcode.charAt(0).toUpperCase() + searchParams.postcode.slice(1)}! `;
-      } else {
-        answer = "I can help you find baby and toddler classes! ";
-      }
-      
-      if (searchParams.ageGroup === 'baby') {
-        answer += "For babies (0-12 months), I recommend looking for sensory play classes, baby massage, or swimming lessons. ";
-      } else if (searchParams.ageGroup === 'toddler') {
-        answer += "For toddlers (1-3 years), great options include music classes, soft play, and movement sessions. ";
-      }
-      
-      if (searchParams.category) {
-        answer += `Since you're interested in ${searchParams.category} activities, I'd suggest checking local venues and community centers. `;
-      }
-      
-      answer += "You can use the search function above to find specific classes in your area, or try asking about a specific town like 'swimming classes in Winchester' or 'baby music classes near Southampton'.";
-      
-      res.json({ answer });
       
     } catch (error) {
       console.error('Chatbot error:', error);
