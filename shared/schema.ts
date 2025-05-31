@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, decimal, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, decimal, timestamp, date, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -6,53 +6,199 @@ export const classes = pgTable("classes", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  ageGroupMin: integer("age_group_min").notNull(), // in months
-  ageGroupMax: integer("age_group_max").notNull(), // in months
-  price: text("price"), // text to handle both numeric and descriptive prices
+  ageGroupMin: integer("age_group_min").notNull(),
+  ageGroupMax: integer("age_group_max").notNull(),
+  price: text("price"),
   isFeatured: boolean("is_featured").default(false).notNull(),
   venue: text("venue").notNull(),
   address: text("address").notNull(),
   postcode: text("postcode").notNull(),
-  town: text("town").notNull(), // nearest major town with population > 15,000
-  additionalTowns: text("additional_towns").array(), // nearby towns for expanded search
+  town: text("town").notNull(),
+  additionalTowns: text("additional_towns").array(),
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 10, scale: 8 }),
   searchRadiusKm: integer("search_radius_km").default(5),
-  // Transport and accessibility information
+  
+  // Transport and accessibility
   parkingAvailable: boolean("parking_available"),
-  parkingType: text("parking_type"), // 'free', 'paid', 'street', 'none'
+  parkingType: text("parking_type"),
   parkingNotes: text("parking_notes"),
   nearestTubeStation: text("nearest_tube_station"),
   nearestBusStops: text("nearest_bus_stops").array(),
-  transportAccessibility: text("transport_accessibility"), // 'step-free', 'limited', 'difficult'
-  venueAccessibility: text("venue_accessibility"), // 'wheelchair-accessible', 'buggy-friendly', 'step-free', 'stairs-only'
+  transportAccessibility: text("transport_accessibility"),
+  venueAccessibility: text("venue_accessibility"),
   accessibilityNotes: text("accessibility_notes"),
+  accessibilityFeatures: text("accessibility_features"),
+  wheelchairAccessible: boolean("wheelchair_accessible"),
+  
+  // Schedule information
   dayOfWeek: text("day_of_week").notNull(),
   time: text("time").notNull(),
+  timeOfDay: text("time_of_day"),
+  timeCategory: text("time_category"),
+  sessionDuration: text("session_duration"),
+  weeklyScheduleSummary: text("weekly_schedule_summary"),
+  sessionGroupId: text("session_group_id"),
+  primarySession: boolean("primary_session"),
+  sessionCount: integer("session_count"),
+  sessionType: text("session_type"),
+  
+  // Contact information
   contactEmail: text("contact_email"),
   contactPhone: text("contact_phone"),
-  whatsappNumber: text("whatsapp_number"), // for direct contact (premium feature)
+  phone: text("phone"),
+  email: text("email"),
+  whatsappNumber: text("whatsapp_number"),
   website: text("website"),
-  instagramHandle: text("instagram_handle"), // for fetching photos
-  facebookPage: text("facebook_page"), // for fetching events
-  category: text("category").notNull(), // music, swimming, sensory, yoga, etc.
-  serviceType: text("service_type").default("classes").notNull(), // classes, services, clubs
+  instagramHandle: text("instagram_handle"),
+  facebookPage: text("facebook_page"),
+  socialMedia: text("social_media"),
+  
+  // Categories and classification
+  category: text("category").notNull(),
+  mainCategory: text("main_category"),
+  subcategory: text("subcategory"),
+  serviceType: text("service_type").default("classes").notNull(),
+  ageAppropriate: text("age_appropriate"),
+  ageSpecificSession: text("age_specific_session"),
+  ageRestrictions: text("age_restrictions"),
+  
+  // Rating and reviews
   rating: decimal("rating", { precision: 3, scale: 2 }),
   reviewCount: integer("review_count").default(0),
-  popularity: integer("popularity").default(0), // for sorting
+  userRatingsTotal: integer("user_ratings_total"),
+  businessRating: decimal("business_rating", { precision: 3, scale: 2 }),
+  reviewInfo: text("review_info"),
+  reviewSummary: text("review_summary"),
+  popularity: integer("popularity").default(0),
+  
+  // Status and verification
   isActive: boolean("is_active").default(true).notNull(),
+  verificationStatus: text("verification_status"),
+  lastVerified: timestamp("last_verified"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  
   // Booking system fields
   bookingEnabled: boolean("booking_enabled").default(false).notNull(),
-  bookingType: text("booking_type").default("inquiry"), // 'instant', 'inquiry'
+  bookingType: text("booking_type").default("inquiry"),
+  bookingEngineType: text("booking_engine_type"),
+  bookingUrl: text("booking_url"),
+  bookingLink: text("booking_link"),
+  bookingEmail: text("booking_email"),
+  bookingPhone: text("booking_phone"),
+  bookingNotes: text("booking_notes"),
+  bookingRequired: boolean("booking_required"),
+  bookingAdvanceDays: integer("booking_advance_days"),
+  advanceBookingRequired: boolean("advance_booking_required"),
+  directBookingAvailable: boolean("direct_booking_available"),
+  onlineBooking: boolean("online_booking"),
+  onlinePaymentAccepted: boolean("online_payment_accepted"),
+  registrationRequired: boolean("registration_required"),
+  
+  // Capacity and availability
   maxCapacity: integer("max_capacity"),
+  minCapacity: integer("min_capacity"),
   currentBookings: integer("current_bookings").default(0),
+  availableSpots: integer("available_spots"),
+  currentAvailability: integer("current_availability"),
+  classSize: integer("class_size"),
+  groupSizeMin: integer("group_size_min"),
+  groupSizeMax: integer("group_size_max"),
+  maxParticipants: integer("max_participants"),
+  
+  // Pricing
   bookingPrice: decimal("booking_price", { precision: 10, scale: 2 }),
-  blockBookingAvailable: boolean("block_booking_available").default(false),
-  blockBookingPrice: decimal("block_booking_price", { precision: 10, scale: 2 }),
-  blockBookingSessions: integer("block_booking_sessions"),
+  pricePerSession: decimal("price_per_session", { precision: 10, scale: 2 }),
+  priceDetails: text("price_details"),
+  priceLevel: integer("price_level"),
+  blockBookingAvailable: boolean("block_booking_available"),
+  blockBookingPrices: text("block_booking_prices"),
+  paymentMethods: text("payment_methods"),
+  
+  // Class features
+  dropInAllowed: boolean("drop_in_allowed"),
+  trialSessionAvailable: boolean("trial_session_available"),
+  freeTrialAvailable: boolean("free_trial_available"),
+  waitingList: boolean("waiting_list"),
+  waitingListCount: integer("waiting_list_count"),
+  waitlistAvailable: boolean("waitlist_available"),
+  
+  // Class details
+  classFormat: text("class_format"),
+  skillLevel: text("skill_level"),
+  prerequisites: text("prerequisites"),
+  equipmentProvided: boolean("equipment_provided"),
+  outdoorActivities: boolean("outdoor_activities"),
+  whatToBring: text("what_to_bring"),
+  whatToExpect: text("what_to_expect"),
+  classNotes: text("class_notes"),
+  additionalInfo: text("additional_info"),
+  
+  // Provider information
+  providerName: text("provider_name"),
+  providerContact: text("provider_contact"),
+  providerBio: text("provider_bio"),
+  providerQualifications: text("provider_qualifications"),
+  providerExperience: text("provider_experience"),
+  instructorName: text("instructor_name"),
+  instructorBio: text("instructor_bio"),
+  instructorQualifications: text("instructor_qualifications"),
+  staffQualifications: text("staff_qualifications"),
+  
+  // Policies and requirements
   cancellationPolicy: text("cancellation_policy"),
-  providerId: integer("provider_id"), // references providers table
+  refundPolicy: text("refund_policy"),
+  specialRequirements: text("special_requirements"),
+  insuranceRequired: boolean("insurance_required"),
+  insuranceDetails: text("insurance_details"),
+  safetyMeasures: text("safety_measures"),
+  uniformRequired: boolean("uniform_required"),
+  membershipRequired: boolean("membership_required"),
+  
+  // Discounts and offers
+  siblingDiscounts: text("sibling_discounts"),
+  multiChildDiscount: boolean("multi_child_discount"),
+  earlyBirdDiscount: boolean("early_bird_discount"),
+  familyDiscounts: text("family_discounts"),
+  promotionalOffer: text("promotional_offer"),
+  loyaltyProgram: boolean("loyalty_program"),
+  referralDiscount: boolean("referral_discount"),
+  
+  // Schedule and timing
+  seasonStartDate: date("season_start_date"),
+  seasonEndDate: date("season_end_date"),
+  courseDuration: text("course_duration"),
+  termDates: text("term_dates"),
+  fixedCourseDates: boolean("fixed_course_dates"),
+  holidayClasses: boolean("holiday_classes"),
+  
+  // Family features
+  parentParticipation: text("parent_participation"),
+  dropOffAllowed: boolean("drop_off_allowed"),
+  siblingFriendly: boolean("sibling_friendly"),
+  disabilitySupport: text("disability_support"),
+  languagesSpoken: text("languages_spoken"),
+  
+  // Media and visuals
+  imageUrls: text("image_urls"),
+  videoUrl: text("video_url"),
+  virtualTourUrl: text("virtual_tour_url"),
+  streetViewImageUrl: text("street_view_image_url"),
+  
+  // AI and analytics
+  aiSummary: text("ai_summary"),
+  aiTags: text("ai_tags"),
+  aiQualityScore: real("ai_quality_score"),
+  aiSentimentScore: real("ai_sentiment_score"),
+  aiRecommendations: text("ai_recommendations"),
+  aiLastAnalyzed: timestamp("ai_last_analyzed"),
+  areasForImprovement: text("areas_for_improvement"),
+  commonPositives: text("common_positives"),
+  
+  // Location data
+  distanceFromSearch: real("distance_from_search"),
+  
+  providerId: integer("provider_id"),
 });
 
 export const newsletters = pgTable("newsletters", {
