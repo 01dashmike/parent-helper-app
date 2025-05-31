@@ -749,41 +749,61 @@ class DatabaseStorage implements IStorage {
     console.log(`Searching for className: "${className}"`);
     
     const searchTerm = className.toLowerCase();
-    const searchWords = searchTerm.split(' ').filter(word => word.length > 2);
     
-    // Create comprehensive search conditions
+    // Split search term to identify location and activity
+    const words = searchTerm.split(' ').filter(word => word.length > 2);
+    const locationWords = ['southampton', 'winchester', 'brighton', 'london', 'andover', 'portsmouth'];
+    const activityWords = ['swimming', 'sensory', 'music', 'yoga', 'massage', 'dance'];
+    
+    let locationQuery = null;
+    let activityQuery = null;
+    
+    // Identify location and activity from search
+    for (const word of words) {
+      if (locationWords.includes(word)) {
+        locationQuery = word;
+      }
+      if (activityWords.some(activity => word.includes(activity))) {
+        activityQuery = word;
+      }
+    }
+    
     const conditions = [];
     
-    // Search for individual words in multiple fields
-    for (const word of searchWords) {
+    // If search contains specific brand names, prioritize exact matches
+    if (searchTerm.includes('baby sensory') || searchTerm.includes('water babies') || searchTerm.includes('toddler sense')) {
+      conditions.push(ilike(classes.name, `%${searchTerm}%`));
+    }
+    
+    // Location + activity specific search
+    if (locationQuery && activityQuery) {
       conditions.push(
-        ilike(classes.name, `%${word}%`),
-        ilike(classes.description, `%${word}%`),
-        ilike(classes.venue, `%${word}%`),
-        ilike(classes.address, `%${word}%`),
-        ilike(classes.town, `%${word}%`),
-        ilike(classes.category, `%${word}%`),
-        ilike(classes.mainCategory, `%${word}%`)
+        and(
+          or(
+            ilike(classes.town, `%${locationQuery}%`),
+            ilike(classes.address, `%${locationQuery}%`)
+          ),
+          or(
+            ilike(classes.name, `%${activityQuery}%`),
+            ilike(classes.category, `%${activityQuery}%`),
+            ilike(classes.mainCategory, `%${activityQuery}%`)
+          )
+        )
       );
     }
     
-    // Also search for the full term
-    conditions.push(
-      ilike(classes.name, `%${searchTerm}%`),
-      ilike(classes.description, `%${searchTerm}%`),
-      ilike(classes.venue, `%${searchTerm}%`),
-      ilike(classes.address, `%${searchTerm}%`),
-      ilike(classes.town, `%${searchTerm}%`)
-    );
+    // Fallback to name search if no specific patterns found
+    if (conditions.length === 0) {
+      conditions.push(ilike(classes.name, `%${searchTerm}%`));
+    }
     
-    // Only show active classes
     const whereCondition = and(
       eq(classes.isActive, true),
       or(...conditions)
     );
     
-    const results = await db.select().from(classes).where(whereCondition);
-    console.log(`Found ${results.length} results for className search`);
+    const results = await db.select().from(classes).where(whereCondition).limit(15);
+    console.log(`Found ${results.length} results for precise search`);
     
     // Sort with Baby Sensory classes first
     return results.sort((a, b) => {
