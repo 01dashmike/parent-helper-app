@@ -749,15 +749,32 @@ class DatabaseStorage implements IStorage {
     console.log(`Searching for className: "${className}"`);
     
     const searchTerm = className.toLowerCase();
+    const searchWords = searchTerm.split(' ').filter(word => word.length > 2);
     
-    // Create flexible search conditions for name, description, venue, and address
-    const conditions = [
+    // Create comprehensive search conditions
+    const conditions = [];
+    
+    // Search for individual words in multiple fields
+    for (const word of searchWords) {
+      conditions.push(
+        ilike(classes.name, `%${word}%`),
+        ilike(classes.description, `%${word}%`),
+        ilike(classes.venue, `%${word}%`),
+        ilike(classes.address, `%${word}%`),
+        ilike(classes.town, `%${word}%`),
+        ilike(classes.category, `%${word}%`),
+        ilike(classes.mainCategory, `%${word}%`)
+      );
+    }
+    
+    // Also search for the full term
+    conditions.push(
       ilike(classes.name, `%${searchTerm}%`),
       ilike(classes.description, `%${searchTerm}%`),
       ilike(classes.venue, `%${searchTerm}%`),
       ilike(classes.address, `%${searchTerm}%`),
       ilike(classes.town, `%${searchTerm}%`)
-    ];
+    );
     
     // Only show active classes
     const whereCondition = and(
