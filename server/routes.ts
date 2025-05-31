@@ -851,6 +851,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI Chatbot endpoint
+  app.post("/ask", async (req, res) => {
+    try {
+      const { question } = req.body;
+      
+      if (!question || typeof question !== 'string') {
+        return res.status(400).json({ answer: "Please ask a question about baby and toddler classes." });
+      }
+
+      // Search for relevant classes based on the question
+      const searchTerms = question.toLowerCase();
+      let searchParams: any = {};
+      
+      // Extract location from question
+      const locationKeywords = ['andover', 'winchester', 'basingstoke', 'southampton', 'portsmouth', 'fareham', 'eastleigh', 'fleet', 'aldershot'];
+      for (const location of locationKeywords) {
+        if (searchTerms.includes(location)) {
+          searchParams.postcode = location;
+          break;
+        }
+      }
+      
+      // Extract age-related keywords
+      if (searchTerms.includes('baby') || searchTerms.includes('newborn') || searchTerms.includes('0-6 months')) {
+        searchParams.ageGroup = 'baby';
+      } else if (searchTerms.includes('toddler') || searchTerms.includes('1 year') || searchTerms.includes('2 year')) {
+        searchParams.ageGroup = 'toddler';
+      }
+      
+      // Extract activity categories
+      if (searchTerms.includes('swim') || searchTerms.includes('water')) {
+        searchParams.category = 'swimming';
+      } else if (searchTerms.includes('music') || searchTerms.includes('sing')) {
+        searchParams.category = 'music';
+      } else if (searchTerms.includes('yoga') || searchTerms.includes('movement')) {
+        searchParams.category = 'yoga';
+      } else if (searchTerms.includes('sensory') || searchTerms.includes('play')) {
+        searchParams.category = 'sensory';
+      }
+
+      // Search for classes
+      const classes = await storage.searchClasses(searchParams);
+      
+      // Generate AI response
+      let answer = "";
+      
+      if (classes.length === 0) {
+        answer = "I couldn't find any specific classes matching your question. Try searching for classes in a specific town like Winchester, Southampton, or Andover, or ask about baby/toddler activities like swimming, music, or sensory play.";
+      } else {
+        const topClasses = classes.slice(0, 3);
+        answer = `I found ${classes.length} classes that might interest you! Here are the top matches:\n\n`;
+        
+        topClasses.forEach((cls, index) => {
+          answer += `${index + 1}. **${cls.name}** in ${cls.town}\n`;
+          answer += `   Ages: ${cls.ageGroupMin}-${cls.ageGroupMax} months | `;
+          if (cls.price) {
+            answer += `£${cls.price} | `;
+          } else {
+            answer += `Free | `;
+          }
+          answer += `${cls.dayOfWeek} ${cls.time}\n`;
+          if (cls.description) {
+            answer += `   ${cls.description.substring(0, 100)}...\n`;
+          }
+          answer += `\n`;
+        });
+        
+        if (classes.length > 3) {
+          answer += `Plus ${classes.length - 3} more classes available! Use the search above to see all results.`;
+        }
+      }
+      
+      res.json({ answer });
+      
+    } catch (error) {
+      console.error('Chatbot error:', error);
+      res.status(500).json({ 
+        answer: "Sorry, I'm having trouble right now. Please try asking about baby and toddler classes in your area." 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
