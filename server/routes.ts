@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { pool } from "./db";
 import { searchSchema, insertNewsletterSchema, listClassSchema, bookingFormSchema, insertBookingRequestSchema } from "@shared/schema";
 import { sendClassSubmissionNotification } from "./email-service";
 import { parseSmartSearch } from "./smart-search";
@@ -940,58 +941,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         }
         
-        // Search for classes using direct database query to avoid schema issues
-        const { Pool } = require('pg');
-        const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+        // Use smart search to find classes in your authentic database
+        let smartSearchParams = params;
         
-        let searchQuery = `
-          SELECT name, town, venue, address, age_group_min, age_group_max, price, day_of_week, time, description, postcode
-          FROM classes 
-          WHERE is_active = true
-        `;
-        const queryParams = [];
-        let paramIndex = 1;
-        
-        // Add location filter
-        if (params.postcode) {
-          if (params.postcode.match(/^[A-Z]{1,2}[0-9]/i)) {
-            // Looks like a postcode
-            searchQuery += ` AND LOWER(postcode) LIKE $${paramIndex}`;
-            queryParams.push(`${params.postcode.toLowerCase()}%`);
-            paramIndex++;
-          } else {
-            // Looks like a town name
-            searchQuery += ` AND LOWER(town) LIKE $${paramIndex}`;
-            queryParams.push(`%${params.postcode.toLowerCase()}%`);
-            paramIndex++;
-          }
+        // If we have sensory in the query, also try className search
+        if (searchTerms.includes('sensory') || searchTerms.includes('baby sensory')) {
+          smartSearchParams.className = question;
         }
         
-        // Add age group filter
-        if (params.ageGroup === 'baby') {
-          searchQuery += ` AND age_group_min <= 12`;
-        } else if (params.ageGroup === 'toddler') {
-          searchQuery += ` AND age_group_max >= 12`;
-        }
-        
-        // Add category filter
-        if (params.category) {
-          searchQuery += ` AND (LOWER(name) LIKE $${paramIndex} OR LOWER(description) LIKE $${paramIndex})`;
-          queryParams.push(`%${params.category.toLowerCase()}%`);
-          paramIndex++;
-        }
-        
-        searchQuery += ` ORDER BY CASE 
-          WHEN LOWER(name) LIKE '%baby sensory%' THEN 1 
-          WHEN LOWER(name) LIKE '%water babies%' THEN 2
-          WHEN LOWER(name) LIKE '%tumble tots%' THEN 3
-          ELSE 4 
-        END LIMIT 20`;
-        
-        const result = await pool.query(searchQuery, queryParams);
-        const classes = result.rows;
-        console.log(`Chatbot found ${classes.length} classes`);
-        await pool.end();
+        // Search for classes using existing search methods
+        const classes = await storage.searchByClassName(question);
+        console.log(`Chatbot found ${classes.length} classes using className search`);
         
         // Generate response with actual search results
         let answer = "";
