@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, X, Minimize2 } from 'lucide-react';
+import { MessageCircle, Send, X, Minimize2, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 
 interface Message {
@@ -11,6 +11,65 @@ interface Message {
   text: string;
   isUser: boolean;
   timestamp: Date;
+}
+
+// Component for rendering search results with animations
+function SearchResultItem({ text, delay }: { text: string; delay: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  // Check if the text contains a link pattern [text](url)
+  const linkMatch = text.match(/\[([^\]]+)\]\(([^)]+)\)/);
+  
+  if (linkMatch) {
+    const [fullMatch, linkText, url] = linkMatch;
+    const beforeLink = text.substring(0, text.indexOf(fullMatch));
+    const afterLink = text.substring(text.indexOf(fullMatch) + fullMatch.length);
+    
+    return (
+      <div className={`transition-all duration-500 ease-out transform ${
+        isVisible ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
+      }`}>
+        <div className="group flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 transition-all duration-200 cursor-pointer hover:shadow-sm hover:scale-[1.02]">
+          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse group-hover:animate-none group-hover:bg-blue-600 transition-colors duration-200"></div>
+          <div className="flex-1">
+            {beforeLink}
+            <a 
+              href={url} 
+              className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                // Add click animation
+                e.currentTarget.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  window.location.href = url;
+                }, 100);
+              }}
+            >
+              {linkText}
+            </a>
+            {afterLink}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className={`transition-all duration-500 ease-out transform ${
+      isVisible ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
+    }`}>
+      <div className="flex items-center gap-2 p-1">
+        <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+        <span>{text}</span>
+      </div>
+    </div>
+  );
 }
 
 export function AIChatbot() {
@@ -89,38 +148,41 @@ export function AIChatbot() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50 
+                   transition-all duration-300 hover:scale-110 hover:shadow-xl
+                   animate-pulse"
         size="icon"
       >
-        <MessageCircle className="h-6 w-6 text-white" />
+        <MessageCircle className="h-6 w-6 text-white transition-transform duration-200" />
       </Button>
     );
   }
 
   return (
-    <Card className={`fixed bottom-6 right-6 w-80 h-96 shadow-2xl z-50 transition-all duration-300 ${
-      isMinimized ? 'h-14' : 'h-96'
-    }`}>
+    <Card className={`fixed bottom-6 right-6 w-80 shadow-2xl z-50 
+                     transition-all duration-500 ease-in-out transform
+                     ${isMinimized ? 'h-14 scale-95' : 'h-96 scale-100'}
+                     animate-in slide-in-from-bottom-5 fade-in-0`}>
       <CardHeader className="flex flex-row items-center justify-between p-4 bg-blue-600 text-white rounded-t-lg">
-        <CardTitle className="text-sm font-medium">
+        <CardTitle className="text-sm font-medium transition-opacity duration-200">
           Parent Helper Assistant
         </CardTitle>
         <div className="flex gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-white hover:bg-blue-700"
+            className="h-6 w-6 text-white hover:bg-blue-700 transition-all duration-200 hover:scale-110"
             onClick={() => setIsMinimized(!isMinimized)}
           >
-            <Minimize2 className="h-4 w-4" />
+            <Minimize2 className="h-4 w-4 transition-transform duration-200" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-white hover:bg-blue-700"
+            className="h-6 w-6 text-white hover:bg-blue-700 transition-all duration-200 hover:scale-110"
             onClick={() => setIsOpen(false)}
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4 transition-transform duration-200" />
           </Button>
         </div>
       </CardHeader>
