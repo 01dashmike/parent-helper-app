@@ -29,7 +29,7 @@ class StreamlinedAddressEnhancer {
       WHERE (latitude IS NULL OR longitude IS NULL) 
       AND venue IS NOT NULL 
       AND provider_name IN ('Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots')
-      AND created_at > NOW() - INTERVAL '6 hours'
+      AND created_at > NOW() - INTERVAL '24 hours'
       AND LENGTH(venue) > 10
       AND LENGTH(venue) < 100
       ORDER BY provider_name, town
