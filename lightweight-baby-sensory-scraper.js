@@ -250,7 +250,6 @@ class LightweightBabySensoryScraper {
             $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
             $21, $22
           )
-          ON CONFLICT (name, venue, day_of_week, time) DO NOTHING
           RETURNING id
         `;
 
