@@ -498,6 +498,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Franchise directory endpoints
+  app.get("/api/franchise-stats", async (req, res) => {
+    try {
+      const query = `
+        SELECT 
+          provider_name,
+          COUNT(*) as total_classes,
+          COUNT(CASE WHEN latitude IS NOT NULL AND longitude IS NOT NULL THEN 1 END) as enhanced_classes,
+          ROUND(100.0 * COUNT(CASE WHEN latitude IS NOT NULL AND longitude IS NOT NULL THEN 1 END) / COUNT(*), 1) as percentage_enhanced,
+          COUNT(DISTINCT town) as towns_covered
+        FROM classes 
+        WHERE provider_name IN ('Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots')
+        GROUP BY provider_name
+        ORDER BY total_classes DESC
+      `;
+      
+      const result = await pool.query(query);
+      
+      // Get sample locations for each provider
+      const statsWithSamples = await Promise.all(
+        result.rows.map(async (stat) => {
+          const sampleQuery = `
+            SELECT venue, town, latitude, longitude
+            FROM classes 
+            WHERE provider_name = $1 
+            AND latitude IS NOT NULL 
+            AND longitude IS NOT NULL
+            ORDER BY RANDOM()
+            LIMIT 3
+          `;
+          
+          const sampleResult = await pool.query(sampleQuery, [stat.provider_name]);
+          
+          return {
+            ...stat,
+            sample_locations: sampleResult.rows
+          };
+        })
+      );
+      
+      res.json(statsWithSamples);
+    } catch (error) {
+      console.error("Error fetching franchise stats:", error);
+      res.status(500).json({ message: "Failed to fetch franchise statistics" });
+    }
+  });
+
+  app.get("/api/franchise-classes", async (req, res) => {
+    try {
+      const { provider } = req.query;
+      
+      if (!provider) {
+        return res.status(400).json({ message: "Provider parameter is required" });
+      }
+      
+      const query = `
+        SELECT 
+          id, name, description, venue, town, postcode, address,
+          latitude, longitude, dayOfWeek, time, 
+          ageGroupMin, ageGroupMax, price, website
+        FROM classes 
+        WHERE provider_name = $1
+        ORDER BY town, venue
+      `;
+      
+      const result = await pool.query(query, [provider]);
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching franchise classes:", error);
+      res.status(500).json({ message: "Failed to fetch franchise classes" });
+    }
+  });
+
   // Get single blog post by slug
   app.get("/api/blog/posts/:slug", async (req, res) => {
     try {

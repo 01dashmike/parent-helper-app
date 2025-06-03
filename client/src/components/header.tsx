@@ -107,12 +107,19 @@ export default function Header() {
             })}
           </nav>
           
-          {/* Add Class Button */}
-          <Button className="bg-teal-600 hover:bg-teal-700">
-            <Link href="/list-class" className="text-white">
-              ADD ACTIVITY
+          {/* Action Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
+            <Link href="/franchise-directory">
+              <Button variant="outline" className="border-coral text-coral hover:bg-coral/10">
+                Franchise Directory
+              </Button>
             </Link>
-          </Button>
+            <Button className="bg-teal-600 hover:bg-teal-700">
+              <Link href="/list-class" className="text-white">
+                ADD ACTIVITY
+              </Link>
+            </Button>
+          </div>
           
           {/* Mobile Navigation */}
           <div className="md:hidden">

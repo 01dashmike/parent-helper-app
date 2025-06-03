@@ -91,7 +91,7 @@ export default function SmartSearchPage() {
                     <div className="flex flex-wrap gap-3">
                       {Object.entries(franchiseCompanies).map(([company, count]) => (
                         <span key={company} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                          {company}: {count}
+                          {company}: {count as number}
                         </span>
                       ))}
                     </div>
