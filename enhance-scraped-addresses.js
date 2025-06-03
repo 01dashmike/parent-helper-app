@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 class ScrapedAddressEnhancer {
   constructor() {
@@ -24,12 +24,12 @@ class ScrapedAddressEnhancer {
 
   async getClassesNeedingAddresses() {
     const query = `
-      SELECT id, name, business_name, venue_name, address, town, postcode, website
+      SELECT id, name, provider_name, venue, address, town, postcode, website
       FROM classes 
       WHERE (postcode IS NULL OR latitude IS NULL) 
-      AND venue_name IS NOT NULL 
-      AND business_name IN ('Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots')
-      ORDER BY business_name, town
+      AND venue IS NOT NULL 
+      AND provider_name IN ('Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots')
+      ORDER BY provider_name, town
       LIMIT 50
     `;
 
@@ -39,16 +39,16 @@ class ScrapedAddressEnhancer {
 
   async enhanceClassAddress(classItem) {
     try {
-      const searchQuery = `${classItem.venue_name} ${classItem.town} UK`;
+      const searchQuery = `${classItem.venue} ${classItem.town} UK`;
       const placeDetails = await this.searchGooglePlaces(searchQuery);
 
       if (placeDetails) {
         await this.updateClassLocation(classItem.id, placeDetails);
         this.enhancedCount++;
-        console.log(`Enhanced: ${classItem.name} - ${classItem.venue_name}`);
+        console.log(`Enhanced: ${classItem.name} - ${classItem.venue}`);
       } else {
         this.errorCount++;
-        console.log(`No results: ${classItem.name} - ${classItem.venue_name}`);
+        console.log(`No results: ${classItem.name} - ${classItem.venue}`);
       }
 
     } catch (error) {
@@ -154,8 +154,8 @@ async function runAddressEnhancement() {
   await enhancer.runEnhancement();
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   runAddressEnhancement().catch(console.error);
 }
 
-module.exports = { ScrapedAddressEnhancer, runAddressEnhancement };
+export { ScrapedAddressEnhancer, runAddressEnhancement };
