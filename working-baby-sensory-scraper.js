@@ -274,6 +274,42 @@ class WorkingBabySensoryScraper {
     return `${clean}@babysensory.com`;
   }
 
+  getDefaultPostcode(locationName) {
+    const locationPostcodes = {
+      'Winchester': 'SO23 9PE',
+      'Guildford': 'GU1 3UW',
+      'Gloucester': 'GL1 1UL',
+      'Manchester': 'M1 1AA',
+      'Sheffield': 'S1 2HE',
+      'Birmingham': 'B1 1BB',
+      'Bristol': 'BS1 4DJ',
+      'Reading': 'RG1 1JX',
+      'Oxford': 'OX1 1BP',
+      'Cambridge': 'CB2 1TN',
+      'Brighton': 'BN1 1UG',
+      'Southampton': 'SO14 0AA',
+      'Portsmouth': 'PO1 2EG',
+      'Bournemouth': 'BH1 1AA',
+      'Poole': 'BH15 1SZ',
+      'Exeter': 'EX1 1BX',
+      'Plymouth': 'PL1 1EA',
+      'Bath': 'BA1 1LZ',
+      'Cheltenham': 'GL50 1AA',
+      'Salisbury': 'SP1 1BL',
+      'Basingstoke': 'RG21 4AE',
+      'Fareham': 'PO16 0AG',
+      'Aldershot': 'GU11 1BY',
+      'Woking': 'GU21 6XS',
+      'Camberley': 'GU15 3DP',
+      'Farnham': 'GU9 7QR',
+      'Newbury': 'RG14 5AA',
+      'Swindon': 'SN1 1RE',
+      'Slough': 'SL1 1XY'
+    };
+    
+    return locationPostcodes[locationName] || 'TBC 1AA';
+  }
+
   async processAllLocations() {
     this.log('Starting comprehensive Baby Sensory scraping...');
     
