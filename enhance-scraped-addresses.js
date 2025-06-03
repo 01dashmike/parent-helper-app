@@ -26,11 +26,12 @@ class ScrapedAddressEnhancer {
     const query = `
       SELECT id, name, provider_name, venue, address, town, postcode, website
       FROM classes 
-      WHERE (postcode IS NULL OR latitude IS NULL) 
+      WHERE (latitude IS NULL OR longitude IS NULL) 
       AND venue IS NOT NULL 
       AND provider_name IN ('Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots')
+      AND created_at > NOW() - INTERVAL '2 hours'
       ORDER BY provider_name, town
-      LIMIT 50
+      LIMIT 100
     `;
 
     const result = await this.client.query(query);
