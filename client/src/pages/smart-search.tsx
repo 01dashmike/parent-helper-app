@@ -66,9 +66,41 @@ export default function SmartSearchPage() {
 
         {classes && classes.length > 0 && (
           <div className="space-y-6">
-            <p className="text-gray-600">
-              Found {classes.length} {classes.length === 1 ? 'class' : 'classes'}
-            </p>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-600">
+                Found {classes.length} {classes.length === 1 ? 'class' : 'classes'}
+              </p>
+              <div className="text-sm text-gray-500">
+                {classes.filter((c: any) => c.latitude && c.longitude).length} with precise locations
+              </div>
+            </div>
+            
+            {/* Franchise Company Summary */}
+            {(() => {
+              const franchiseCompanies = classes
+                .filter((c: any) => ['Baby Sensory', 'Water Babies', 'Monkey Music', 'Sing and Sign', 'Toddler Sense', 'Tumble Tots'].includes(c.provider_name))
+                .reduce((acc: any, c: any) => {
+                  acc[c.provider_name] = (acc[c.provider_name] || 0) + 1;
+                  return acc;
+                }, {});
+              
+              if (Object.keys(franchiseCompanies).length > 0) {
+                return (
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+                    <h3 className="font-semibold text-blue-900 mb-2">National Franchise Classes Found:</h3>
+                    <div className="flex flex-wrap gap-3">
+                      {Object.entries(franchiseCompanies).map(([company, count]) => (
+                        <span key={company} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          {company}: {count}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {classes.map((classItem: any) => (
                 <ClassCard key={classItem.id} classItem={classItem} />
