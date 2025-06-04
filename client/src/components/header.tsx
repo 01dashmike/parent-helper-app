@@ -61,56 +61,59 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center flex-shrink-0">
-            <div className="flex items-center space-x-3">
+          <Link href="/" className="flex items-center flex-shrink-0 mr-4">
+            <div className="flex items-center space-x-2">
               <img 
                 src={parentHelperLogo} 
                 alt="Parent Helper Logo" 
-                className="h-12 w-12"
+                className="h-10 w-10"
               />
-              <div>
-                <h1 className="text-2xl font-bold text-teal-600">Parent Helper</h1>
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-bold text-teal-600">Parent Helper</h1>
               </div>
             </div>
           </Link>
 
-          {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 flex-1 justify-center overflow-hidden">
-            {navItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = isActivePath(item.href);
-              
-              return (
-                <Link key={item.href} href={item.href}>
-                  <Button
-                    variant={isActive ? "default" : "ghost"}
-                    className={`relative h-12 px-2 flex flex-col items-center gap-1 text-xs ${
-                      isActive 
-                        ? "bg-teal-100 text-teal-700 hover:bg-teal-200" 
-                        : "hover:bg-gray-100"
-                    }`}
-                  >
-                    <div className="flex items-center gap-1">
-                      <IconComponent className="h-3 w-3" />
-                      <span className="text-[10px] font-medium leading-tight">{item.label}</span>
-                      {item.isNew && (
-                        <Badge className="bg-pink-500 text-white text-[8px] px-1 py-0 h-3 ml-1">
-                          NEW
-                        </Badge>
-                      )}
-                    </div>
-                    <span className="text-[9px] text-gray-500 leading-none">{item.description}</span>
-                  </Button>
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Main Navigation - takes remaining space */}
+          <div className="flex-1 flex justify-center">
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = isActivePath(item.href);
+                
+                return (
+                  <Link key={item.href} href={item.href}>
+                    <Button
+                      variant={isActive ? "default" : "ghost"}
+                      size="sm"
+                      className={`h-10 px-2 flex flex-col items-center gap-0 ${
+                        isActive 
+                          ? "bg-teal-100 text-teal-700 hover:bg-teal-200" 
+                          : "hover:bg-gray-100"
+                      }`}
+                    >
+                      <div className="flex items-center gap-1">
+                        <IconComponent className="h-3 w-3" />
+                        <span className="text-xs font-medium">{item.label}</span>
+                        {item.isNew && (
+                          <Badge className="bg-pink-500 text-white text-xs px-1 py-0 h-4 ml-1">
+                            NEW
+                          </Badge>
+                        )}
+                      </div>
+                      <span className="text-xs text-gray-500">{item.description}</span>
+                    </Button>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
           
           {/* Add Class Button - Desktop */}
-          <div className="hidden lg:block flex-shrink-0">
-            <Button className="bg-teal-600 hover:bg-teal-700 whitespace-nowrap">
+          <div className="hidden lg:block flex-shrink-0 ml-4">
+            <Button className="bg-teal-600 hover:bg-teal-700">
               <Link href="/list-class" className="text-white">
                 ADD ACTIVITY
               </Link>
