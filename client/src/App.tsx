@@ -27,7 +27,7 @@ import ParentSupportGroupsPage from "./pages/parent-support-groups";
 import SmartSearchPage from "./pages/smart-search";
 import ProviderDashboard from "./pages/provider-dashboard";
 import FreeSamplesPage from "./pages/free-samples";
-import FranchiseDirectoryPage from "./pages/franchise-directory";
+
 
 function Router() {
   return (
@@ -52,7 +52,7 @@ function Router() {
       <Route path="/blog/newborn-behavior" component={BlogNewbornBehavior} />
       <Route path="/faq" component={FAQ} />
       <Route path="/smart-search" component={SmartSearchPage} />
-      <Route path="/franchise-directory" component={FranchiseDirectoryPage} />
+
       <Route path="/list-class" component={ListClass} />
       <Route path="/newsletter-admin" component={NewsletterAdmin} />
       <Route path="/provider-dashboard" component={ProviderDashboard} />
