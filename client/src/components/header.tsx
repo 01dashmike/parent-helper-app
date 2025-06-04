@@ -107,15 +107,17 @@ export default function Header() {
             })}
           </nav>
           
-          {/* Add Class Button */}
-          <Button className="bg-teal-600 hover:bg-teal-700">
-            <Link href="/list-class" className="text-white">
-              ADD ACTIVITY
-            </Link>
-          </Button>
+          {/* Add Class Button - Desktop */}
+          <div className="hidden lg:block">
+            <Button className="bg-teal-600 hover:bg-teal-700">
+              <Link href="/list-class" className="text-white">
+                ADD ACTIVITY
+              </Link>
+            </Button>
+          </div>
           
           {/* Mobile Navigation */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -154,6 +156,19 @@ export default function Header() {
                       </Link>
                     );
                   })}
+                  
+                  {/* Add Activity Button in Mobile Menu */}
+                  <div className="mt-6 pt-4 border-t border-gray-200">
+                    <Link
+                      href="/list-class"
+                      onClick={() => setIsOpen(false)}
+                      className="block"
+                    >
+                      <Button className="w-full bg-teal-600 hover:bg-teal-700 text-white">
+                        ADD ACTIVITY
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
