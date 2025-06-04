@@ -61,9 +61,10 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <Link href="/" className="flex items-center">
-            <div className="flex-shrink-0 flex items-center space-x-3">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center flex-shrink-0">
+            <div className="flex items-center space-x-3">
               <img 
                 src={parentHelperLogo} 
                 alt="Parent Helper Logo" 
@@ -76,7 +77,7 @@ export default function Header() {
           </Link>
 
           {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center space-x-4">
+          <nav className="hidden lg:flex items-center space-x-1 flex-1 justify-center overflow-hidden">
             {navItems.map((item) => {
               const IconComponent = item.icon;
               const isActive = isActivePath(item.href);
@@ -85,7 +86,7 @@ export default function Header() {
                 <Link key={item.href} href={item.href}>
                   <Button
                     variant={isActive ? "default" : "ghost"}
-                    className={`relative h-12 px-3 flex flex-col items-center gap-1 ${
+                    className={`relative h-12 px-2 flex flex-col items-center gap-1 text-xs ${
                       isActive 
                         ? "bg-teal-100 text-teal-700 hover:bg-teal-200" 
                         : "hover:bg-gray-100"
@@ -93,14 +94,14 @@ export default function Header() {
                   >
                     <div className="flex items-center gap-1">
                       <IconComponent className="h-3 w-3" />
-                      <span className="text-xs font-medium">{item.label}</span>
+                      <span className="text-[10px] font-medium leading-tight">{item.label}</span>
                       {item.isNew && (
-                        <Badge className="bg-pink-500 text-white text-xs px-1 py-0 h-4 ml-1">
+                        <Badge className="bg-pink-500 text-white text-[8px] px-1 py-0 h-3 ml-1">
                           NEW
                         </Badge>
                       )}
                     </div>
-                    <span className="text-xs text-gray-500">{item.description}</span>
+                    <span className="text-[9px] text-gray-500 leading-none">{item.description}</span>
                   </Button>
                 </Link>
               );
@@ -108,8 +109,8 @@ export default function Header() {
           </nav>
           
           {/* Add Class Button - Desktop */}
-          <div className="hidden lg:block">
-            <Button className="bg-teal-600 hover:bg-teal-700">
+          <div className="hidden lg:block flex-shrink-0">
+            <Button className="bg-teal-600 hover:bg-teal-700 whitespace-nowrap">
               <Link href="/list-class" className="text-white">
                 ADD ACTIVITY
               </Link>
