@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Helper - Coming Soon | UK's Premier Family Activity Directory</title>
+    <meta name="description" content="Parent Helper - The UK's comprehensive directory for baby classes, toddler activities, after school clubs, and family services. Coming Soon!">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'teal-dark': '#0f766e',
+                        'teal-600': '#0d9488',
+                        'coral': '#ff6b6b',
+                        'sage': '#87a96b',
+                        'cream': '#faf8f3'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+        }
+        
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+    </style>
+</head>
+
+<body class="bg-cream">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="h-12 w-12 bg-teal-600 rounded-full flex items-center justify-center">
+                        <span class="text-2xl">👶</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-teal-600 font-poppins">Parent Helper</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="gradient-bg hero-pattern min-h-screen flex items-center justify-center relative overflow-hidden">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+                <!-- Floating Icons -->
+                <div class="absolute top-10 left-10 animate-float" style="animation-delay: 0s;">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl">
+                        🎵
+                    </div>
+                </div>
+                <div class="absolute top-20 right-20 animate-float" style="animation-delay: 2s;">
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl">
+                        🏊‍♀️
+                    </div>
+                </div>
+                <div class="absolute bottom-32 left-20 animate-float" style="animation-delay: 4s;">
+                    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-xl">
+                        📸
+                    </div>
+                </div>
+                <div class="absolute bottom-20 right-16 animate-float" style="animation-delay: 1s;">
+                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg">
+                        🤸‍♂️
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="text-white">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 font-poppins">
+                        Coming Soon
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold mb-4">
+                        Parent Helper
+                    </h2>
+                    <p class="text-xl md:text-2xl mb-8 text-white/90">
+                        The UK's Premier Family Activity Directory
+                    </p>
+                    
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-white/20">
+                        <h3 class="text-2xl font-semibold mb-6">What We're Building</h3>
+                        <div class="grid md:grid-cols-2 gap-6 text-left">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">👶</span>
+                                    <span class="text-lg">Baby & Toddler Classes</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🎓</span>
+                                    <span class="text-lg">After School Clubs</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">📸</span>
+                                    <span class="text-lg">Photography & Keepsakes</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🎁</span>
+                                    <span class="text-lg">Free Baby Samples</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">❤️</span>
+                                    <span class="text-lg">Additional Needs Support</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">👥</span>
+                                    <span class="text-lg">Parent Support Groups</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Signup -->
+                    <div class="bg-white rounded-2xl p-8 text-gray-800 max-w-md mx-auto">
+                        <h3 class="text-xl font-semibold mb-4 text-teal-dark">
+                            Be the First to Know
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            Get notified when we launch and receive exclusive early access to the UK's most comprehensive family activity directory.
+                        </p>
+                        <form class="space-y-4" action="#" method="POST">
+                            <input 
+                                type="email" 
+                                placeholder="Enter your email address"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent outline-none"
+                                required
+                            >
+                            <button 
+                                type="submit"
+                                class="w-full bg-coral hover:bg-coral/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                            >
+                                Notify Me at Launch
+                            </button>
+                        </form>
+                        <p class="text-sm text-gray-500 mt-4">
+                            No spam, ever. Unsubscribe at any time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Preview -->
+        <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-teal-dark mb-4 font-poppins">
+                        What Makes Parent Helper Special
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-teal-50 to-sage/10 border border-teal-100">
+                        <div class="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">🗺️</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Location-Based Search
+                        </h3>
+                        <p class="text-gray-600">
+                            Find activities and services near you with our advanced postcode search and interactive maps.
+                        </p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-coral/10 to-pink-50 border border-coral/20">
+                        <div class="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">✨</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Curated Quality
+                        </h3>
+                        <p class="text-gray-600">
+                            Every activity and service is carefully reviewed and verified to ensure the highest standards for your family.
+                        </p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-sage/20 to-green-50 border border-sage/30">
+                        <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Age-Specific Filtering
+                        </h3>
+                        <p class="text-gray-600">
+                            Filter activities by your child's exact age and developmental stage for perfect matches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="py-16 bg-teal-50">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-teal-dark mb-8 font-poppins">
+                    Get In Touch
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-4">
+                            For Activity Providers
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Want to list your classes or services? We'd love to feature quality providers on our platform.
+                        </p>
+                        <a href="mailto:providers@parenthelper.co.uk" class="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold">
+                            providers@parenthelper.co.uk
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-4">
+                            General Enquiries
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Have questions or suggestions? We'd love to hear from you as we build the platform.
+                        </p>
+                        <a href="mailto:hello@parenthelper.co.uk" class="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold">
+                            hello@parenthelper.co.uk
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-teal-dark text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-6">
+                    <div class="h-10 w-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <span class="text-xl">👶</span>
+                    </div>
+                    <h3 class="text-2xl font-bold font-poppins">Parent Helper</h3>
+                </div>
+                <p class="text-white/80 mb-6 max-w-2xl mx-auto">
+                    The UK's premier directory for family activities and services. 
+                    Helping parents discover the best experiences for their children across the United Kingdom.
+                </p>
+                <div class="border-t border-white/20 pt-6">
+                    <p class="text-white/60">
+                        © 2024 Parent Helper. Coming Soon to parenthelper.co.uk
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple Analytics (optional) -->
+    <script>
+        // Simple page view tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('config', 'GA_TRACKING_ID', {
+                page_title: 'Parent Helper - Coming Soon',
+                page_location: 'https://www.parenthelper.co.uk'
+            });
+        }
+    </script>
+</body>
+</html>
