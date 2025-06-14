@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Helper - Coming Soon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #7FB3B3, #B8A5C7, #F4A688);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4A6B66;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            color: #4A6B66;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .features {
+            text-align: left;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #F4A688;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+        button:hover {
+            background: #e89970;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Coming Soon</h1>
+        <h2>Parent Helper</h2>
+        <p><strong>The UK's Premier Family Activity Directory</strong></p>
+        
+        <div class="features">
+            <div class="feature">
+                <span>👶</span>
+                <span>Baby & Toddler Classes</span>
+            </div>
+            <div class="feature">
+                <span>🎓</span>
+                <span>After School Clubs</span>
+            </div>
+            <div class="feature">
+                <span>📸</span>
+                <span>Photography & Keepsakes</span>
+            </div>
+            <div class="feature">
+                <span>🎁</span>
+                <span>Free Baby Samples</span>
+            </div>
+            <div class="feature">
+                <span>❤️</span>
+                <span>Additional Needs Support</span>
+            </div>
+            <div class="feature">
+                <span>👥</span>
+                <span>Parent Support Groups</span>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h3 style="color: #4A6B66;">Get in Touch</h3>
+            <p>Be the first to know when we launch, or send us your questions and suggestions.</p>
+            
+            <form id="contactForm">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email address" required>
+                <select name="type" required>
+                    <option value="">Select message type</option>
+                    <option value="early-access">Early Access Notification</option>
+                    <option value="provider">I'm an Activity Provider</option>
+                    <option value="question">General Question</option>
+                    <option value="suggestion">Suggestion</option>
+                </select>
+                <textarea name="message" rows="3" placeholder="Your message (optional)"></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <div id="status" style="margin-top: 10px; color: green; display: none;"></div>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                No spam, ever. We respect your privacy.
+            </p>
+        </div>
+
+        <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <p style="color: #666;">© 2024 Parent Helper. Coming Soon to parenthelper.co.uk</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const type = formData.get('type');
+            const message = formData.get('message');
+            
+            const subject = `Parent Helper Contact: ${type}`;
+            const body = `Name: ${name}\nEmail: ${email}\nType: ${type}\n\nMessage:\n${message || 'No additional message'}`;
+            const mailtoLink = `mailto:notification@parenthelper.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = 'Opening your email client...';
+            statusDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                this.reset();
+                statusDiv.style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
