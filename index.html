@@ -3,25 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parent Helper - Coming Soon | UK's Premier Family Activity Directory</title>
-    <meta name="description" content="Parent Helper - The UK's comprehensive directory for baby classes, toddler activities, after school clubs, and family services. Coming Soon!">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
-    
+    <title>Parent Helper - Coming Soon</title>
     <style>
-        /* CSS Variables for Parent Helper Brand Colors */
-        :root {
-            --teal-dark: #4A6B66;
-            --coral: #F4A688;
-            --sage: #7FB3B3;
-            --lavender: #B8A5C7;
-            --cream: #F5F1ED;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -29,128 +12,103 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--cream);
+            font-family: Arial, sans-serif;
+            background: #F5F1ED;
             line-height: 1.6;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-        }
 
-        /* Header */
         .header {
             background: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px 0;
         }
 
         .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
         }
 
-        .logo-section {
-            display: flex;
+        .logo {
+            display: inline-flex;
             align-items: center;
-            gap: 16px;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
         }
 
         .logo-text {
             font-size: 2rem;
-            font-weight: 700;
-            color: var(--teal-dark);
-            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #4A6B66;
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--sage) 0%, var(--lavender) 25%, var(--coral) 50%, var(--sage) 75%, var(--cream) 100%);
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 100px 100px;
+            background: linear-gradient(135deg, #7FB3B3, #B8A5C7, #F4A688, #7FB3B3, #F5F1ED);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 20px 20px;
-            position: relative;
-            overflow: hidden;
+            padding: 40px 20px;
+            text-align: center;
         }
 
         .hero-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 10;
         }
 
         .hero-title {
             font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
             color: #1f2937;
-            font-family: 'Poppins', sans-serif;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 15px;
             color: #1f2937;
         }
 
         .hero-description {
             font-size: 1.25rem;
-            margin-bottom: 32px;
+            margin-bottom: 30px;
             color: #374151;
         }
 
-        /* Features Box */
         .features-box {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
             border: 1px solid #e5e7eb;
         }
 
         .features-title {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
             color: #1f2937;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
+            gap: 20px;
             text-align: left;
-        }
-
-        .features-column {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
         }
 
         .feature-item {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 15px;
         }
 
         .feature-icon {
@@ -158,15 +116,14 @@
         }
 
         .feature-text {
-            font-size: 1.125rem;
+            font-size: 1.1rem;
             color: #374151;
         }
 
-        /* Contact Form */
         .contact-form {
             background: white;
-            border-radius: 16px;
-            padding: 32px;
+            border-radius: 15px;
+            padding: 30px;
             color: #374151;
             max-width: 400px;
             margin: 0 auto;
@@ -175,31 +132,30 @@
         .contact-title {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--teal-dark);
+            margin-bottom: 15px;
+            color: #4A6B66;
         }
 
         .contact-description {
             color: #6b7280;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 15px;
         }
 
         .form-input, .form-select, .form-textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 15px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
-            border-color: var(--teal-dark);
+            border-color: #4A6B66;
             box-shadow: 0 0 0 3px rgba(74, 107, 102, 0.1);
         }
 
@@ -210,7 +166,7 @@
 
         .submit-button {
             width: 100%;
-            background: var(--coral);
+            background: #F4A688;
             color: white;
             font-weight: 600;
             padding: 12px 24px;
@@ -218,7 +174,6 @@
             border-radius: 8px;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
 
         .submit-button:hover {
@@ -226,22 +181,18 @@
         }
 
         .form-status {
-            margin-top: 16px;
+            margin-top: 15px;
             text-align: center;
             display: none;
-        }
-
-        .form-status.success {
             color: #059669;
         }
 
         .form-privacy {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: #6b7280;
-            margin-top: 16px;
+            margin-top: 15px;
         }
 
-        /* Features Section */
         .features-section {
             padding: 80px 20px;
             background: white;
@@ -250,83 +201,78 @@
         .features-section-container {
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .features-section-header {
             text-align: center;
-            margin-bottom: 64px;
         }
 
         .features-section-title {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--teal-dark);
-            margin-bottom: 16px;
-            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #4A6B66;
+            margin-bottom: 15px;
         }
 
         .features-section-description {
             font-size: 1.25rem;
             color: #374151;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 60px;
         }
 
         .features-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+            gap: 30px;
         }
 
         .feature-card {
             text-align: center;
-            padding: 24px;
-            border-radius: 16px;
+            padding: 25px;
+            border-radius: 15px;
             border: 1px solid rgba(127, 179, 179, 0.2);
         }
 
         .feature-card.sage {
-            background: linear-gradient(to bottom right, rgba(127, 179, 179, 0.1), var(--cream));
+            background: linear-gradient(to bottom right, rgba(127, 179, 179, 0.1), #F5F1ED);
         }
 
         .feature-card.coral {
-            background: linear-gradient(to bottom right, rgba(244, 166, 136, 0.2), var(--cream));
+            background: linear-gradient(to bottom right, rgba(244, 166, 136, 0.2), #F5F1ED);
             border-color: rgba(244, 166, 136, 0.3);
         }
 
         .feature-card.lavender {
-            background: linear-gradient(to bottom right, rgba(184, 165, 199, 0.2), var(--cream));
+            background: linear-gradient(to bottom right, rgba(184, 165, 199, 0.2), #F5F1ED);
             border-color: rgba(184, 165, 199, 0.3);
         }
 
         .feature-card-icon {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
+            margin: 0 auto 15px;
             font-size: 1.5rem;
             color: white;
         }
 
         .feature-card-icon.teal {
-            background: var(--teal-dark);
+            background: #4A6B66;
         }
 
         .feature-card-icon.coral-bg {
-            background: var(--coral);
+            background: #F4A688;
         }
 
         .feature-card-icon.lavender-bg {
-            background: var(--lavender);
+            background: #B8A5C7;
         }
 
         .feature-card-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--teal-dark);
+            color: #4A6B66;
             margin-bottom: 12px;
         }
 
@@ -334,10 +280,9 @@
             color: #374151;
         }
 
-        /* Contact Section */
         .contact-section {
-            padding: 64px 20px;
-            background: var(--cream);
+            padding: 60px 20px;
+            background: #F5F1ED;
         }
 
         .contact-section-container {
@@ -348,120 +293,95 @@
 
         .contact-section-title {
             font-size: 2rem;
-            font-weight: 700;
-            color: var(--teal-dark);
-            margin-bottom: 32px;
-            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #4A6B66;
+            margin-bottom: 30px;
         }
 
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+            gap: 30px;
         }
 
         .contact-card-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--teal-dark);
-            margin-bottom: 16px;
+            color: #4A6B66;
+            margin-bottom: 15px;
         }
 
         .contact-card-text {
             color: #374151;
-            margin-bottom: 16px;
+            margin-bottom: 15px;
         }
 
         .contact-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--teal-dark);
+            color: #4A6B66;
             font-weight: 600;
             text-decoration: none;
-            transition: color 0.2s;
         }
 
         .contact-link:hover {
-            color: var(--sage);
+            color: #7FB3B3;
         }
 
         .contact-button {
-            display: inline-flex;
-            align-items: center;
-            color: var(--teal-dark);
+            color: #4A6B66;
             font-weight: 600;
             background: none;
             border: none;
             cursor: pointer;
             font-size: 1rem;
-            transition: color 0.2s;
         }
 
         .contact-button:hover {
-            color: var(--sage);
+            color: #7FB3B3;
         }
 
-        /* Footer */
         .footer {
-            background: var(--teal-dark);
+            background: #4A6B66;
             color: white;
-            padding: 48px 20px;
+            padding: 50px 20px;
+            text-align: center;
         }
 
         .footer-container {
             max-width: 1000px;
             margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 16px;
         }
 
         .footer-title {
             font-size: 1.5rem;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         .footer-description {
             color: rgba(255, 255, 255, 0.8);
             max-width: 600px;
-            margin: 0 auto 24px;
+            margin: 0 auto 30px;
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 24px;
+            padding-top: 25px;
         }
 
         .footer-copyright {
             color: rgba(255, 255, 255, 0.6);
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 3rem;
             }
-
             .features-grid {
                 grid-template-columns: 1fr;
             }
-
             .features-cards {
                 grid-template-columns: 1fr;
             }
-
             .contact-grid {
                 grid-template-columns: 1fr;
             }
@@ -471,53 +391,30 @@
             .hero-title {
                 font-size: 2.5rem;
             }
-
             .logo-text {
                 font-size: 1.5rem;
             }
-
             .contact-form {
-                padding: 24px;
+                padding: 25px;
+            }
+            .logo img {
+                height: 40px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="header-container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <!-- Parent Helper Logo SVG -->
-                    <svg width="64" height="64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Background circle -->
-                        <circle cx="100" cy="80" r="70" fill="none" stroke="#4A6B66" stroke-width="8"/>
-                        
-                        <!-- Parent figure (lavender) -->
-                        <circle cx="75" cy="50" r="20" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
-                        <path d="M55 70 Q75 110 95 70 L95 75 Q90 105 75 125 Q60 105 55 75 Z" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
-                        
-                        <!-- Child figure (sage) -->
-                        <circle cx="125" cy="55" r="15" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
-                        <path d="M110 70 Q125 100 140 70 L140 75 Q135 100 125 115 Q115 100 110 75 Z" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
-                        
-                        <!-- Embracing arms -->
-                        <path d="M95 70 Q105 80 115 75" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
-                        <path d="M105 70 Q95 80 85 75" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Heart shape (coral) -->
-                        <path d="M85 90 Q90 85 100 90 Q110 85 115 90 Q115 100 100 115 Q85 100 85 90 Z" fill="#F4A688" stroke="#4A6B66" stroke-width="4"/>
-                    </svg>
-                    <h1 class="logo-text">Parent Helper</h1>
-                </div>
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo.png" alt="Parent Helper Logo">
+                <h1 class="logo-text">Parent Helper</h1>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-container">
                 <h1 class="hero-title">Coming Soon</h1>
@@ -527,7 +424,7 @@
                 <div class="features-box">
                     <h3 class="features-title">What We're Building</h3>
                     <div class="features-grid">
-                        <div class="features-column">
+                        <div>
                             <div class="feature-item">
                                 <span class="feature-icon">👶</span>
                                 <span class="feature-text">Baby & Toddler Classes</span>
@@ -541,7 +438,7 @@
                                 <span class="feature-text">Photography & Keepsakes</span>
                             </div>
                         </div>
-                        <div class="features-column">
+                        <div>
                             <div class="feature-item">
                                 <span class="feature-icon">🎁</span>
                                 <span class="feature-text">Free Baby Samples</span>
@@ -558,7 +455,6 @@
                     </div>
                 </div>
 
-                <!-- Contact Form -->
                 <div class="contact-form">
                     <h3 class="contact-title">Get in Touch</h3>
                     <p class="contact-description">
@@ -591,15 +487,12 @@
             </div>
         </section>
 
-        <!-- Features Preview -->
         <section class="features-section">
             <div class="features-section-container">
-                <div class="features-section-header">
-                    <h2 class="features-section-title">What Makes Parent Helper Special</h2>
-                    <p class="features-section-description">
-                        We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
-                    </p>
-                </div>
+                <h2 class="features-section-title">What Makes Parent Helper Special</h2>
+                <p class="features-section-description">
+                    We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
+                </p>
 
                 <div class="features-cards">
                     <div class="feature-card sage">
@@ -629,7 +522,6 @@
             </div>
         </section>
 
-        <!-- Contact Information -->
         <section class="contact-section">
             <div class="contact-section-container">
                 <h2 class="contact-section-title">Get In Touch</h2>
@@ -657,45 +549,22 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <!-- Footer Logo -->
-                    <svg width="48" height="48" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Parent figure -->
-                        <circle cx="40" cy="30" r="15" fill="white" stroke="white" stroke-width="2"/>
-                        <path d="M25 45 Q40 75 55 45 Q55 50 50 70 Q40 85 40 85 Q30 70 25 50 Z" fill="white" stroke="white" stroke-width="2"/>
-                        
-                        <!-- Child figure -->
-                        <circle cx="80" cy="35" r="12" fill="white" stroke="white" stroke-width="2"/>
-                        <path d="M68 47 Q80 70 92 47 Q92 52 87 67 Q80 80 80 80 Q73 67 68 52 Z" fill="white" stroke="white" stroke-width="2"/>
-                        
-                        <!-- Heart -->
-                        <path d="M50 55 Q55 50 65 55 Q75 50 80 55 Q80 65 65 80 Q50 65 50 55 Z" fill="#F4A688" stroke="white" stroke-width="2"/>
-                        
-                        <!-- Arms -->
-                        <path d="M55 43 Q60 48 65 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <path d="M65 43 Q60 48 55 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
-                    </svg>
-                    <h3 class="footer-title">Parent Helper</h3>
-                </div>
-                <p class="footer-description">
-                    The UK's premier directory for family activities and services. 
-                    Helping parents discover the best experiences for their children across the United Kingdom.
+            <h3 class="footer-title">Parent Helper</h3>
+            <p class="footer-description">
+                The UK's premier directory for family activities and services. 
+                Helping parents discover the best experiences for their children across the United Kingdom.
+            </p>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2024 Parent Helper. Coming Soon to parenthelper.co.uk
                 </p>
-                <div class="footer-bottom">
-                    <p class="footer-copyright">
-                        © 2024 Parent Helper. Coming Soon to parenthelper.co.uk
-                    </p>
-                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Handle contact form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -705,36 +574,29 @@
             const type = formData.get('type');
             const message = formData.get('message');
             
-            // Create mailto link with form data
-            const subject = `Parent Helper Contact: ${type}`;
-            const body = `Name: ${name}\nEmail: ${email}\nType: ${type}\n\nMessage:\n${message || 'No additional message'}`;
-            const mailtoLink = `mailto:notification@parenthelper.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const subject = 'Parent Helper Contact: ' + type;
+            const body = 'Name: ' + name + '\nEmail: ' + email + '\nType: ' + type + '\n\nMessage:\n' + (message || 'No additional message');
+            const mailtoLink = 'mailto:notification@parenthelper.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
             
-            // Open email client
             window.location.href = mailtoLink;
             
-            // Show success message
             const statusDiv = document.getElementById('formStatus');
-            statusDiv.className = 'form-status success';
             statusDiv.textContent = 'Opening your email client...';
             statusDiv.style.display = 'block';
             
-            // Reset form after a delay
-            setTimeout(() => {
-                this.reset();
+            setTimeout(function() {
+                document.getElementById('contactForm').reset();
                 statusDiv.style.display = 'none';
             }, 3000);
         });
 
-        // Scroll to contact form
         function scrollToContact() {
             document.getElementById('contactForm').scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'center'
             });
             
-            // Focus on the first input field
-            setTimeout(() => {
+            setTimeout(function() {
                 document.querySelector('#contactForm input[name="name"]').focus();
             }, 500);
         }
