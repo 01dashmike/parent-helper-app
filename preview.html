@@ -345,5 +345,51 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Handle contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const type = formData.get('type');
+            const message = formData.get('message');
+            
+            // Create mailto link with form data
+            const subject = `Parent Helper Contact: ${type}`;
+            const body = `Name: ${name}\nEmail: ${email}\nType: ${type}\n\nMessage:\n${message || 'No additional message'}`;
+            const mailtoLink = `mailto:notification@parenthelper.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            const statusDiv = document.getElementById('formStatus');
+            statusDiv.className = 'mt-4 text-center text-green-600';
+            statusDiv.textContent = 'Opening your email client...';
+            statusDiv.classList.remove('hidden');
+            
+            // Reset form after a delay
+            setTimeout(() => {
+                this.reset();
+                statusDiv.classList.add('hidden');
+            }, 3000);
+        });
+
+        // Scroll to contact form
+        function scrollToContact() {
+            document.getElementById('contactForm').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            // Focus on the first input field
+            setTimeout(() => {
+                document.querySelector('#contactForm input[name="name"]').focus();
+            }, 500);
+        }
+    </script>
 </body>
 </html>
