@@ -587,6 +587,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Preview placeholder page
+  app.get("/preview", (req, res) => {
+    res.sendFile("preview.html", { root: "." });
+  });
+
   // Clear all classes
   app.post("/api/classes/clear", async (req, res) => {
     try {
