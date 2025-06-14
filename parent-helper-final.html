@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Helper - Coming Soon | UK's Premier Family Activity Directory</title>
+    <meta name="description" content="Parent Helper - The UK's comprehensive directory for baby classes, toddler activities, after school clubs, and family services. Coming Soon!">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'teal-dark': 'hsl(174, 20%, 36%)', /* #4A6B66 */
+                        'coral': 'hsl(14, 85%, 73%)', /* #F4A688 */
+                        'sage': 'hsl(174, 32%, 61%)', /* #7FB3B3 */
+                        'lavender': 'hsl(272, 25%, 72%)', /* #B8A5C7 */
+                        'cream': 'hsl(34, 20%, 95%)', /* #F5F1ED */
+                        'background': 'hsl(34, 20%, 95%)', /* Cream background */
+                        'foreground': 'hsl(174, 20%, 36%)', /* Teal dark text */
+                        'primary': 'hsl(174, 20%, 36%)', /* Primary brand color */
+                        'secondary': 'hsl(174, 32%, 61%)', /* Sage green */
+                        'accent': 'hsl(272, 25%, 72%)' /* Lavender */
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, 
+                hsl(174, 32%, 61%) 0%,    /* sage */
+                hsl(272, 25%, 72%) 25%,   /* lavender */
+                hsl(14, 85%, 73%) 50%,    /* coral */
+                hsl(174, 32%, 61%) 75%,   /* sage */
+                hsl(34, 20%, 95%) 100%);  /* cream */
+        }
+        
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+    </style>
+</head>
+
+<body class="bg-cream">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center h-20">
+                <div class="flex items-center space-x-4">
+                    <!-- Parent Helper Logo -->
+                    <svg width="64" height="64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                        <!-- Background circle for better definition -->
+                        <circle cx="100" cy="80" r="70" fill="none" stroke="hsl(174, 20%, 36%)" stroke-width="8"/>
+                        
+                        <!-- Parent figure (lavender) - larger, left side -->
+                        <circle cx="75" cy="50" r="20" fill="hsl(272, 25%, 72%)" stroke="hsl(174, 20%, 36%)" stroke-width="6"/>
+                        <path d="M55 70 Q75 110 95 70 L95 75 Q90 105 75 125 Q60 105 55 75 Z" fill="hsl(272, 25%, 72%)" stroke="hsl(174, 20%, 36%)" stroke-width="6"/>
+                        
+                        <!-- Child figure (sage) - smaller, right side -->
+                        <circle cx="125" cy="55" r="15" fill="hsl(174, 32%, 61%)" stroke="hsl(174, 20%, 36%)" stroke-width="6"/>
+                        <path d="M110 70 Q125 100 140 70 L140 75 Q135 100 125 115 Q115 100 110 75 Z" fill="hsl(174, 32%, 61%)" stroke="hsl(174, 20%, 36%)" stroke-width="6"/>
+                        
+                        <!-- Embracing gesture - arms reaching toward each other -->
+                        <path d="M95 70 Q105 80 115 75" stroke="hsl(174, 20%, 36%)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <path d="M105 70 Q95 80 85 75" stroke="hsl(174, 20%, 36%)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Heart shape (coral) - centered between figures -->
+                        <path d="M85 90 Q90 85 100 90 Q110 85 115 90 Q115 100 100 115 Q85 100 85 90 Z" fill="hsl(14, 85%, 73%)" stroke="hsl(174, 20%, 36%)" stroke-width="4"/>
+                    </svg>
+                    <div class="flex items-center">
+                        <h1 class="text-3xl font-bold text-teal-dark font-poppins leading-none">Parent Helper</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="gradient-bg hero-pattern min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10 mt-16">
+
+                <!-- Main Content -->
+                <div class="text-gray-900">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 font-poppins">
+                        Coming Soon
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold mb-4">
+                        Parent Helper
+                    </h2>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-800">
+                        The UK's Premier Family Activity Directory
+                    </p>
+                    
+                    <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-gray-200">
+                        <h3 class="text-2xl font-semibold mb-6 text-gray-900">What We're Building</h3>
+                        <div class="grid md:grid-cols-2 gap-6 text-left">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">👶</span>
+                                    <span class="text-lg text-gray-800">Baby & Toddler Classes</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🎓</span>
+                                    <span class="text-lg text-gray-800">After School Clubs</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">📸</span>
+                                    <span class="text-lg text-gray-800">Photography & Keepsakes</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🎁</span>
+                                    <span class="text-lg text-gray-800">Free Baby Samples</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">❤️</span>
+                                    <span class="text-lg text-gray-800">Additional Needs Support</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">👥</span>
+                                    <span class="text-lg text-gray-800">Parent Support Groups</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-white rounded-2xl p-8 text-gray-800 max-w-md mx-auto">
+                        <h3 class="text-xl font-semibold mb-4 text-teal-dark">
+                            Get in Touch
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            Be the first to know when we launch, or send us your questions and suggestions.
+                        </p>
+                        <form id="contactForm" class="space-y-4">
+                            <input 
+                                type="text" 
+                                name="name"
+                                placeholder="Your name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-dark focus:border-transparent outline-none"
+                                required
+                            >
+                            <input 
+                                type="email" 
+                                name="email"
+                                placeholder="Your email address"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-dark focus:border-transparent outline-none"
+                                required
+                            >
+                            <select 
+                                name="type"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-dark focus:border-transparent outline-none"
+                                required
+                            >
+                                <option value="">Select message type</option>
+                                <option value="early-access">Early Access Notification</option>
+                                <option value="provider">I'm an Activity Provider</option>
+                                <option value="question">General Question</option>
+                                <option value="suggestion">Suggestion</option>
+                            </select>
+                            <textarea 
+                                name="message" 
+                                rows="3"
+                                placeholder="Your message (optional)"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-dark focus:border-transparent outline-none resize-none"
+                            ></textarea>
+                            <button 
+                                type="submit"
+                                class="w-full bg-coral hover:bg-coral/80 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                            >
+                                Send Message
+                            </button>
+                        </form>
+                        <div id="formStatus" class="mt-4 text-center hidden"></div>
+                        <p class="text-sm text-gray-500 mt-4">
+                            No spam, ever. We respect your privacy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Preview -->
+        <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-teal-dark mb-4 font-poppins">
+                        What Makes Parent Helper Special
+                    </h2>
+                    <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+                        We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-sage/10 to-cream border border-sage/20">
+                        <div class="w-16 h-16 bg-teal-dark rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">🗺️</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Location-Based Search
+                        </h3>
+                        <p class="text-gray-700">
+                            Find activities and services near you with our advanced postcode search and interactive maps.
+                        </p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-coral/20 to-cream border border-coral/30">
+                        <div class="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">✨</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Curated Quality
+                        </h3>
+                        <p class="text-gray-700">
+                            Every activity and service is carefully reviewed and verified to ensure the highest standards for your family.
+                        </p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-lavender/20 to-cream border border-lavender/30">
+                        <div class="w-16 h-16 bg-lavender rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-white">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-3">
+                            Age-Specific Filtering
+                        </h3>
+                        <p class="text-gray-700">
+                            Filter activities by your child's exact age and developmental stage for perfect matches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="py-16 bg-cream">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-teal-dark mb-8 font-poppins">
+                    Get In Touch
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-4">
+                            For Activity Providers
+                        </h3>
+                        <p class="text-gray-700 mb-4">
+                            Want to list your classes or services? We'd love to feature quality providers on our platform.
+                        </p>
+                        <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
+                            notification@parenthelper.co.uk
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-teal-dark mb-4">
+                            For Parents
+                        </h3>
+                        <p class="text-gray-700 mb-4">
+                            Have questions, suggestions, or want early access? We'd love to hear from you!
+                        </p>
+                        <button onclick="scrollToContact()" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
+                            Use our contact form above
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-teal-dark text-white py-12">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center space-y-6">
+                <div class="flex items-center space-x-4">
+                    <!-- Footer Logo -->
+                    <svg width="48" height="48" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                        <!-- Parent figure -->
+                        <circle cx="40" cy="30" r="15" fill="white" stroke="white" stroke-width="2"/>
+                        <path d="M25 45 Q40 75 55 45 Q55 50 50 70 Q40 85 40 85 Q30 70 25 50 Z" fill="white" stroke="white" stroke-width="2"/>
+                        
+                        <!-- Child figure -->
+                        <circle cx="80" cy="35" r="12" fill="white" stroke="white" stroke-width="2"/>
+                        <path d="M68 47 Q80 70 92 47 Q92 52 87 67 Q80 80 80 80 Q73 67 68 52 Z" fill="white" stroke="white" stroke-width="2"/>
+                        
+                        <!-- Heart -->
+                        <path d="M50 55 Q55 50 65 55 Q75 50 80 55 Q80 65 65 80 Q50 65 50 55 Z" fill="hsl(14, 85%, 73%)" stroke="white" stroke-width="2"/>
+                        
+                        <!-- Arms forming heart shape -->
+                        <path d="M55 43 Q60 48 65 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M65 43 Q60 48 55 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <div class="flex items-center">
+                        <h3 class="text-2xl font-bold font-poppins leading-none">Parent Helper</h3>
+                    </div>
+                </div>
+                <p class="text-white/80 mb-6 max-w-2xl mx-auto">
+                    The UK's premier directory for family activities and services. 
+                    Helping parents discover the best experiences for their children across the United Kingdom.
+                </p>
+                <div class="border-t border-white/20 pt-6">
+                    <p class="text-white/60">
+                        © 2024 Parent Helper. Coming Soon to parenthelper.co.uk
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Handle contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const type = formData.get('type');
+            const message = formData.get('message');
+            
+            // Create mailto link with form data
+            const subject = `Parent Helper Contact: ${type}`;
+            const body = `Name: ${name}\nEmail: ${email}\nType: ${type}\n\nMessage:\n${message || 'No additional message'}`;
+            const mailtoLink = `mailto:notification@parenthelper.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            const statusDiv = document.getElementById('formStatus');
+            statusDiv.className = 'mt-4 text-center text-green-600';
+            statusDiv.textContent = 'Opening your email client...';
+            statusDiv.classList.remove('hidden');
+            
+            // Reset form after a delay
+            setTimeout(() => {
+                this.reset();
+                statusDiv.classList.add('hidden');
+            }, 3000);
+        });
+
+        // Scroll to contact form
+        function scrollToContact() {
+            document.getElementById('contactForm').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            // Focus on the first input field
+            setTimeout(() => {
+                document.querySelector('#contactForm input[name="name"]').focus();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
