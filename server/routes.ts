@@ -1087,6 +1087,607 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Serve the Parent Helper landing page
+  app.get("/parent-helper", (req, res) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Helper - Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5F1ED;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4A6B66;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #7FB3B3, #B8A5C7, #F4A688, #7FB3B3, #F5F1ED);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            color: #374151;
+        }
+
+        .features-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .features-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1f2937;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .feature-text {
+            font-size: 1.1rem;
+            color: #374151;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            color: #374151;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #4A6B66;
+        }
+
+        .contact-description {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #4A6B66;
+            box-shadow: 0 0 0 3px rgba(74, 107, 102, 0.1);
+        }
+
+        .form-textarea {
+            resize: none;
+            font-family: inherit;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: #F4A688;
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #e89970;
+        }
+
+        .form-status {
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+            color: #059669;
+        }
+
+        .form-privacy {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 15px;
+        }
+
+        .features-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .features-section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features-section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4A6B66;
+            margin-bottom: 15px;
+        }
+
+        .features-section-description {
+            font-size: 1.25rem;
+            color: #374151;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .features-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(127, 179, 179, 0.2);
+        }
+
+        .feature-card.sage {
+            background: linear-gradient(to bottom right, rgba(127, 179, 179, 0.1), #F5F1ED);
+        }
+
+        .feature-card.coral {
+            background: linear-gradient(to bottom right, rgba(244, 166, 136, 0.2), #F5F1ED);
+            border-color: rgba(244, 166, 136, 0.3);
+        }
+
+        .feature-card.lavender {
+            background: linear-gradient(to bottom right, rgba(184, 165, 199, 0.2), #F5F1ED);
+            border-color: rgba(184, 165, 199, 0.3);
+        }
+
+        .feature-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card-icon.teal {
+            background: #4A6B66;
+        }
+
+        .feature-card-icon.coral-bg {
+            background: #F4A688;
+        }
+
+        .feature-card-icon.lavender-bg {
+            background: #B8A5C7;
+        }
+
+        .feature-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4A6B66;
+            margin-bottom: 12px;
+        }
+
+        .feature-card-text {
+            color: #374151;
+        }
+
+        .contact-section {
+            padding: 60px 20px;
+            background: #F5F1ED;
+        }
+
+        .contact-section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4A6B66;
+            margin-bottom: 30px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4A6B66;
+            margin-bottom: 15px;
+        }
+
+        .contact-card-text {
+            color: #374151;
+            margin-bottom: 15px;
+        }
+
+        .contact-link {
+            color: #4A6B66;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .contact-link:hover {
+            color: #7FB3B3;
+        }
+
+        .contact-button {
+            color: #4A6B66;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact-button:hover {
+            color: #7FB3B3;
+        }
+
+        .footer {
+            background: #4A6B66;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 25px;
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-cards {
+                grid-template-columns: 1fr;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            .contact-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div style="width: 50px; height: 50px; background: #4A6B66; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">👶</div>
+                <h1 class="logo-text">Parent Helper</h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-container">
+                <h1 class="hero-title">Coming Soon</h1>
+                <h2 class="hero-subtitle">Parent Helper</h2>
+                <p class="hero-description">The UK's Premier Family Activity Directory</p>
+                
+                <div class="features-box">
+                    <h3 class="features-title">What We're Building</h3>
+                    <div class="features-grid">
+                        <div>
+                            <div class="feature-item">
+                                <span class="feature-icon">👶</span>
+                                <span class="feature-text">Baby & Toddler Classes</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🎓</span>
+                                <span class="feature-text">After School Clubs</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">📸</span>
+                                <span class="feature-text">Photography & Keepsakes</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🎁</span>
+                                <span class="feature-text">Free Baby Samples</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">❤️</span>
+                                <span class="feature-text">Additional Needs Support</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">👥</span>
+                                <span class="feature-text">Parent Support Groups</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3 class="contact-title">Get in Touch</h3>
+                    <p class="contact-description">
+                        Be the first to know when we launch, or send us your questions and suggestions.
+                    </p>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your email address" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="type" class="form-select" required>
+                                <option value="">Select message type</option>
+                                <option value="early-access">Early Access Notification</option>
+                                <option value="provider">I'm an Activity Provider</option>
+                                <option value="question">General Question</option>
+                                <option value="suggestion">Suggestion</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="3" placeholder="Your message (optional)" class="form-textarea"></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </form>
+                    <div id="formStatus" class="form-status"></div>
+                    <p class="form-privacy">No spam, ever. We respect your privacy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="features-section-container">
+                <h2 class="features-section-title">What Makes Parent Helper Special</h2>
+                <p class="features-section-description">
+                    We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
+                </p>
+
+                <div class="features-cards">
+                    <div class="feature-card sage">
+                        <div class="feature-card-icon teal">🗺️</div>
+                        <h3 class="feature-card-title">Location-Based Search</h3>
+                        <p class="feature-card-text">
+                            Find activities and services near you with our advanced postcode search and interactive maps.
+                        </p>
+                    </div>
+
+                    <div class="feature-card coral">
+                        <div class="feature-card-icon coral-bg">✨</div>
+                        <h3 class="feature-card-title">Curated Quality</h3>
+                        <p class="feature-card-text">
+                            Every activity and service is carefully reviewed and verified to ensure the highest standards for your family.
+                        </p>
+                    </div>
+
+                    <div class="feature-card lavender">
+                        <div class="feature-card-icon lavender-bg">🎯</div>
+                        <h3 class="feature-card-title">Age-Specific Filtering</h3>
+                        <p class="feature-card-text">
+                            Filter activities by your child's exact age and developmental stage for perfect matches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-section-container">
+                <h2 class="contact-section-title">Get In Touch</h2>
+                <div class="contact-grid">
+                    <div>
+                        <h3 class="contact-card-title">For Activity Providers</h3>
+                        <p class="contact-card-text">
+                            Want to list your classes or services? We'd love to feature quality providers on our platform.
+                        </p>
+                        <a href="mailto:notification@parenthelper.co.uk" class="contact-link">
+                            notification@parenthelper.co.uk
+                        </a>
+                    </div>
+                    <div>
+                        <h3 class="contact-card-title">For Parents</h3>
+                        <p class="contact-card-text">
+                            Have questions, suggestions, or want early access? We'd love to hear from you!
+                        </p>
+                        <button onclick="scrollToContact()" class="contact-button">
+                            Use our contact form above
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <h3 class="footer-title">Parent Helper</h3>
+            <p class="footer-description">
+                The UK's premier directory for family activities and services. 
+                Helping parents discover the best experiences for their children across the United Kingdom.
+            </p>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2024 Parent Helper. Coming Soon to parenthelper.co.uk
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const type = formData.get('type');
+            const message = formData.get('message');
+            
+            const subject = 'Parent Helper Contact: ' + type;
+            const body = 'Name: ' + name + '\\nEmail: ' + email + '\\nType: ' + type + '\\n\\nMessage:\\n' + (message || 'No additional message');
+            const mailtoLink = 'mailto:notification@parenthelper.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+            
+            window.location.href = mailtoLink;
+            
+            const statusDiv = document.getElementById('formStatus');
+            statusDiv.textContent = 'Opening your email client...';
+            statusDiv.style.display = 'block';
+            
+            setTimeout(function() {
+                document.getElementById('contactForm').reset();
+                statusDiv.style.display = 'none';
+            }, 3000);
+        });
+
+        function scrollToContact() {
+            document.getElementById('contactForm').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            setTimeout(function() {
+                document.querySelector('#contactForm input[name="name"]').focus();
+            }, 500);
+        }
+    </script>
+</body>
+</html>`);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
