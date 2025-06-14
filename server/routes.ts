@@ -1491,21 +1491,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <svg width="60" height="60" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Parent figure (lavender) - larger figure on left -->
-                    <circle cx="65" cy="45" r="25" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
-                    <path d="M35 70 Q65 120 95 70 Q90 85 80 120 Q65 140 65 140 Q50 120 40 85 Q35 70 35 70 Z" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
+                <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Parent figure (lavender) - left side -->
+                    <circle cx="30" cy="20" r="10" fill="#B8A5C7" stroke="#4A6B66" stroke-width="2"/>
+                    <path d="M20 30 Q30 50 40 30 Q35 45 30 60 Q25 45 20 30 Z" fill="#B8A5C7" stroke="#4A6B66" stroke-width="2"/>
                     
-                    <!-- Child figure (sage) - smaller figure on right -->
-                    <circle cx="135" cy="55" r="18" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
-                    <path d="M115 73 Q135 110 155 73 Q150 85 145 110 Q135 125 135 125 Q125 110 120 85 Q115 73 115 73 Z" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
+                    <!-- Child figure (sage) - right side -->
+                    <circle cx="70" cy="25" r="8" fill="#7FB3B3" stroke="#4A6B66" stroke-width="2"/>
+                    <path d="M62 33 Q70 48 78 33 Q75 43 70 55 Q65 43 62 33 Z" fill="#7FB3B3" stroke="#4A6B66" stroke-width="2"/>
                     
-                    <!-- Heart shape (coral) in center -->
-                    <path d="M85 95 Q95 85 105 95 Q115 85 125 95 Q125 110 105 130 Q85 110 85 95 Z" fill="#F4A688" stroke="#4A6B66" stroke-width="4"/>
+                    <!-- Heart in center (coral) -->
+                    <path d="M45 40 Q47 37 50 40 Q53 37 55 40 Q55 45 50 52 Q45 45 45 40 Z" fill="#F4A688" stroke="#4A6B66" stroke-width="1.5"/>
                     
-                    <!-- Embracing arms forming connection -->
-                    <path d="M95 70 Q105 85 115 73" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
-                    <path d="M115 70 Q105 85 95 73" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <!-- Arms embracing around heart -->
+                    <path d="M40 30 Q47 38 55 33" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M60 30 Q53 38 45 33" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
                 </svg>
                 <h1 class="logo-text">Parent Helper</h1>
             </div>
