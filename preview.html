@@ -67,22 +67,26 @@
     <header class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center h-20">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-4">
                     <!-- Parent Helper Logo SVG -->
-                    <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Parent figure (lavender) -->
-                        <circle cx="35" cy="25" r="12" fill="#B8A5C7" stroke="#4A6B66" stroke-width="2"/>
-                        <path d="M20 37 Q35 50 50 37 Q52 55 35 65 Q18 55 20 37" fill="#B8A5C7" stroke="#4A6B66" stroke-width="2"/>
+                    <svg width="64" height="64" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                        <!-- Parent figure (lavender) - Left -->
+                        <circle cx="35" cy="25" r="18" fill="#B8A5C7" stroke="#4A6B66" stroke-width="3"/>
+                        <path d="M15 43 Q35 70 55 43 Q35 95 35 95 Q15 70 15 43" fill="#B8A5C7" stroke="#4A6B66" stroke-width="3"/>
                         
-                        <!-- Child figure (sage) -->
-                        <circle cx="65" cy="30" r="9" fill="#7FB3B3" stroke="#4A6B66" stroke-width="2"/>
-                        <path d="M56 39 Q65 50 74 39 Q76 55 65 65 Q54 55 56 39" fill="#7FB3B3" stroke="#4A6B66" stroke-width="2"/>
+                        <!-- Child figure (sage) - Right -->
+                        <circle cx="85" cy="30" r="14" fill="#7FB3B3" stroke="#4A6B66" stroke-width="3"/>
+                        <path d="M71 44 Q85 65 99 44 Q85 90 85 90 Q71 65 71 44" fill="#7FB3B3" stroke="#4A6B66" stroke-width="3"/>
                         
-                        <!-- Heart shape (coral) -->
-                        <path d="M42 45 Q45 40 50 45 Q55 40 58 45 Q58 52 50 60 Q42 52 42 45" fill="#F4A688" stroke="#4A6B66" stroke-width="1.5"/>
+                        <!-- Heart shape (coral) - Center -->
+                        <path d="M45 55 Q50 50 60 55 Q70 50 75 55 Q75 65 60 80 Q45 65 45 55" fill="#F4A688" stroke="#4A6B66" stroke-width="2.5"/>
+                        
+                        <!-- Arms forming heart shape -->
+                        <path d="M55 43 Q60 48 65 53" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M65 43 Q60 48 55 53" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
                     </svg>
-                    <div>
-                        <h1 class="text-2xl font-bold text-teal-dark font-poppins">Parent Helper</h1>
+                    <div class="flex items-center">
+                        <h1 class="text-3xl font-bold text-teal-dark font-poppins leading-none">Parent Helper</h1>
                     </div>
                 </div>
             </div>
@@ -199,7 +203,7 @@
                     <h2 class="text-4xl font-bold text-teal-dark mb-4 font-poppins">
                         What Makes Parent Helper Special
                     </h2>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    <p class="text-xl text-gray-700 max-w-3xl mx-auto">
                         We're building the most comprehensive and user-friendly platform for UK families to discover activities, services, and support.
                     </p>
                 </div>
@@ -212,7 +216,7 @@
                         <h3 class="text-xl font-semibold text-teal-dark mb-3">
                             Location-Based Search
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-700">
                             Find activities and services near you with our advanced postcode search and interactive maps.
                         </p>
                     </div>
@@ -224,7 +228,7 @@
                         <h3 class="text-xl font-semibold text-teal-dark mb-3">
                             Curated Quality
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-700">
                             Every activity and service is carefully reviewed and verified to ensure the highest standards for your family.
                         </p>
                     </div>
@@ -236,7 +240,7 @@
                         <h3 class="text-xl font-semibold text-teal-dark mb-3">
                             Age-Specific Filtering
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-700">
                             Filter activities by your child's exact age and developmental stage for perfect matches.
                         </p>
                     </div>
@@ -255,7 +259,7 @@
                         <h3 class="text-xl font-semibold text-teal-dark mb-4">
                             For Activity Providers
                         </h3>
-                        <p class="text-gray-600 mb-4">
+                        <p class="text-gray-700 mb-4">
                             Want to list your classes or services? We'd love to feature quality providers on our platform.
                         </p>
                         <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
@@ -269,7 +273,7 @@
                         <h3 class="text-xl font-semibold text-teal-dark mb-4">
                             General Enquiries
                         </h3>
-                        <p class="text-gray-600 mb-4">
+                        <p class="text-gray-700 mb-4">
                             Have questions or suggestions? We'd love to hear from you as we build the platform.
                         </p>
                         <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
@@ -288,21 +292,27 @@
     <footer class="bg-teal-dark text-white py-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="flex items-center justify-center space-x-4 mb-6">
                     <!-- Parent Helper Logo SVG for Footer -->
-                    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Parent figure (lavender) -->
-                        <circle cx="35" cy="25" r="12" fill="#B8A5C7" stroke="white" stroke-width="2"/>
-                        <path d="M20 37 Q35 50 50 37 Q52 55 35 65 Q18 55 20 37" fill="#B8A5C7" stroke="white" stroke-width="2"/>
+                    <svg width="56" height="56" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
+                        <!-- Parent figure (lavender) - Left -->
+                        <circle cx="35" cy="25" r="18" fill="#B8A5C7" stroke="white" stroke-width="3"/>
+                        <path d="M15 43 Q35 70 55 43 Q35 95 35 95 Q15 70 15 43" fill="#B8A5C7" stroke="white" stroke-width="3"/>
                         
-                        <!-- Child figure (sage) -->
-                        <circle cx="65" cy="30" r="9" fill="#7FB3B3" stroke="white" stroke-width="2"/>
-                        <path d="M56 39 Q65 50 74 39 Q76 55 65 65 Q54 55 56 39" fill="#7FB3B3" stroke="white" stroke-width="2"/>
+                        <!-- Child figure (sage) - Right -->
+                        <circle cx="85" cy="30" r="14" fill="#7FB3B3" stroke="white" stroke-width="3"/>
+                        <path d="M71 44 Q85 65 99 44 Q85 90 85 90 Q71 65 71 44" fill="#7FB3B3" stroke="white" stroke-width="3"/>
                         
-                        <!-- Heart shape (coral) -->
-                        <path d="M42 45 Q45 40 50 45 Q55 40 58 45 Q58 52 50 60 Q42 52 42 45" fill="#F4A688" stroke="white" stroke-width="1.5"/>
+                        <!-- Heart shape (coral) - Center -->
+                        <path d="M45 55 Q50 50 60 55 Q70 50 75 55 Q75 65 60 80 Q45 65 45 55" fill="#F4A688" stroke="white" stroke-width="2.5"/>
+                        
+                        <!-- Arms forming heart shape -->
+                        <path d="M55 43 Q60 48 65 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M65 43 Q60 48 55 53" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
                     </svg>
-                    <h3 class="text-2xl font-bold font-poppins">Parent Helper</h3>
+                    <div class="flex items-center">
+                        <h3 class="text-2xl font-bold font-poppins leading-none">Parent Helper</h3>
+                    </div>
                 </div>
                 <p class="text-white/80 mb-6 max-w-2xl mx-auto">
                     The UK's premier directory for family activities and services. 
