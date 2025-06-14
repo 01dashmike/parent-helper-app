@@ -1491,7 +1491,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <div style="width: 50px; height: 50px; background: #4A6B66; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">👶</div>
+                <svg width="60" height="60" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Parent figure (lavender) - larger figure on left -->
+                    <circle cx="65" cy="45" r="25" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
+                    <path d="M35 70 Q65 120 95 70 Q90 85 80 120 Q65 140 65 140 Q50 120 40 85 Q35 70 35 70 Z" fill="#B8A5C7" stroke="#4A6B66" stroke-width="6"/>
+                    
+                    <!-- Child figure (sage) - smaller figure on right -->
+                    <circle cx="135" cy="55" r="18" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
+                    <path d="M115 73 Q135 110 155 73 Q150 85 145 110 Q135 125 135 125 Q125 110 120 85 Q115 73 115 73 Z" fill="#7FB3B3" stroke="#4A6B66" stroke-width="6"/>
+                    
+                    <!-- Heart shape (coral) in center -->
+                    <path d="M85 95 Q95 85 105 95 Q115 85 125 95 Q125 110 105 130 Q85 110 85 95 Z" fill="#F4A688" stroke="#4A6B66" stroke-width="4"/>
+                    
+                    <!-- Embracing arms forming connection -->
+                    <path d="M95 70 Q105 85 115 73" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <path d="M115 70 Q105 85 95 73" stroke="#4A6B66" stroke-width="8" fill="none" stroke-linecap="round"/>
+                </svg>
                 <h1 class="logo-text">Parent Helper</h1>
             </div>
         </div>
