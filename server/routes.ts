@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import path from "path";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { storage } from "./storage";
 import { pool } from "./db";
 import { searchSchema, insertNewsletterSchema, listClassSchema, bookingFormSchema, insertBookingRequestSchema } from "@shared/schema";
@@ -1095,7 +1096,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Serve static HTML file directly
   app.get("/parent-helper", (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/parent-helper.html'));
+    try {
+      const htmlContent = readFileSync('./public/parent-helper.html', 'utf8');
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error('Error serving parent-helper.html:', error);
+      res.status(404).send('File not found');
+    }
   });
 
   // Alternative route for testing
