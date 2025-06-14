@@ -13,14 +13,15 @@
             theme: {
                 extend: {
                     colors: {
-                        'teal-dark': '#0f766e',
-                        'teal-600': '#0d9488',
-                        'coral': '#ff6b6b',
-                        'sage': '#87a96b',
-                        'cream': '#faf8f3'
+                        'teal-dark': '#4A6B66',
+                        'coral': '#F4A688',
+                        'sage': '#7FB3B3',
+                        'lavender': '#B8A5C7',
+                        'cream': '#F5F1ED'
                     },
                     fontFamily: {
-                        'poppins': ['Poppins', 'sans-serif']
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif']
                     }
                 }
             }
@@ -28,13 +29,17 @@
     </script>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
     
     <style>
         body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
         }
         
@@ -48,7 +53,7 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+            background: linear-gradient(135deg, #4A6B66 0%, #7FB3B3 100%);
         }
         
         .hero-pattern {
@@ -66,11 +71,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center h-20">
                 <div class="flex items-center space-x-3">
-                    <div class="h-12 w-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+                    <div class="h-12 w-12 bg-gradient-to-br from-teal-dark to-sage rounded-full flex items-center justify-center shadow-lg">
                         <span class="text-white font-bold text-lg font-poppins">PH</span>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-teal-600 font-poppins">Parent Helper</h1>
+                        <h1 class="text-2xl font-bold text-teal-dark font-poppins">Parent Helper</h1>
                     </div>
                 </div>
             </div>
@@ -167,7 +172,7 @@
                             >
                             <button 
                                 type="submit"
-                                class="w-full bg-coral hover:bg-coral/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                                class="w-full bg-coral hover:bg-coral/80 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
                             >
                                 Notify Me at Launch
                             </button>
@@ -193,8 +198,8 @@
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-teal-50 to-sage/10 border border-teal-100">
-                        <div class="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-sage/10 to-cream border border-sage/20">
+                        <div class="w-16 h-16 bg-teal-dark rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl text-white">🗺️</span>
                         </div>
                         <h3 class="text-xl font-semibold text-teal-dark mb-3">
@@ -205,7 +210,7 @@
                         </p>
                     </div>
 
-                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-coral/10 to-pink-50 border border-coral/20">
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-coral/20 to-cream border border-coral/30">
                         <div class="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl text-white">✨</span>
                         </div>
@@ -217,8 +222,8 @@
                         </p>
                     </div>
 
-                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-sage/20 to-green-50 border border-sage/30">
-                        <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="text-center p-6 rounded-2xl bg-gradient-to-br from-lavender/20 to-cream border border-lavender/30">
+                        <div class="w-16 h-16 bg-lavender rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl text-white">🎯</span>
                         </div>
                         <h3 class="text-xl font-semibold text-teal-dark mb-3">
@@ -233,7 +238,7 @@
         </section>
 
         <!-- Contact Information -->
-        <section class="py-16 bg-teal-50">
+        <section class="py-16 bg-cream">
             <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-teal-dark mb-8 font-poppins">
                     Get In Touch
@@ -246,7 +251,7 @@
                         <p class="text-gray-600 mb-4">
                             Want to list your classes or services? We'd love to feature quality providers on our platform.
                         </p>
-                        <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold">
+                        <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
                             notification@parenthelper.co.uk
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -260,7 +265,7 @@
                         <p class="text-gray-600 mb-4">
                             Have questions or suggestions? We'd love to hear from you as we build the platform.
                         </p>
-                        <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold">
+                        <a href="mailto:notification@parenthelper.co.uk" class="inline-flex items-center text-teal-dark hover:text-sage font-semibold">
                             notification@parenthelper.co.uk
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
