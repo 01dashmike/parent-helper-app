@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
 import { storage } from "./storage";
 import { pool } from "./db";
 import { searchSchema, insertNewsletterSchema, listClassSchema, bookingFormSchema, insertBookingRequestSchema } from "@shared/schema";
@@ -1087,8 +1088,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve the Parent Helper landing page
+  // Simple test page
+  app.get("/test", (req, res) => {
+    res.send('<html><body><h1>Test Page Working</h1><p>This is a simple test.</p></body></html>');
+  });
+
+  // Serve static HTML file directly
   app.get("/parent-helper", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/parent-helper.html'));
+  });
+
+  // Alternative route for testing
+  app.get("/landing", (req, res) => {
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
