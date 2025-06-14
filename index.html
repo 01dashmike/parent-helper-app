@@ -13,11 +13,16 @@
             theme: {
                 extend: {
                     colors: {
-                        'teal-dark': '#4A6B66',
-                        'coral': '#F4A688',
-                        'sage': '#7FB3B3',
-                        'lavender': '#B8A5C7',
-                        'cream': '#F5F1ED'
+                        'teal-dark': 'hsl(174, 20%, 36%)', /* #4A6B66 */
+                        'coral': 'hsl(14, 85%, 73%)', /* #F4A688 */
+                        'sage': 'hsl(174, 32%, 61%)', /* #7FB3B3 */
+                        'lavender': 'hsl(272, 25%, 72%)', /* #B8A5C7 */
+                        'cream': 'hsl(34, 20%, 95%)', /* #F5F1ED */
+                        'background': 'hsl(34, 20%, 95%)', /* Cream background */
+                        'foreground': 'hsl(174, 20%, 36%)', /* Teal dark text */
+                        'primary': 'hsl(174, 20%, 36%)', /* Primary brand color */
+                        'secondary': 'hsl(174, 32%, 61%)', /* Sage green */
+                        'accent': 'hsl(272, 25%, 72%)' /* Lavender */
                     },
                     fontFamily: {
                         'poppins': ['Poppins', 'sans-serif'],
@@ -53,7 +58,12 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #4A6B66 0%, #7FB3B3 100%);
+            background: linear-gradient(135deg, 
+                hsl(174, 32%, 61%) 0%,    /* sage */
+                hsl(272, 25%, 72%) 25%,   /* lavender */
+                hsl(14, 85%, 73%) 50%,    /* coral */
+                hsl(174, 32%, 61%) 75%,   /* sage */
+                hsl(34, 20%, 95%) 100%);  /* cream */
         }
         
         .hero-pattern {
@@ -73,20 +83,20 @@
                 <div class="flex items-center space-x-4">
                     <!-- Parent Helper Logo SVG -->
                     <svg width="64" height="64" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
-                        <!-- Parent figure (lavender) - Left -->
-                        <circle cx="35" cy="25" r="18" fill="#B8A5C7" stroke="#4A6B66" stroke-width="3"/>
-                        <path d="M15 43 Q35 70 55 43 Q35 95 35 95 Q15 70 15 43" fill="#B8A5C7" stroke="#4A6B66" stroke-width="3"/>
+                        <!-- Larger parent figure (lavender) - Left, embracing -->
+                        <circle cx="30" cy="20" r="20" fill="hsl(272, 25%, 72%)" stroke="hsl(174, 20%, 36%)" stroke-width="4"/>
+                        <path d="M10 40 Q30 85 50 40 Q50 45 45 70 Q30 95 30 95 Q15 70 10 45 Z" fill="hsl(272, 25%, 72%)" stroke="hsl(174, 20%, 36%)" stroke-width="4"/>
                         
-                        <!-- Child figure (sage) - Right -->
-                        <circle cx="85" cy="30" r="14" fill="#7FB3B3" stroke="#4A6B66" stroke-width="3"/>
-                        <path d="M71 44 Q85 65 99 44 Q85 90 85 90 Q71 65 71 44" fill="#7FB3B3" stroke="#4A6B66" stroke-width="3"/>
+                        <!-- Smaller child figure (sage) - Right -->
+                        <circle cx="75" cy="25" r="15" fill="hsl(174, 32%, 61%)" stroke="hsl(174, 20%, 36%)" stroke-width="4"/>
+                        <path d="M60 40 Q75 75 90 40 Q90 45 85 65 Q75 85 75 85 Q65 65 60 45 Z" fill="hsl(174, 32%, 61%)" stroke="hsl(174, 20%, 36%)" stroke-width="4"/>
+                        
+                        <!-- Embracing arms -->
+                        <path d="M50 40 Q60 50 75 45" stroke="hsl(174, 20%, 36%)" stroke-width="5" fill="none" stroke-linecap="round"/>
+                        <path d="M60 40 Q50 50 35 45" stroke="hsl(174, 20%, 36%)" stroke-width="5" fill="none" stroke-linecap="round"/>
                         
                         <!-- Heart shape (coral) - Center -->
-                        <path d="M45 55 Q50 50 60 55 Q70 50 75 55 Q75 65 60 80 Q45 65 45 55" fill="#F4A688" stroke="#4A6B66" stroke-width="2.5"/>
-                        
-                        <!-- Arms forming heart shape -->
-                        <path d="M55 43 Q60 48 65 53" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <path d="M65 43 Q60 48 55 53" stroke="#4A6B66" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M45 55 Q50 50 60 55 Q70 50 75 55 Q75 65 60 75 Q45 65 45 55 Z" fill="hsl(14, 85%, 73%)" stroke="hsl(174, 20%, 36%)" stroke-width="3"/>
                     </svg>
                     <div class="flex items-center">
                         <h1 class="text-3xl font-bold text-teal-dark font-poppins leading-none">Parent Helper</h1>
@@ -124,14 +134,14 @@
                 </div>
 
                 <!-- Main Content -->
-                <div class="text-white">
+                <div class="text-gray-900">
                     <h1 class="text-5xl md:text-7xl font-bold mb-6 font-poppins">
                         Coming Soon
                     </h1>
                     <h2 class="text-2xl md:text-3xl font-semibold mb-4">
                         Parent Helper
                     </h2>
-                    <p class="text-xl md:text-2xl mb-8 text-white/90">
+                    <p class="text-xl md:text-2xl mb-8 text-gray-800">
                         The UK's Premier Family Activity Directory
                     </p>
                     
