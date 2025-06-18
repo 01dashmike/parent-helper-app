@@ -10,7 +10,7 @@ interface SearchParams {
 
 export async function fetchClassesByTown(townName: string) {
   try {
-    const response = await fetch(`/api/search?postcode=${encodeURIComponent(townName)}&radius=15`, {
+    const response = await fetch(`/api/classes/search?postcode=${encodeURIComponent(townName)}&radius=15`, {
       credentials: 'include'
     });
     
@@ -37,7 +37,7 @@ export async function searchClasses(searchParams: SearchParams) {
     if (searchParams.dayOfWeek) params.append('dayOfWeek', searchParams.dayOfWeek);
     if (searchParams.radius) params.append('radius', searchParams.radius.toString());
     
-    const response = await fetch(`/api/search?${params.toString()}`, {
+    const response = await fetch(`/api/classes/search?${params.toString()}`, {
       credentials: 'include'
     });
     
