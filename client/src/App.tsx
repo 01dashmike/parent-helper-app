@@ -27,6 +27,7 @@ import ParentSupportGroupsPage from "./pages/parent-support-groups";
 import SmartSearchPage from "./pages/smart-search";
 import ProviderDashboard from "./pages/provider-dashboard";
 import FreeSamplesPage from "./pages/free-samples";
+import SearchPage from "./pages/search";
 
 
 function Router() {
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/blog/weaning-guide" component={BlogWeaningGuide} />
       <Route path="/blog/newborn-behavior" component={BlogNewbornBehavior} />
       <Route path="/faq" component={FAQ} />
+      <Route path="/search" component={SearchPage} />
       <Route path="/smart-search" component={SmartSearchPage} />
 
       <Route path="/list-class" component={ListClass} />
