@@ -1,32 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-// Supabase configuration
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Validate and clean up the URL
-let validSupabaseUrl = '';
-let validSupabaseKey = '';
-
-if (supabaseUrl && supabaseAnonKey) {
-  // Clean up URL - remove quotes and ensure proper format
-  validSupabaseUrl = supabaseUrl.replace(/^["']|["']$/g, '').trim();
-  validSupabaseKey = supabaseAnonKey.replace(/^["']|["']$/g, '').trim();
-  
-  // Validate URL format
-  try {
-    new URL(validSupabaseUrl);
-  } catch (error) {
-    console.error('Invalid Supabase URL format:', validSupabaseUrl);
-    validSupabaseUrl = '';
-  }
-} else {
-  console.log('Supabase credentials not provided, using PostgreSQL API fallback');
-}
-
-export const supabase = validSupabaseUrl && validSupabaseKey 
-  ? createClient(validSupabaseUrl, validSupabaseKey)
-  : null;
+import { supabase, fetchClasses, searchClassesSupabase } from './supabaseClient';
 
 interface SearchParams {
   postcode?: string;
@@ -67,18 +39,8 @@ export async function fetchClassesByTown(townName: string): Promise<Class[]> {
     }
 
     console.log('Querying Supabase for town:', townName);
-    const { data, error } = await supabase!
-      .from('classes')
-      .select('*')
-      .ilike('town', `%${townName}%`)
-      .eq('isActive', true)
-      .limit(20);
-
-    if (error) {
-      console.error('Supabase error:', error);
-      return fetchClassesByTownAPI(townName);
-    }
-
+    const data = await fetchClasses(townName);
+    
     console.log('Supabase returned', data?.length || 0, 'classes');
     return data || [];
   } catch (error) {
@@ -95,58 +57,15 @@ export async function searchClasses(searchParams: SearchParams): Promise<Class[]
     }
 
     console.log('Searching Supabase with params:', searchParams);
-
-    let query = supabase!
-      .from('classes')
-      .select('*')
-      .eq('isActive', true);
-
-    // Filter by postcode or town
-    if (searchParams.postcode) {
-      const searchTerm = searchParams.postcode.toLowerCase();
-      // Check if it looks like a postcode
-      const isPostcode = /^[a-z]{1,2}\d/.test(searchTerm);
-      
-      if (isPostcode) {
-        query = query.ilike('postcode', `${searchTerm}%`);
-      } else {
-        query = query.ilike('town', `%${searchTerm}%`);
-      }
-    }
-
-    // Filter by class name
-    if (searchParams.className) {
-      query = query.or(`name.ilike.%${searchParams.className}%,description.ilike.%${searchParams.className}%`);
-    }
-
-    // Filter by category
-    if (searchParams.category && searchParams.category !== 'all') {
-      query = query.eq('category', searchParams.category);
-    }
-
-    // Filter by day of week
-    if (searchParams.dayOfWeek && searchParams.dayOfWeek !== 'all') {
-      query = query.eq('dayOfWeek', searchParams.dayOfWeek);
-    }
-
-    // Apply radius-based limiting
-    const radius = searchParams.radius || 10;
-    let limit = 20;
-    if (radius <= 3) limit = 8;
-    else if (radius <= 7) limit = 12;
-    else if (radius <= 15) limit = 18;
-
-    query = query.limit(limit);
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Supabase search error:', error);
+    const data = await searchClassesSupabase(searchParams);
+    
+    if (data && data.length > 0) {
+      console.log('Supabase search returned', data.length, 'classes');
+      return data;
+    } else {
+      console.log('No results from Supabase, trying API fallback');
       return searchClassesAPI(searchParams);
     }
-
-    console.log('Supabase search returned', data?.length || 0, 'classes');
-    return data || [];
   } catch (error) {
     console.error('Error searching classes with Supabase:', error);
     return searchClassesAPI(searchParams);
