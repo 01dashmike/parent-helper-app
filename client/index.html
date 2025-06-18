@@ -11,3 +11,15 @@
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
 </html>
+<input id="townInput" type="text" placeholder="Enter town name..." />
+<button onclick="search()">Search</button>
+<pre id="results"></pre>
+<script type="module">
+  import { fetchClassesByTown } from './client/supabaseClient.js';
+
+  window.search = async function () {
+    const town = document.getElementById('townInput').value;
+    const results = await fetchClassesByTown(town);
+    document.getElementById('results').textContent = JSON.stringify(results, null, 2);
+  };
+</script>
