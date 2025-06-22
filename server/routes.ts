@@ -1,38 +1,40 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { readFileSync } from "fs";
-import { join } from "path";
 import { storage } from "./storage";
-import { pool } from "./db";
-import { searchSchema, insertNewsletterSchema, listClassSchema, bookingFormSchema, insertBookingRequestSchema } from "@shared/schema";
+import { pool, db } from "./db";
+import {
+  searchSchema,
+  insertNewsletterSchema,
+  listClassSchema,
+  bookingFormSchema,
+  insertBookingRequestSchema,
+  classes,
+} from "@shared/schema";
 import { sendClassSubmissionNotification } from "./email-service";
 import { parseSmartSearch } from "./smart-search";
-// Newsletter automation temporarily disabled
-// import { sendNewsletterToAllSubscribers, sendNewsletterToSubscriber, scheduleWeeklyNewsletter } from "./newsletter-automation";
 import { z } from "zod";
 
-// Google Sheets integration for server-side
-interface SheetsClassData {
-  town: string;
-  name: string;
-  ageRange: string;
-  time: string;
-  cost: string;
-  link: string;
-  tags: string;
-}
+export const registerRoutes = async (app: Express): Promise<Server> => {
+  app.get("/api/health", (_req, res) => {
+    res.json({ status: "ok" });
+  });
 
-async function fetchGoogleSheetsData(): Promise<SheetsClassData[]> {
-  const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
-  const sheetId = '1Eu-Ei6Pou3Q1K9wsVeoxpQNWSfT-bvNXiYNckZAq2u4';
-  
-  if (!apiKey) {
-    console.warn('Google Sheets API key not configured');
-    return [];
-  }
+  app.get("/api/test-db", async (_req, res) => {
+    try {
+      const result = await db.select().from(classes).limit(5);
+      res.json(result);
+    } catch (err: any) {
+      console.error("DB error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
 
-  try {
-    const range = 'Classes!A1:G1000'; // Fetch from Classes sheet
+  const server = createServer(app);
+  return server;
+};
+  return server;
+};
+ const range = 'Classes!A1:G1000'; // Fetch from Classes sheet
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
     
     const response = await fetch(url);
@@ -163,92 +165,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         if (smartSearchResult.ageGroup && !params.ageGroup) {
           params.ageGroup = smartSearchResult.ageGroup;
-        }
-        
-        // If className contains a location, extract it to postcode
-        const locationKeywords = ['andover', 'winchester', 'basingstoke', 'southampton', 'portsmouth'];
-        const searchText = params.className.toLowerCase();
-        for (const location of locationKeywords) {
-          if (searchText.includes(location) && !params.postcode) {
-            params.postcode = location;
-            break;
-          }
-        }
-        
-        console.log('Enhanced params after smart search:', params);
-      }
-      
-      // Ensure we have either postcode or className for search
-      if (!params.postcode && !params.className) {
-        return res.status(400).json({ 
-          message: "Either location or class name is required for search" 
-        });
-      }
-      
-      // If postcode doesn't look like a postcode, try to find it as a town name
-      if (params.postcode) {
-        const postcodePattern = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
-        const partialPostcodePattern = /^[A-Z]{1,2}[0-9]/i;
-        
-        if (!postcodePattern.test(params.postcode) && !partialPostcodePattern.test(params.postcode)) {
-          // This looks like a town name, try to convert to postcode
-          const normalizedSearch = params.postcode.toLowerCase().trim();
-          
-          // Define major towns directly in server for reliable lookup
-          const majorTowns = [
-            { name: "Winchester", postcode: "SO23" },
-            { name: "Southampton", postcode: "SO14" },
-            { name: "Portsmouth", postcode: "PO1" },
-            { name: "Basingstoke", postcode: "RG21" },
-            { name: "Andover", postcode: "SP10" },
-            { name: "Fareham", postcode: "PO14" },
-            { name: "Eastleigh", postcode: "SO50" },
-            { name: "Fleet", postcode: "GU51" },
-            { name: "Aldershot", postcode: "GU11" },
-            { name: "Farnborough", postcode: "GU14" },
-            { name: "Gosport", postcode: "PO12" },
-            { name: "Havant", postcode: "PO9" },
-            { name: "Waterlooville", postcode: "PO7" },
-            { name: "Reading", postcode: "RG1" },
-            { name: "Guildford", postcode: "GU1" },
-            { name: "Woking", postcode: "GU21" },
-            { name: "Salisbury", postcode: "SP1" },
-            { name: "Bournemouth", postcode: "BH1" },
-            { name: "Poole", postcode: "BH15" }
-          ];
-          
           let foundPostcode = null;
           
-          // Try exact match first
-          for (const town of majorTowns) {
-            if (town.name.toLowerCase() === normalizedSearch) {
-              foundPostcode = town.postcode;
-              break;
-            }
-          }
-          
-          // Try partial match if no exact match
-          if (!foundPostcode) {
-            for (const town of majorTowns) {
-              if (town.name.toLowerCase().startsWith(normalizedSearch)) {
-                foundPostcode = town.postcode;
-                break;
-              }
-            }
-          }
-          
-          // Try contains match if still no match
-          if (!foundPostcode) {
-            for (const town of majorTowns) {
-              if (town.name.toLowerCase().includes(normalizedSearch)) {
-                foundPostcode = town.postcode;
-                break;
-              }
-            }
-          }
-          
-          if (foundPostcode) {
-            console.log(`Converted town "${params.postcode}" to postcode "${foundPostcode}"`);
             params = { ...params, postcode: foundPostcode };
           }
         }
