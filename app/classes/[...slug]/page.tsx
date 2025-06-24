@@ -2,8 +2,15 @@ import React from 'react';
 import { getClasses } from '../../../src/lib/classesService';
 import { notFound } from 'next/navigation';
 
-export async function generateMetadata({ params }: { params: { slug: string[] } }) {
-  const [town, category] = params.slug || [];
+// Define the correct Props type
+export type Props = {
+  params: {
+    slug?: string[];
+  };
+};
+
+export async function generateMetadata({ params }: Props) {
+  const [town, category] = params.slug ?? [];
   const title = category
     ? `Best ${category} Classes in ${town}`
     : `Baby & Toddler Classes in ${town}`;
@@ -12,8 +19,8 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
   return { title, description };
 }
 
-export default async function ClassListPage({ params }: { params: { slug: string[] } }) {
-  const [town, category] = params.slug || [];
+export default async function ClassListPage({ params }: Props) {
+  const [town, category] = params.slug ?? [];
   const classes = await getClasses({ town, category });
 
   if (!classes?.length) return notFound();
