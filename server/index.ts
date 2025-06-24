@@ -5,9 +5,8 @@ console.log("🧪 index.ts has been loaded");
 console.log("✅ index.ts is running...");
 
 import express, { Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic } from "./vite";
-
+import { registerRoutes } from "./routes/index.js"; // ✅ No .ts extension needed";
+import { setupVite, serveStatic } from "./vite.js";
 const app = express();
 
 // Log all requests
@@ -29,7 +28,7 @@ app.use((req, res, next) => {
       res.send("✅ Server is live!");
     });
 
-    // Register app routes
+    // Register API routes first
     const server = await registerRoutes(app);
 
     // Global error handler
@@ -40,7 +39,7 @@ app.use((req, res, next) => {
       throw err;
     });
 
-    // Serve frontend
+    // Serve frontend for non-API routes
     if (app.get("env") === "development") {
       await setupVite(app, server);
     } else {
@@ -48,9 +47,21 @@ app.use((req, res, next) => {
     }
 
     // Start server
-    const port = 5000;
-    server.listen(port, '127.0.0.1', () => {
-      console.log(`🚀 Server is running on http://127.0.0.1:${port}`);
+    const port = 3000;
+    const host = '127.0.0.1';
+    const serverInstance = server.listen(port, host, () => {
+      console.log(`🚀 Server is running on http://${host}:${port}`);
+    });
+
+    // Handle port conflicts gracefully
+    serverInstance.on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${port} is already in use.`);
+        console.error('To free it, run: lsof -i :3000 and kill -9 <PID>');
+        process.exit(1);
+      } else {
+        throw err;
+      }
     });
 
   } catch (err) {

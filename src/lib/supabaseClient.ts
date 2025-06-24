@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://mxvqkpefheroaailfpnc.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14dnFrcGVmaGVyb2FhaWxmcG5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5MTIzMTMsImV4cCI6MjA2NTQ4ODMxM30.Xd07hOWUe4F0G6xng7ToL-_o8XN9DEM1AKEwvPZ0l7w';
 
 // Validate and clean up the URL
 let validSupabaseUrl = '';
@@ -10,8 +10,8 @@ let validSupabaseKey = '';
 
 if (supabaseUrl && supabaseAnonKey) {
   // Clean up URL - remove quotes and ensure proper format
-  validSupabaseUrl = supabaseUrl.replace(/^["']|["']$/g, '').trim();
-  validSupabaseKey = supabaseAnonKey.replace(/^["']|["']$/g, '').trim();
+  validSupabaseUrl = supabaseUrl.replace(/^['"]|['"]$/g, '').trim();
+  validSupabaseKey = supabaseAnonKey.replace(/^['"]|['"]$/g, '').trim();
   
   // Validate URL format
   try {
@@ -24,9 +24,7 @@ if (supabaseUrl && supabaseAnonKey) {
   console.log('Supabase credentials not provided, using PostgreSQL API fallback');
 }
 
-export const supabase = validSupabaseUrl && validSupabaseKey 
-  ? createClient(validSupabaseUrl, validSupabaseKey)
-  : null;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function fetchClasses(searchTerm: string) {
   if (!supabase) {

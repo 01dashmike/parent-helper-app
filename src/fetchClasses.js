@@ -2,7 +2,7 @@ import { supabase } from './supabaseClient';
 
 export async function fetchClassesByTown(townName) {
   const { data, error } = await supabase
-    .from('Classes')
+    .from('classes')
     .select('*')
     .ilike('town', `%${townName}%`); // Case-insensitive match
 

@@ -23,7 +23,7 @@ export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true,
+    allowedHosts: true as const,
   };
 
   const vite = await createViteServer({
@@ -44,6 +44,11 @@ export async function setupVite(app: Express, server: Server) {
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
 
+    // Skip API routes
+    if (url.startsWith('/api/')) {
+      return next();
+    }
+
     try {
       const clientTemplate = path.resolve(
         import.meta.dirname,
@@ -51,6 +56,61 @@ export async function setupVite(app: Express, server: Server) {
         "client",
         "index.html",
       );
+
+      // Check if client template exists
+      if (!fs.existsSync(clientTemplate)) {
+        // Return a simple HTML page for non-API routes
+        return res.status(200).set({ "Content-Type": "text/html" }).end(`
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Parent Helper API</title>
+            <style>
+              body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+              .endpoint { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+              .method { color: #007cba; font-weight: bold; }
+              .url { color: #333; font-family: monospace; }
+            </style>
+          </head>
+          <body>
+            <h1>Parent Helper API</h1>
+            <p>Welcome to the Parent Helper API server. Here are the available endpoints:</p>
+            
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes</span> - Get all classes
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes/featured</span> - Get featured classes
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes/town/:town</span> - Get classes by town
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes/category/:category</span> - Get classes by category
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes/:id</span> - Get single class
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/classes/search/:term</span> - Search classes
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/categories</span> - Get available categories
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/towns</span> - Get available towns
+            </div>
+            <div class="endpoint">
+              <span class="method">GET</span> <span class="url">/api/health</span> - Health check
+            </div>
+            
+            <p><strong>Example:</strong> <a href="/api/classes">/api/classes</a></p>
+          </body>
+          </html>
+        `);
+      }
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
