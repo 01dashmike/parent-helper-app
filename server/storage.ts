@@ -587,7 +587,7 @@ export class MemStorage implements IStorage {
 
 // Database storage for production
 import { db } from "./db";
-import { eq, and, gte, lte, ilike, or } from "drizzle-orm";
+import { eq, and, ilike, or } from "drizzle-orm";
 
 class DatabaseStorage implements IStorage {
   // Classes

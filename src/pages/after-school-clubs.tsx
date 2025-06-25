@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import Header from "@/components/header";
-import Footer from "@/components/footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Clock, MapPin, Users, Star, Phone, Mail, Globe, Sparkles, GraduationCap } from 'lucide-react';
+import { Clock, MapPin, Users, Star, Phone, Mail, Globe, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 interface AfterSchoolClub {

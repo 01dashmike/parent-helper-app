@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight, BookOpen, Baby, Heart, Users, GraduationCap, Apple, Brain, Moon, Activity, Shield, Smile, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { BlogPost } from "@shared/schema";
 
 export default function Blog() {

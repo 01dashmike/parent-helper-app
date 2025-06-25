@@ -6,7 +6,6 @@ import type { Class } from "@shared/schema";
 interface CoverageMapProps {
   classes: Class[];
   fullScreen?: boolean;
-  searchPostcode?: string;
 }
 
 interface ClusterData {
@@ -17,7 +16,7 @@ interface ClusterData {
   town: string;
 }
 
-export default function CoverageMap({ classes, fullScreen = false, searchPostcode }: CoverageMapProps) {
+export default function CoverageMap({ classes, fullScreen = false }: CoverageMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const [mapType, setMapType] = useState<'roadmap' | 'satellite'>('roadmap');
@@ -104,7 +103,7 @@ export default function CoverageMap({ classes, fullScreen = false, searchPostcod
         if (Object.keys(clusteredData).length > 0) {
           const group = L.featureGroup();
           
-          Object.entries(clusteredData).forEach(([townKey, cluster]) => {
+          Object.entries(clusteredData).forEach(([, cluster]) => {
             // Color coding based on class count (like WOW World Group)
             const circleColor = cluster.count >= 20 ? '#22c55e' : 
                                 cluster.count >= 10 ? '#84cc16' : 
@@ -186,10 +185,6 @@ export default function CoverageMap({ classes, fullScreen = false, searchPostcod
       }, 150);
     });
   }, [clusteredData, mapType]);
-
-  const toggleMapType = () => {
-    setMapType(prev => prev === 'roadmap' ? 'satellite' : 'roadmap');
-  };
 
   const zoomIn = () => {
     if (mapInstance.current) {

@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Home, 
   Baby, 
-  Users, 
   GraduationCap, 
   Camera, 
   Heart, 

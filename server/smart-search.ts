@@ -72,7 +72,7 @@ export function parseSmartSearch(query: string): SmartSearchResult {
 }
 
 // Enhanced search query builder
-export function buildSmartSearchQuery(searchResult: SmartSearchResult, postcode?: string) {
+export function buildSmartSearchQuery(searchResult: SmartSearchResult, _postcode?: string) {
   const conditions: string[] = [];
   const params: any[] = [];
   let paramIndex = 1;

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, Heart, MapPin, Star, Phone, Mail, Globe, Gift, Baby, Users } from 'lucide-react';
+import { Camera, Heart, MapPin, Star, Phone, Mail, Globe, Gift } from 'lucide-react';
 import { useState } from 'react';
 
 interface PhotographyService {

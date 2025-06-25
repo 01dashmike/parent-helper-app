@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Heart, Check, MapPin, Users, Clock, Lightbulb, MessageCircle, Send } from "lucide-react";
+import { Heart, Users, Clock, Lightbulb, MessageCircle, Send } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import brandImage from "@assets/image_1748256410268.png";

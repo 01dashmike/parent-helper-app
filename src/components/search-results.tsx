@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/select";
 import { List, Map as MapIcon } from "lucide-react";
 import ClassCard from "./class-card";
-import InteractiveMap from "./interactive-map";
-import CoverageMap from "./coverage-map";
 import { findTownByPostcode, getImageSearchTerm } from "@/lib/town-lookup";
 import { imageService, type LocationImage } from "@/lib/image-service";
 import type { Class, SearchParams } from "@shared/schema";

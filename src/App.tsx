@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AIChatbot } from "@/components/ai-chatbot";
 import Home from "@/pages/home";
 import Services from "@/pages/services";
-import Clubs from "@/pages/clubs";
 import About from "@/pages/about";
 import Blog from "@/pages/blog";
 import BlogNutrition from "@/pages/blog-nutrition";

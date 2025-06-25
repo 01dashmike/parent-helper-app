@@ -3,13 +3,11 @@ import { Instagram, ExternalLink } from "lucide-react";
 interface InstagramGalleryProps {
   instagramHandle: string;
   className?: string;
-  maxPhotos?: number;
 }
 
 export default function InstagramGallery({ 
   instagramHandle, 
-  className = "", 
-  maxPhotos = 4 
+  className = ""
 }: InstagramGalleryProps) {
   // For now, we'll display an Instagram link only
   // In the future, we can manually curate specific posts from providers

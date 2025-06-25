@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { bookingFormSchema } from '@shared/schema';
 import type { Class } from '@shared/schema';
-import { Calendar, Clock, CreditCard, MessageSquare, Phone, User, Users } from 'lucide-react';
+import { Calendar, CreditCard, MessageSquare, Phone, User, Users } from 'lucide-react';
 
 interface BookingFormProps {
   classItem: Class;

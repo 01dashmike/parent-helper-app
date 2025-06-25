@@ -9,9 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapPin, Baby, Search, Gift, Waves, Music, Dumbbell, Brain } from "lucide-react";
+import { MapPin, Baby, Search } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SearchParams } from "@shared/schema";
 
 interface HeroSearchProps {

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Baby, MapPin, Clock, Star, Building, Star as StarFilled, Car, Bus, Accessibility, Navigation } from "lucide-react";
+import { Baby, MapPin, Clock, Building, Star as StarFilled, Car, Bus, Accessibility, Navigation } from "lucide-react";
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import { useState } from "react";
@@ -46,18 +46,6 @@ export default function ClassCard({ classItem }: ClassCardProps) {
     }
     
     return `${minYears}-${maxYears} year${maxYears > 1 ? 's' : ''}`;
-  };
-
-  const getClassImage = (category: string) => {
-    const imageMap: Record<string, string> = {
-      sensory: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-      music: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-      swimming: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-      yoga: "https://images.unsplash.com/photo-1506629905607-ce91decc5a50?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-      movement: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-    };
-    
-    return imageMap[category] || imageMap.sensory;
   };
 
   const handleDirections = () => {

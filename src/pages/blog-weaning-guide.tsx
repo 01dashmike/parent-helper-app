@@ -2,7 +2,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowLeft, Heart, Baby, Utensils } from "lucide-react";
+import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 export default function BlogWeaningGuide() {
