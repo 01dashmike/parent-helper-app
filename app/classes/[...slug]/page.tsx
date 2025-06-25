@@ -5,12 +5,12 @@ import { getClasses } from '../../../src/lib/classesService';
 
 type PageProps = {
   params: {
-    slug?: string[];
+    slug: string[];
   };
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const [town, category] = params.slug ?? [];
+  const [town, category] = params.slug;
   return {
     title: `Baby & Toddler Classes in ${town}`,
     description: `Explore ${category} classes in ${town} for babies and toddlers.`,
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ClassesPage({ params }: PageProps) {
-  const [town, category] = params.slug ?? [];
+  const const [town, category] = params.slug;
   const classes = await getClasses({ town, category });
 
   if (!classes.length) return notFound();
