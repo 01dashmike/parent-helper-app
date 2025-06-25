@@ -6,21 +6,23 @@ import { getClasses } from "../../../src/lib/classesService";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[] };
+  params: { slug?: string[] };
 }): Promise<Metadata> {
-  const [town, category] = params.slug;
+  const [town, category] = params.slug ?? [];
   return {
-    title: `Baby & Toddler Classes in ${town}`,
-    description: `Explore ${category} classes in ${town} for babies and toddlers.`,
+    title: town ? `Baby & Toddler Classes in ${town}` : "Baby & Toddler Classes",
+    description: category && town
+      ? `Explore ${category} classes in ${town} for babies and toddlers.`
+      : "Explore classes for babies and toddlers.",
   };
 }
 
 export default async function ClassesPage({
   params,
 }: {
-  params: { slug: string[] };
+  params: { slug?: string[] };
 }) {
-  const [town, category] = params.slug;
+  const [town, category] = params.slug ?? [];
 
   const classes = await getClasses({ town, category });
 
@@ -28,7 +30,9 @@ export default async function ClassesPage({
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Classes in {town}</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Classes{town ? ` in ${town}` : ""}
+      </h1>
       <ul className="space-y-4">
         {classes.map((cls: any) => (
           <li key={cls.id} className="border p-4 rounded shadow">
