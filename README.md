@@ -1,4 +1,6 @@
-# Baby & Toddler Class Finder
+# Parent Helper App
+
+// Trigger redeploy
 
 A comprehensive digital platform for discovering baby and toddler activities across the United Kingdom, with advanced search capabilities and authentic class data.
 
