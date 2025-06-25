@@ -82,4 +82,4 @@ Deploy through Replit's one-click deployment system. The app is production-ready
 
 ## License
 
-MIT License - Built for families across the UK
+MIT License - Built for families across the UK# Updated Wed Jun 25 21:09:56 BST 2025
