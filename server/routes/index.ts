@@ -17,7 +17,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   app.get("/api/classes", async (req, res) => {
     try {
       const { town, category, ageGroup, featured, limit, offset } = req.query;
-      
+
       const filters = {
         town: town as string,
         category: category as string,
@@ -28,7 +28,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
       };
 
       const result = await ClassesService.getClasses(filters);
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -56,7 +56,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
     try {
       const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
       const result = await ClassesService.getFeaturedClasses(limit);
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -84,9 +84,9 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
     try {
       const { town } = req.params;
       const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
-      
+
       const result = await ClassesService.getClassesByTown(town, limit);
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -115,9 +115,9 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
     try {
       const { category } = req.params;
       const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
-      
+
       const result = await ClassesService.getClassesByCategory(category, limit);
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -145,7 +145,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   app.get("/api/classes/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      
+
       if (isNaN(id)) {
         return res.status(400).json({
           success: false,
@@ -154,7 +154,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
       }
 
       const result = await ClassesService.getClassById(id);
-      
+
       if (!result.success) {
         return res.status(404).json({
           success: false,
@@ -181,7 +181,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
     try {
       const { term } = req.params;
       const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
-      
+
       if (!term || term.trim().length === 0) {
         return res.status(400).json({
           success: false,
@@ -190,7 +190,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
       }
 
       const result = await ClassesService.searchClasses(term.trim(), limit);
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -218,7 +218,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   app.get("/api/categories", async (_req, res) => {
     try {
       const result = await ClassesService.getCategories();
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
@@ -242,10 +242,10 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   });
 
   // Get available towns
-  app.get("/api/towns", async (req, res) => {
+  app.get("/api/towns", async (_req, res) => {
     try {
       const result = await ClassesService.getTowns();
-      
+
       if (!result.success) {
         return res.status(500).json({
           success: false,
