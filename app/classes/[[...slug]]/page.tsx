@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getClasses } from "../../../src/lib/classesService";
 
-export async function generateMetadata({ params }: { params: { slug?: string[] } }): Promise<Metadata> {
-  const slug = params.slug ?? [];
-  const [town, category] = slug;
+export async function generateMetadata({ params }: { params: Promise<{ slug?: string[] }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const [town, category] = slug ?? [];
   return {
     title: town ? `Baby & Toddler Classes in ${town}` : "Baby & Toddler Classes",
     description: category && town
@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: { params: { slug?: string[] }
   };
 }
 
-export default async function Page({ params }: { params: { slug?: string[] } }) {
-  const slug = params.slug ?? [];
-  const [town, category] = slug;
+export default async function Page({ params }: { params: Promise<{ slug?: string[] }> }) {
+  const { slug } = await params;
+  const [town, category] = slug ?? [];
 
   const classes = await getClasses({ town, category });
 
