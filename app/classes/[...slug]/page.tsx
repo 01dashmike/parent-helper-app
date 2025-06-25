@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ClassesPage({ params }: PageProps) {
-  const const [town, category] = params.slug;
+  const [town, category] = params.slug;
   const classes = await getClasses({ town, category });
 
   if (!classes.length) return notFound();
