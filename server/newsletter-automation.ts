@@ -229,7 +229,7 @@ export async function sendNewsletterToSubscriber(
 
     if (subscriber.postcode) {
       try {
-        const locationData = await validateAndLookupPostcode(subscriber.postcode);
+        await validateAndLookupPostcode(subscriber.postcode);
         
         // Search for classes near this postcode
         nearbyClasses = await storage.searchClasses({
