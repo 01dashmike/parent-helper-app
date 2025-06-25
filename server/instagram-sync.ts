@@ -7,10 +7,8 @@ export interface InstagramCredentials {
 }
 
 export class InstagramSyncService {
-  private credentials: InstagramCredentials;
-
   constructor(credentials: InstagramCredentials) {
-    this.credentials = credentials;
+    // No longer storing credentials
   }
 
   async syncAllClassPhotos(): Promise<void> {
