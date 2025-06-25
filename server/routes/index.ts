@@ -215,7 +215,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   });
 
   // Get available categories
-  app.get("/api/categories", async (req, res) => {
+  app.get("/api/categories", async (_req, res) => {
     try {
       const result = await ClassesService.getCategories();
       
