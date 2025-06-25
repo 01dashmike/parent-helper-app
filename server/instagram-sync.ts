@@ -7,7 +7,7 @@ export interface InstagramCredentials {
 }
 
 export class InstagramSyncService {
-  constructor(credentials: InstagramCredentials) {
+  constructor() {
     // No longer storing credentials
   }
 
@@ -86,9 +86,6 @@ export function createInstagramSync(): InstagramSyncService | null {
     return null;
   }
 
-  return new InstagramSyncService({
-    accessToken,
-    appId,
-    appSecret
-  });
+  // Credentials are checked but not passed to the service
+  return new InstagramSyncService();
 }
