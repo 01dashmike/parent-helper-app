@@ -258,7 +258,7 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
         data: result.data,
         count: result.data?.length || 0
       });
-
+      // Force redeploy
     } catch (error) {
       console.error('Towns route error:', error);
       res.status(500).json({
