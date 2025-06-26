@@ -588,7 +588,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Serve Parent Helper landing page
-  app.get("/parent-helper", (req, res) => {
+  app.get("/parent-helper", (_req, res) => {
     try {
       const htmlContent = readFileSync('./public/parent-helper.html', 'utf8');
       res.setHeader('Content-Type', 'text/html');
