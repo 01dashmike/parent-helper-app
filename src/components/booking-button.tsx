@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-// import { BookingForm } from './booking-form';
-import { Calendar, Clock, Users } from 'lucide-react';
-import type { Class } from '@shared/schema';
+import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Calendar, Clock, Users, CreditCard } from "lucide-react";
+import type { Class } from "@shared/schema";
+
+const BOOKING_FEE_GBP = Number(import.meta.env.VITE_BOOKING_FEE_GBP ?? "1");
+const STRIPE_PERCENT_FEE = Number(import.meta.env.VITE_STRIPE_PERCENT_FEE ?? "1.4") / 100;
+const STRIPE_FIXED_FEE = Number(import.meta.env.VITE_STRIPE_FIXED_FEE ?? "0.20");
 
 interface BookingButtonProps {
   classItem: Class;
@@ -17,16 +20,29 @@ export function BookingButton({ classItem }: BookingButtonProps) {
     return null;
   }
 
-  const isInstantBooking = classItem.bookingType === 'instant';
+  const isInstantBooking = classItem.bookingType === "instant";
+
+  const pricing = useMemo(() => {
+    const baseRaw =
+      (classItem.bookingPrice ?? classItem.pricePerSession ?? classItem.price ?? "0").toString();
+    const base = Number(baseRaw);
+    if (!Number.isFinite(base) || base <= 0) {
+      return null;
+    }
+    const bookingFee = BOOKING_FEE_GBP;
+    const stripeFee = Number((base * STRIPE_PERCENT_FEE + STRIPE_FIXED_FEE).toFixed(2));
+    const total = Number((base + bookingFee + stripeFee).toFixed(2));
+    return { base, bookingFee, stripeFee, total };
+  }, [classItem.bookingPrice, classItem.pricePerSession, classItem.price]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button 
+        <Button
           className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105"
         >
           <Calendar className="w-4 h-4 mr-2" />
-          {isInstantBooking ? 'Book Now' : 'Check Availability'}
+          {isInstantBooking ? "Book Now" : "Check Availability"}
         </Button>
       </DialogTrigger>
       
@@ -54,14 +70,32 @@ export function BookingButton({ classItem }: BookingButtonProps) {
               </div>
             </div>
             
-            {classItem.bookingPrice && (
-              <div className="mt-3 text-lg font-semibold text-emerald-700">
-                Single Session: £{Number(classItem.bookingPrice).toFixed(2)}
-                {classItem.blockBookingAvailable && classItem.blockBookingPrice && (
-                  <span className="ml-4 text-base font-normal text-gray-600">
-                    Block of {classItem.blockBookingSessions}: £{Number(classItem.blockBookingPrice).toFixed(2)}
-                  </span>
-                )}
+            {pricing ? (
+              <div className="mt-4 text-sm">
+                <div className="flex items-center justify-between text-gray-700">
+                  <span>Class price</span>
+                  <span>£{pricing.base.toFixed(2)}</span>
+                </div>
+                <div className="flex items-center justify-between text-gray-700">
+                  <span>Booking fee</span>
+                  <span>£{pricing.bookingFee.toFixed(2)}</span>
+                </div>
+                <div className="flex items-center justify-between text-gray-700">
+                  <span>Estimated card fee</span>
+                  <span>£{pricing.stripeFee.toFixed(2)}</span>
+                </div>
+                <div className="mt-2 flex items-center justify-between text-lg font-semibold text-emerald-700">
+                  <span>Total today</span>
+                  <span>£{pricing.total.toFixed(2)}</span>
+                </div>
+                <p className="mt-2 text-xs text-gray-500">
+                  Fees are calculated automatically. Stripe fixed fee and percentage can be adjusted via environment
+                  variables when payments go live.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-4 text-sm text-gray-600">
+                This class currently has no price listed. Contact the provider to book directly.
               </div>
             )}
           </div>
@@ -71,7 +105,8 @@ export function BookingButton({ classItem }: BookingButtonProps) {
               <div className="flex">
                 <div className="ml-3">
                   <p className="text-sm text-blue-700">
-                    <strong>Quick Check Process:</strong> We'll send your details to the provider who will confirm availability and get back to you within 2 hours.
+                    <strong>Quick Check Process:</strong> We'll send your details to the provider who will confirm
+                    availability and get back to you within 2 hours.
                   </p>
                 </div>
               </div>
@@ -79,9 +114,26 @@ export function BookingButton({ classItem }: BookingButtonProps) {
           )}
         </DialogHeader>
         
-        <div className="p-4 text-center">
-          <p className="text-gray-600 mb-4">Booking system is ready!</p>
-          <Button onClick={() => setIsOpen(false)}>Close</Button>
+        <div className="p-4 space-y-3">
+          {pricing ? (
+            <>
+              <p className="text-sm text-gray-600">
+                Secure checkout is being finalised. You'll soon be able to pay the total above and guarantee your place in
+                seconds. For now, complete the quick enquiry form on the next step and we'll confirm availability.
+              </p>
+              <Button className="w-full" disabled>
+                <CreditCard className="w-4 h-4 mr-2" />
+                Pay £{pricing.total.toFixed(2)} (coming soon)
+              </Button>
+            </>
+          ) : (
+            <p className="text-sm text-gray-600">
+              Pricing isn't available yet. Reach out to the provider using the contact buttons on this page.
+            </p>
+          )}
+          <Button variant="ghost" className="w-full" onClick={() => setIsOpen(false)}>
+            Close
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

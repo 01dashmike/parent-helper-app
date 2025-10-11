@@ -1,0 +1,16 @@
+---
+import Seo from '../components/Seo.astro';
+import App from "../components/App";
+---
+
+<html lang="en">
+  <head>
+    <Seo />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent Helper</title>
+  </head>
+  <body>
+    <App client:load />
+  </body>
+</html>

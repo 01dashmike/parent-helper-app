@@ -1,6 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { ClassesService } from "../classes-service.js";
+import { claimListingSchema } from "@shared/schema";
+import { sendClaimListingNotification } from "../email-service.js";
+import { storage } from "../storage.js";
+import localContextRouter from "./local-context.js";
+import providersRouter from "./providers.js";
+import franchisesRouter from "./franchises.js";
 
 export const registerRoutes = async (app: Express): Promise<Server> => {
   // Health check
@@ -83,30 +89,13 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   app.get("/api/classes/town/:town", async (req, res) => {
     try {
       const { town } = req.params;
-      const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
-
-      const result = await ClassesService.getClassesByTown(town, limit);
-
-      if (!result.success) {
-        return res.status(500).json({
-          success: false,
-          error: result.error
-        });
-      }
-
-      res.json({
-        success: true,
-        data: result.data,
-        count: result.data?.length || 0,
-        town
+      const classes = await storage.searchClasses({
+        postcode: town.toLowerCase(),
+        includeInactive: false,
       });
-
+      res.json(classes);
     } catch (error) {
-      console.error('Town classes route error:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
+      res.status(500).json({ error: "Failed to fetch classes" });
     }
   });
 
@@ -172,6 +161,55 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
       res.status(500).json({
         success: false,
         error: 'Internal server error'
+      });
+    }
+  });
+
+  app.post("/api/classes/:id/claim", async (req, res) => {
+    try {
+      const classId = Number.parseInt(req.params.id, 10);
+      if (Number.isNaN(classId)) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid class ID",
+        });
+      }
+
+      const validation = claimListingSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid form data",
+          fieldErrors: validation.error.flatten().fieldErrors,
+        });
+      }
+
+      const classResult = await ClassesService.getClassById(classId);
+      if (!classResult.success || !classResult.data) {
+        return res.status(404).json({
+          success: false,
+          error: "Class not found",
+        });
+      }
+
+      const { consentToEmail: _consent, ...claimData } = validation.data;
+
+      const emailSent = await sendClaimListingNotification({
+        classId,
+        className: classResult.data.name,
+        ...claimData,
+      });
+
+      return res.json({
+        success: true,
+        message: "Claim submitted",
+        emailSent,
+      });
+    } catch (error) {
+      console.error("Claim listing route error:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Internal server error",
       });
     }
   });
@@ -244,7 +282,9 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
   // Get available towns
   app.get("/api/towns", async (_req, res) => {
     try {
-      const result = await ClassesService.getTowns();
+      const search = typeof _req.query.q === "string" ? _req.query.q : undefined;
+      const limit = _req.query.limit ? parseInt(_req.query.limit as string, 10) : 25;
+      const result = await ClassesService.getTowns(search, limit);
 
       if (!result.success) {
         return res.status(500).json({
@@ -267,6 +307,9 @@ export const registerRoutes = async (app: Express): Promise<Server> => {
       });
     }
   });
+  app.use(franchisesRouter);
+  app.use(providersRouter);
+  app.use(localContextRouter);
 
   const server = createServer(app);
   return server;

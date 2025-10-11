@@ -19,6 +19,8 @@ import FAQ from "@/pages/faq";
 import ListClass from "@/pages/list-class";
 import NewsletterAdmin from "@/pages/newsletter-admin";
 import NotFound from "@/pages/not-found";
+import TownPage from "@/pages/town";
+import ProviderClaimPage from "@/pages/provider-claim";
 import AfterSchoolClubsPage from "./pages/after-school-clubs";
 import PhotographyKeepsakesPage from "./pages/photography-keepsakes";
 import AdditionalNeedsPage from "./pages/additional-needs";
@@ -27,6 +29,8 @@ import SmartSearchPage from "./pages/smart-search";
 import ProviderDashboard from "./pages/provider-dashboard";
 import FreeSamplesPage from "./pages/free-samples";
 import SearchPage from "./pages/search";
+import PartnerLandingPage from "@/pages/partner";
+import FranchiseAdminPage from "@/pages/admin/franchises";
 
 
 function Router() {
@@ -57,6 +61,11 @@ function Router() {
       <Route path="/list-class" component={ListClass} />
       <Route path="/newsletter-admin" component={NewsletterAdmin} />
       <Route path="/provider-dashboard" component={ProviderDashboard} />
+      <Route path="/provider/claim" component={ProviderClaimPage} />
+      <Route path="/partner" component={PartnerLandingPage} />
+      <Route path="/admin/franchises" component={FranchiseAdminPage} />
+      <Route path="/classes/:town" component={TownPage} />
+      <Route path="/:town" component={TownPage} />
       <Route component={NotFound} />
     </Switch>
   );

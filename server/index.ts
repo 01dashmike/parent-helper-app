@@ -5,9 +5,16 @@ console.log("🧪 index.ts has been loaded");
 console.log("✅ index.ts is running...");
 
 import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
 import { registerRoutes } from "./routes/index.js"; // ✅ No .ts extension needed";
 import { setupVite, serveStatic } from "./vite.js";
 const app = express();
+
+app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 
 // Log all requests
 app.use((req, res, next) => {

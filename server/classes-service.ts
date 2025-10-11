@@ -203,13 +203,14 @@ export class ClassesService {
   /**
    * Get available towns
    */
-  static async getTowns(): Promise<ApiResponse<string[]>> {
+  static async getTowns(search?: string, limit: number = 25): Promise<ApiResponse<string[]>> {
     try {
       const { data, error } = await supabase
         .from('classes')
         .select('town')
         .eq('is_active', true)
-        .not('town', 'is', null);
+        .not('town', 'is', null)
+        .limit(limit);
 
       if (error) {
         console.error('Supabase towns error:', error);
@@ -219,8 +220,15 @@ export class ClassesService {
         };
       }
 
-      const towns = [...new Set(data?.map(item => item.town).filter(Boolean))];
-      
+      let towns = [...new Set(data?.map(item => item.town).filter(Boolean))];
+
+      if (search) {
+        const normalizedSearch = search.toLowerCase();
+        towns = towns
+          .filter((town) => town?.toLowerCase().includes(normalizedSearch))
+          .slice(0, limit);
+      }
+
       return {
         success: true,
         data: towns

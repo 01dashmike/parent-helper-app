@@ -148,30 +148,35 @@ export default function CoverageMap({ classes, fullScreen = false }: CoverageMap
             
             const marker = L.marker([cluster.lat, cluster.lng], { icon: numberIcon });
             
-            // Rich popup with class details
-            const topClasses = cluster.classes.slice(0, 5);
+            // Rich popup with class details (styled to match app UI)
+            const townName = cluster.town ?? "Local area";
             const popupContent = `
-              <div style="min-width: 220px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                <h4 style="margin: 0 0 10px 0; font-weight: bold; color: #1f2937; font-size: 16px;">
-                  ${cluster.town} - ${cluster.count} Classes
-                </h4>
-                <div style="margin-bottom: 8px;">
-                  ${topClasses.map(c => `
-                    <div style="margin: 4px 0; font-size: 13px; color: #374151; border-left: 3px solid ${circleColor}; padding-left: 8px;">
-                      <strong>${c.name || 'Class'}</strong><br>
-                      <span style="color: #6b7280; font-size: 12px;">${c.venue || 'Venue'} • ${c.ageGroupMin || 0}-${c.ageGroupMax || 48} years</span>
+              <div class="min-w-[280px]">
+                <h4 class="font-bold text-lg mb-3">${townName}</h4>
+                <div class="space-y-2 max-h-48 overflow-y-auto">
+                  ${cluster.classes.slice(0, 5).map((c) => `
+                    <div class="border-l-3 border-emerald-500 pl-3 py-1 hover:bg-gray-50">
+                      <a href="/class/${c.id}" class="font-medium text-emerald-700 hover:text-emerald-900">
+                        ${c.name ?? 'Class'}
+                      </a>
+                      <div class="text-xs text-gray-600">
+                        ${(c.venue ?? 'Venue')} • Ages ${c.ageGroupMin ?? 0}-${c.ageGroupMax ?? 0} months
+                      </div>
                     </div>
                   `).join('')}
                   ${cluster.count > 5 ? `
-                    <div style="margin: 8px 0; font-size: 12px; color: #6b7280; font-style: italic;">
-                      ...and ${cluster.count - 5} more classes
-                    </div>
+                    <a href="/${townName.toLowerCase()}" class="text-sm text-emerald-600 font-medium hover:underline">
+                      View all ${cluster.count} classes →
+                    </a>
                   ` : ''}
                 </div>
               </div>
             `;
             
             marker.bindPopup(popupContent);
+            marker.on('click', () => {
+              map.flyTo([cluster.lat, cluster.lng], 13, { duration: 1 });
+            });
             
             group.addLayer(circle);
             group.addLayer(marker);

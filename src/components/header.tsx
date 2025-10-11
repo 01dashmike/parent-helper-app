@@ -112,7 +112,10 @@ export default function Header() {
           </div>
           
           {/* Add Class Button - Desktop */}
-          <div className="hidden lg:block flex-shrink-0 ml-4">
+          <div className="hidden lg:flex flex-shrink-0 items-center gap-2 ml-4">
+            <Button variant="ghost" className="text-teal-700 hover:bg-teal-50">
+              <Link href="/provider/claim">FOR PROVIDERS</Link>
+            </Button>
             <Button className="bg-teal-600 hover:bg-teal-700">
               <Link href="/list-class" className="text-white">
                 ADD ACTIVITY
@@ -161,6 +164,17 @@ export default function Header() {
                     );
                   })}
                   
+                  <Link
+                    href="/provider/claim"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-medium">For Providers</span>
+                      <span className="text-sm text-gray-500">Claim or manage your listing</span>
+                    </div>
+                  </Link>
+
                   {/* Add Activity Button in Mobile Menu */}
                   <div className="mt-6 pt-4 border-t border-gray-200">
                     <Link

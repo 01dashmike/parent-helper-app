@@ -4,22 +4,22 @@ import { Baby, MapPin, Clock, Building, Star as StarFilled, Car, Bus, Accessibil
 import { findTownByPostcode } from "@/lib/town-lookup";
 import type { Class } from "@shared/schema";
 import { useState } from "react";
-import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
-import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
+// import babySensoryBanner from "@assets/r637772636132920862_45394-WOW-Website-Banners_BS_150dpi_.Djpg.jpg";
+// import toddlerSenseBanner from "@assets/r637772637007222808_45394-WOW-Website-Banners_TS_150dpi_D.jpg";
 import WhatsAppButton from "./whatsapp-button";
 import InstagramGallery from "./instagram-gallery";
 import { BookingButton } from "./booking-button";
 
 interface ClassCardProps {
-  classItem: Class & { 
+  classItem: Class & {
     sessions?: Array<{
-      id: number, 
-      day: string, 
-      time: string, 
-      ageMin: number, 
-      ageMax: number, 
+      id: number,
+      day: string,
+      time: string,
+      ageMin: number,
+      ageMax: number,
       name: string
-    }> 
+    }>
   };
 }
 
@@ -27,24 +27,24 @@ export default function ClassCard({ classItem }: ClassCardProps) {
   const [showDetails, setShowDetails] = useState(false);
   const isFree = !classItem.price || parseFloat(classItem.price) === 0;
   const price = isFree ? "FREE" : `£${classItem.price}`;
-  
+
   // Check if this is a Baby Sensory or Toddler Sense class
   const isBabySensory = classItem.name.toLowerCase().includes('baby sensory');
   const isToddlerSense = classItem.name.toLowerCase().includes('toddler sense');
-  
+
   const hasSessions = classItem.sessions && classItem.sessions.length > 0;
-  
+
   const formatAgeRange = (min: number, max: number) => {
     if (max <= 12) {
       return `${min}-${max} months`;
     }
     const minYears = Math.floor(min / 12);
     const maxYears = Math.floor(max / 12);
-    
+
     if (minYears === 0) {
       return `${min} months - ${maxYears} year${maxYears > 1 ? 's' : ''}`;
     }
-    
+
     return `${minYears}-${maxYears} year${maxYears > 1 ? 's' : ''}`;
   };
 
@@ -52,51 +52,29 @@ export default function ClassCard({ classItem }: ClassCardProps) {
     // Create Google Maps directions URL
     const destination = `${classItem.address}, ${classItem.postcode}`;
     const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
-    
+
     // Open in new tab
     window.open(mapsUrl, '_blank');
   };
 
   // Check if this is a premium sensory class
-  const isPremiumSensory = classItem.name.toLowerCase().includes('baby sensory') || 
-                          classItem.name.toLowerCase().includes('toddler sense');
+  const isPremiumSensory = classItem.name.toLowerCase().includes('baby sensory') ||
+    classItem.name.toLowerCase().includes('toddler sense');
 
   const cardClasses = isPremiumSensory
     ? "bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-2xl p-6 relative premium-sensory-card shadow-lg"
-    : classItem.isFeatured 
-    ? "bg-gradient-to-r from-gold-soft/20 to-yellow-100 border-2 border-gold-soft/40 rounded-2xl p-6 relative featured-card"
-    : "bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200";
+    : classItem.isFeatured
+      ? "bg-gradient-to-r from-gold-soft/20 to-yellow-100 border-2 border-gold-soft/40 rounded-2xl p-6 relative featured-card"
+      : "bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200";
 
   return (
     <div className={cardClasses}>
-      {/* Baby Sensory Banner Image */}
-      {isBabySensory && (
-        <div className="w-full h-56 mb-4 rounded-t-lg overflow-hidden bg-white">
-          <img 
-            src={babySensoryBanner} 
-            alt="Baby Sensory - Precious Early Learning for Babies" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
-      
-      {/* Toddler Sense Banner Image */}
-      {isToddlerSense && (
-        <div className="w-full h-56 mb-4 rounded-t-lg overflow-hidden bg-white">
-          <img 
-            src={toddlerSenseBanner} 
-            alt="Toddler Sense - Life's an Adventure" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
-      
-      {/* Street View Image for venues (when not showing premium banners) */}
-      {!isBabySensory && !isToddlerSense && classItem.streetViewImageUrl && (
+      {/* Street View Image for venues */}
+      {classItem.streetViewImageUrl && (
         <div className="w-full h-48 mb-4 rounded-lg overflow-hidden bg-gray-100">
-          <img 
-            src={classItem.streetViewImageUrl} 
-            alt={`Street view of ${classItem.name}`} 
+          <img
+            src={classItem.streetViewImageUrl}
+            alt={`Street view of ${classItem.name}`}
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
@@ -104,8 +82,8 @@ export default function ClassCard({ classItem }: ClassCardProps) {
           </div>
         </div>
       )}
-      
-      {classItem.isFeatured && !isPremiumSensory && (
+
+      {classItem.isFeatured && (
         <div className="absolute top-4 right-4">
           <Badge className="bg-gold-soft text-yellow-900 text-xs font-bold">
             <StarFilled className="w-3 h-3 mr-1" />
@@ -113,7 +91,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
           </Badge>
         </div>
       )}
-      
+
       <div className="flex flex-col gap-4">
         <div className="flex-1">
           <div className="flex justify-between items-start mb-2">
@@ -124,11 +102,11 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               {/* Removed duplicate Google Reviews Badge - kept star display below */}
             </div>
           </div>
-          
+
           <p className="text-gray-600 mb-3">
             {classItem.description}
           </p>
-          
+
           <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
             <span className="flex items-center">
               <Baby className="w-4 h-4 mr-1 text-coral" />
@@ -143,7 +121,7 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               {hasSessions ? `${classItem.sessions.length} sessions available` : `${classItem.dayOfWeek}s ${classItem.time}`}
             </span>
           </div>
-          
+
           {/* Transport and Accessibility Information */}
           {(classItem.parkingAvailable || classItem.nearestTubeStation || classItem.venueAccessibility) && (
             <div className="bg-sage/5 rounded-lg p-3 mb-4">
@@ -151,9 +129,9 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                 {classItem.parkingAvailable && (
                   <span className="flex items-center text-green-700">
                     <Car className="w-3 h-3 mr-1" />
-                    {classItem.parkingType === 'free' ? 'Free parking' : 
-                     classItem.parkingType === 'paid' ? 'Paid parking' : 
-                     classItem.parkingType === 'street' ? 'Street parking' : 'Parking available'}
+                    {classItem.parkingType === 'free' ? 'Free parking' :
+                      classItem.parkingType === 'paid' ? 'Paid parking' :
+                        classItem.parkingType === 'street' ? 'Street parking' : 'Parking available'}
                   </span>
                 )}
                 {classItem.nearestTubeStation && (
@@ -166,9 +144,9 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                   <span className="flex items-center text-purple-700">
                     <Accessibility className="w-3 h-3 mr-1" />
                     {classItem.venueAccessibility === 'wheelchair-accessible' ? 'Wheelchair accessible' :
-                     classItem.venueAccessibility === 'buggy-friendly' ? 'Buggy friendly' :
-                     classItem.venueAccessibility === 'step-free' ? 'Step-free access' :
-                     classItem.venueAccessibility === 'stairs-only' ? 'Stairs only' : 'Limited access'}
+                      classItem.venueAccessibility === 'buggy-friendly' ? 'Buggy friendly' :
+                        classItem.venueAccessibility === 'step-free' ? 'Step-free access' :
+                          classItem.venueAccessibility === 'stairs-only' ? 'Stairs only' : 'Limited access'}
                   </span>
                 )}
               </div>
@@ -180,15 +158,15 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               )}
             </div>
           )}
-          
+
           <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
             {classItem.rating && classItem.reviewCount !== null && classItem.reviewCount !== undefined && (
               <span className="flex items-center">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
-                    <StarFilled 
-                      key={i} 
-                      className={`w-3 h-3 ${i < Math.floor(parseFloat(classItem.rating || "0")) ? 'text-yellow-400' : 'text-gray-300'}`} 
+                    <StarFilled
+                      key={i}
+                      className={`w-3 h-3 ${i < Math.floor(parseFloat(classItem.rating || "0")) ? 'text-yellow-400' : 'text-gray-300'}`}
                     />
                   ))}
                 </div>
@@ -198,24 +176,24 @@ export default function ClassCard({ classItem }: ClassCardProps) {
               </span>
             )}
           </div>
-          
+
           {/* Instagram Gallery for classes with Instagram handles */}
           {classItem.instagramHandle && (
             <div className="mb-4">
-              <InstagramGallery 
+              <InstagramGallery
                 instagramHandle={classItem.instagramHandle}
                 maxPhotos={4}
               />
             </div>
           )}
-          
+
           <div className="space-y-3">
             <p className="text-sm text-gray-600 flex items-center">
               <Building className="w-4 h-4 mr-1" />
               {classItem.venue}
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
-              <Button 
+              <Button
                 variant="outline"
                 size="sm"
                 className="border-blue-500 text-blue-600 hover:bg-blue-50 flex-1 sm:flex-none"
@@ -225,22 +203,23 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                 Directions
               </Button>
               <div className="flex-1 sm:flex-none">
-                <WhatsAppButton 
-                  classItem={classItem} 
+                <WhatsAppButton
+                  classItem={classItem}
                   variant={isPremiumSensory ? "direct" : "concierge"}
                 />
               </div>
-              <Button 
+              <Button
                 className="bg-coral hover:bg-coral/90 text-white flex-1 sm:flex-none"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? 'Hide Details' : 'View Details'}
+                <ClaimListingDialog classItem={classItem} />
               </Button>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Session Details Panel */}
       {showDetails && (
         <div className="mt-4 pt-4 border-t border-gray-200 space-y-4">
@@ -262,8 +241,8 @@ export default function ClassCard({ classItem }: ClassCardProps) {
                         {session.day} {session.time}
                       </div>
                       <div className="text-sm text-gray-600">
-                        Ages {session.ageMin <= 12 ? `${session.ageMin}-${session.ageMax} months` : 
-                              `${Math.floor(session.ageMin/12)}-${Math.floor(session.ageMax/12)} years`}
+                        Ages {session.ageMin <= 12 ? `${session.ageMin}-${session.ageMax} months` :
+                          `${Math.floor(session.ageMin / 12)}-${Math.floor(session.ageMax / 12)} years`}
                       </div>
                     </div>
                     <div className="flex gap-2">

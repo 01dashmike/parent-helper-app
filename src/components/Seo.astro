@@ -1,0 +1,16 @@
+---
+// Default SEO component for Astro
+const title = "Parent Helper - UK Baby & Toddler Classes";
+const description = "Discover baby and toddler classes across the UK. Search by town, venue, or activity. Free, SEO-first, and powered by Supabase.";
+const url = "https://your-site-url.com"; // Update to your actual site URL
+---
+
+<head>
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={url} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:type" content="website" />
+</head>

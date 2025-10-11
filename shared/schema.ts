@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, decimal, timestamp, date, real } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, decimal, timestamp, date, real, uuid, jsonb, uniqueIndex, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -224,99 +224,20 @@ export const blogPosts = pgTable("blog_posts", {
 });
 
 // Booking system providers table
-export const providers = pgTable("providers", {
+export const franchises = pgTable("franchises", {
   id: serial("id").primaryKey(),
-  businessName: text("business_name").notNull(),
-  contactName: text("contact_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone").notNull(),
-  whatsappNumber: text("whatsapp_number"),
-  stripeAccountId: text("stripe_account_id"), // for commission payments
-  commissionRate: decimal("commission_rate", { precision: 5, scale: 2 }).default("7.00"),
-  bookingEnabled: boolean("booking_enabled").default(false),
-  autoApproveBookings: boolean("auto_approve_bookings").default(false),
-  responseTimeHours: integer("response_time_hours").default(2),
-  isActive: boolean("is_active").default(true),
+  name: text("name").notNull(),
+  slug: text("slug").notNull(),
+  logoUrl: text("logo_url"),
+  defaultDiscountPercent: decimal("default_discount_percent", { precision: 5, scale: 2 }).default("10").notNull(),
+  signupLinkSlug: text("signup_link_slug"),
+  stripePromotionId: text("stripe_promotion_id"),
+  notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-// Booking requests table
-export const bookingRequests = pgTable("booking_requests", {
-  id: serial("id").primaryKey(),
-  classId: integer("class_id").notNull(),
-  providerId: integer("provider_id").notNull(),
-  parentName: text("parent_name").notNull(),
-  parentEmail: text("parent_email").notNull(),
-  parentPhone: text("parent_phone"),
-  parentWhatsapp: text("parent_whatsapp"),
-  childName: text("child_name").notNull(),
-  childAge: integer("child_age").notNull(), // in months
-  bookingType: text("booking_type").notNull(), // 'single', 'block'
-  sessionsRequested: integer("sessions_requested").default(1),
-  preferredDate: timestamp("preferred_date"),
-  specialRequirements: text("special_requirements"),
-  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
-  commissionAmount: decimal("commission_amount", { precision: 10, scale: 2 }).notNull(),
-  providerAmount: decimal("provider_amount", { precision: 10, scale: 2 }).notNull(),
-  status: text("status").default("pending").notNull(), // 'pending', 'approved', 'declined', 'expired'
-  paymentStatus: text("payment_status").default("pending").notNull(), // 'pending', 'paid', 'refunded'
-  stripePaymentIntentId: text("stripe_payment_intent_id"),
-  providerResponse: text("provider_response"),
-  respondedAt: timestamp("responded_at"),
-  expiresAt: timestamp("expires_at").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-// Confirmed bookings table
-export const bookings = pgTable("bookings", {
-  id: serial("id").primaryKey(),
-  bookingRequestId: integer("booking_request_id").notNull(),
-  classId: integer("class_id").notNull(),
-  providerId: integer("provider_id").notNull(),
-  parentName: text("parent_name").notNull(),
-  parentEmail: text("parent_email").notNull(),
-  childName: text("child_name").notNull(),
-  sessionDate: timestamp("session_date").notNull(),
-  sessionsBooked: integer("sessions_booked").default(1),
-  totalPaid: decimal("total_paid", { precision: 10, scale: 2 }).notNull(),
-  confirmationCode: text("confirmation_code").notNull(),
-  status: text("status").default("confirmed").notNull(), // 'confirmed', 'cancelled', 'completed'
-  reminderSent: boolean("reminder_sent").default(false),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export const insertClassSchema = createInsertSchema(classes).omit({
-  id: true,
-  createdAt: true,
-});
-
-export const insertNewsletterSchema = createInsertSchema(newsletters).omit({
-  id: true,
-  subscribedAt: true,
-});
-
-export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
-  id: true,
-  createdAt: true,
-});
-
-export const searchSchema = z.object({
-  postcode: z.string().default(""),
-  className: z.string().optional(), // Smart search by class name
-  ageGroup: z.string().optional(),
-  category: z.string().optional(),
-  serviceType: z.string().optional(), // classes, services, clubs
-  priceFilter: z.string().optional(),
-  dayOfWeek: z.string().optional(), // Monday, Tuesday, etc.
-  radius: z.coerce.number().default(10),
-  includeInactive: z.coerce.boolean().default(false),
-}).refine(
-  (data) => data.postcode || data.className,
-  {
-    message: "Either postcode or className must be provided",
-  }
-);
-
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  slugIdx: uniqueIndex("franchises_slug_idx").on(table.slug),
+}));
 // Schema for "List Your Class" form
 export const listClassSchema = z.object({
   businessName: z.string().min(1, "Business name is required"),
@@ -338,10 +259,322 @@ export const listClassSchema = z.object({
   additionalInfo: z.string().optional(),
 });
 
-// Booking system schemas
+export const providers = pgTable("providers", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").notNull(),
+  name: text("name").notNull(),
+  legalName: text("legal_name"),
+  descriptionRaw: text("description_raw"),
+  descriptionOverride: text("description_override"),
+  useDescriptionOverride: boolean("use_description_override").default(false).notNull(),
+  contactEmail: text("contact_email"),
+  contactPhone: text("contact_phone"),
+  whatsappNumber: text("whatsapp_number"),
+  website: text("website"),
+  facebookUrl: text("facebook_url"),
+  instagramUrl: text("instagram_url"),
+  tiktokUrl: text("tiktok_url"),
+  youtubeUrl: text("youtube_url"),
+  bookingEmail: text("booking_email"),
+  bookingPhone: text("booking_phone"),
+  addressLine1: text("address_line1"),
+  addressLine2: text("address_line2"),
+  town: text("town"),
+  county: text("county"),
+  postcode: text("postcode"),
+  latitude: decimal("latitude", { precision: 10, scale: 8 }),
+  longitude: decimal("longitude", { precision: 11, scale: 8 }),
+  isActive: boolean("is_active").default(true).notNull(),
+  isClaimed: boolean("is_claimed").default(false).notNull(),
+  claimStatus: text("claim_status").default("unclaimed").notNull(),
+  claimedByUserId: uuid("claimed_by_user_id"),
+  autoApproved: boolean("auto_approved").default(false).notNull(),
+  bookingEnabled: boolean("booking_enabled").default(false).notNull(),
+  autoApproveBookings: boolean("auto_approve_bookings").default(false).notNull(),
+  responseTimeHours: integer("response_time_hours").default(2),
+  stripeAccountId: text("stripe_account_id"),
+  commissionRate: decimal("commission_rate", { precision: 5, scale: 2 }).default("7.00"),
+  lastScrapedAt: timestamp("last_scraped_at"),
+  lastVerifiedAt: timestamp("last_verified_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  metadata: jsonb("metadata"),
+}, (table) => ({
+  slugIdx: uniqueIndex("providers_slug_idx").on(table.slug),
+  townIdx: index("providers_town_idx").on(table.town),
+}));
+
+export const providerAccounts = pgTable("provider_accounts", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull(),
+  role: text("role").default("owner").notNull(),
+  status: text("status").default("active").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  providerUserIdx: uniqueIndex("provider_accounts_provider_user_idx").on(table.providerId, table.userId),
+}));
+
+export const providerClaims = pgTable("provider_claims", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  userId: uuid("user_id"),
+  claimantName: text("claimant_name").notNull(),
+  claimantEmail: text("claimant_email").notNull(),
+  claimantPhone: text("claimant_phone"),
+  relationship: text("relationship").notNull(),
+  website: text("website"),
+  proofUrl: text("proof_url"),
+  message: text("message"),
+  franchiseId: integer("franchise_id").references(() => franchises.id, { onDelete: "set null" }),
+  status: text("status").default("pending").notNull(),
+  verificationToken: text("verification_token"),
+  expiresAt: timestamp("expires_at"),
+  verifiedAt: timestamp("verified_at"),
+  reviewedBy: uuid("reviewed_by"),
+  autoApproved: boolean("auto_approved").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  providerIdx: index("provider_claims_provider_idx").on(table.providerId),
+  tokenIdx: uniqueIndex("provider_claims_token_idx").on(table.verificationToken),
+  franchiseIdx: index("provider_claims_franchise_idx").on(table.franchiseId),
+}));
+
+export const providerFranchises = pgTable("provider_franchises", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  franchiseId: integer("franchise_id").notNull().references(() => franchises.id, { onDelete: "cascade" }),
+  externalId: text("external_id"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  providerFranchiseIdx: uniqueIndex("provider_franchises_provider_franchise_idx").on(table.providerId, table.franchiseId),
+  franchiseLookupIdx: index("provider_franchises_franchise_idx").on(table.franchiseId),
+}));
+
+export const bookingRequests = pgTable("booking_requests", {
+  id: serial("id").primaryKey(),
+  classId: integer("class_id").notNull(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  parentName: text("parent_name").notNull(),
+  parentEmail: text("parent_email").notNull(),
+  parentPhone: text("parent_phone"),
+  parentWhatsapp: text("parent_whatsapp"),
+  childName: text("child_name").notNull(),
+  childAge: integer("child_age").notNull(),
+  bookingType: text("booking_type").notNull(),
+  sessionsRequested: integer("sessions_requested").default(1),
+  preferredDate: timestamp("preferred_date"),
+  specialRequirements: text("special_requirements"),
+  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
+  commissionAmount: decimal("commission_amount", { precision: 10, scale: 2 }).notNull(),
+  providerAmount: decimal("provider_amount", { precision: 10, scale: 2 }).notNull(),
+  status: text("status").default("pending").notNull(),
+  paymentStatus: text("payment_status").default("pending").notNull(),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  providerResponse: text("provider_response"),
+  respondedAt: timestamp("responded_at"),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  bookingRequestId: integer("booking_request_id").notNull().references(() => bookingRequests.id, { onDelete: "cascade" }),
+  classId: integer("class_id").notNull(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  parentName: text("parent_name").notNull(),
+  parentEmail: text("parent_email").notNull(),
+  childName: text("child_name").notNull(),
+  sessionDate: timestamp("session_date").notNull(),
+  sessionsBooked: integer("sessions_booked").default(1),
+  totalPaid: decimal("total_paid", { precision: 10, scale: 2 }).notNull(),
+  confirmationCode: text("confirmation_code").notNull(),
+  status: text("status").default("confirmed").notNull(),
+  reminderSent: boolean("reminder_sent").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertClassSchema = createInsertSchema(classes).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertNewsletterSchema = createInsertSchema(newsletters).omit({
+  id: true,
+  subscribedAt: true,
+});
+
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const searchSchema = z.object({
+  postcode: z.string().default(""),
+  className: z.string().optional(),
+  ageGroup: z.string().optional(),
+  category: z.string().optional(),
+  dayOfWeek: z.string().optional(),
+  radius: z.number().optional(),
+});
+
+export const providerMetrics = pgTable("provider_metrics", {
+  id: serial("id").primaryKey(),
+  providerId: integer("provider_id").notNull().references(() => providers.id, { onDelete: "cascade" }),
+  metricDate: date("metric_date").notNull(),
+  views: integer("views").default(0).notNull(),
+  websiteClicks: integer("website_clicks").default(0).notNull(),
+  phoneClicks: integer("phone_clicks").default(0).notNull(),
+  emailClicks: integer("email_clicks").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  metricsDateIdx: uniqueIndex("provider_metrics_provider_date_idx").on(table.providerId, table.metricDate),
+}));
+
+export const providerClaimRequestSchema = z.object({
+  fullName: z.string().min(1, "Your name is required"),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().optional(),
+  relationship: z.string().min(1, "Let us know your role"),
+  website: z
+    .string()
+    .url("Enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  proofUrl: z
+    .string()
+    .url("Enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  message: z.string().min(10, "Share some details so we can verify"),
+  franchiseId: z.coerce.number().int().positive().optional(),
+});
+
 export const insertProviderSchema = createInsertSchema(providers).omit({
   id: true,
   createdAt: true,
+  updatedAt: true,
+});
+
+export const insertFranchiseSchema = createInsertSchema(franchises).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertProviderAccountSchema = createInsertSchema(providerAccounts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertProviderClaimSchema = createInsertSchema(providerClaims).omit({
+  id: true,
+  verificationToken: true,
+  expiresAt: true,
+  verifiedAt: true,
+  reviewedBy: true,
+  autoApproved: true,
+  createdAt: true,
+  updatedAt: true,
+  status: true,
+});
+
+export const insertProviderMetricSchema = createInsertSchema(providerMetrics).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertProviderFranchiseSchema = createInsertSchema(providerFranchises).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const franchiseDiscountCodes = pgTable("franchise_discount_codes", {
+  id: serial("id").primaryKey(),
+  franchiseId: integer("franchise_id").notNull().references(() => franchises.id, { onDelete: "cascade" }),
+  code: text("code").notNull(),
+  description: text("description"),
+  discountPercent: decimal("discount_percent", { precision: 5, scale: 2 }).default("10").notNull(),
+  maxRedemptions: integer("max_redemptions"),
+  redemptionCount: integer("redemption_count").default(0).notNull(),
+  stripeCouponId: text("stripe_coupon_id"),
+  stripePromotionId: text("stripe_promotion_id"),
+  status: text("status").default("active").notNull(),
+  expiresAt: timestamp("expires_at"),
+  createdByUserId: uuid("created_by_user_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  franchiseCodeIdx: uniqueIndex("franchise_discount_codes_code_idx").on(table.code),
+  franchiseLookupIdx: index("franchise_discount_codes_franchise_idx").on(table.franchiseId),
+}));
+
+export const franchiseInvites = pgTable("franchise_invites", {
+  id: serial("id").primaryKey(),
+  franchiseId: integer("franchise_id").notNull().references(() => franchises.id, { onDelete: "cascade" }),
+  inviteType: text("invite_type").default("link").notNull(),
+  email: text("email"),
+  code: text("code"),
+  sourceCampaign: text("source_campaign"),
+  status: text("status").default("pending").notNull(),
+  sentAt: timestamp("sent_at"),
+  clickedAt: timestamp("clicked_at"),
+  convertedUserId: uuid("converted_user_id"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  inviteCodeIdx: index("franchise_invites_code_idx").on(table.code),
+  franchiseInviteIdx: index("franchise_invites_franchise_idx").on(table.franchiseId),
+}));
+
+export const insertFranchiseDiscountCodeSchema = createInsertSchema(franchiseDiscountCodes).omit({
+  id: true,
+  redemptionCount: true,
+  stripeCouponId: true,
+  stripePromotionId: true,
+  status: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertFranchiseInviteSchema = createInsertSchema(franchiseInvites).omit({
+  id: true,
+  sentAt: true,
+  clickedAt: true,
+  convertedUserId: true,
+  status: true,
+  metadata: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const claimListingSchema = z.object({
+  fullName: z.string().min(1, "Your name is required"),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().optional(),
+  role: z.string().min(1, "Please tell us your role"),
+  website: z
+    .string()
+    .url("Enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  proofUrl: z
+    .string()
+    .url("Enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  message: z.string().min(10, "Share a few details so we can verify"),
+  contactPreference: z.enum(["email", "phone"]).default("email"),
+  consentToEmail: z
+    .boolean()
+    .refine((val) => val === true, {
+      message: "We need your consent to contact you",
+    }),
 });
 
 export const insertBookingRequestSchema = createInsertSchema(bookingRequests).omit({
@@ -394,3 +627,19 @@ export type Booking = typeof bookings.$inferSelect;
 export type InsertBooking = z.infer<typeof insertBookingSchema>;
 export type SearchParams = z.infer<typeof searchSchema>;
 export type ListClassData = z.infer<typeof listClassSchema>;
+export type ClaimListingData = z.infer<typeof claimListingSchema>;
+export type ProviderAccount = typeof providerAccounts.$inferSelect;
+export type InsertProviderAccount = z.infer<typeof insertProviderAccountSchema>;
+export type ProviderClaim = typeof providerClaims.$inferSelect;
+export type InsertProviderClaim = z.infer<typeof insertProviderClaimSchema>;
+export type ProviderMetric = typeof providerMetrics.$inferSelect;
+export type InsertProviderMetric = z.infer<typeof insertProviderMetricSchema>;
+export type ProviderClaimRequest = z.infer<typeof providerClaimRequestSchema>;
+export type ProviderFranchise = typeof providerFranchises.$inferSelect;
+export type InsertProviderFranchise = z.infer<typeof insertProviderFranchiseSchema>;
+export type Franchise = typeof franchises.$inferSelect;
+export type InsertFranchise = z.infer<typeof insertFranchiseSchema>;
+export type FranchiseDiscountCode = typeof franchiseDiscountCodes.$inferSelect;
+export type InsertFranchiseDiscountCode = z.infer<typeof insertFranchiseDiscountCodeSchema>;
+export type FranchiseInvite = typeof franchiseInvites.$inferSelect;
+export type InsertFranchiseInvite = z.infer<typeof insertFranchiseInviteSchema>;
