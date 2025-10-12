@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import brandImage from "@assets/image_1748256410268.png";
 
+// This file is not used as a route by Astro. See about.astro for the actual page.
+
 export default function About() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

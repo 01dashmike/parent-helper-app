@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
+// This file is not used as a route by Astro. See blog-baby-to-toddler.astro for the actual page.
+
 export default function BlogBabyToToddler() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream via-white to-sage-light">

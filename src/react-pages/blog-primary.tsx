@@ -6,6 +6,8 @@ import { ArrowLeft, Clock, Calendar, BookOpen } from 'lucide-react';
 import { Link } from 'wouter';
 import type { BlogPost } from '@shared/schema';
 
+// This file is not used as a route by Astro. See blog-primary.astro for the actual page.
+
 export default function BlogPrimary() {
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/blog/posts'],

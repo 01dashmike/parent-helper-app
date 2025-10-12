@@ -1,23 +1,25 @@
+// This file is not used as a route by Astro. See blog-0-6-months.astro for the actual page.
+
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Clock, Calendar, Heart } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Baby } from 'lucide-react';
 import { Link } from 'wouter';
 import type { BlogPost } from '@shared/schema';
 
-export default function BlogPrenatal() {
+export default function Blog06Months() {
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/blog/posts'],
   });
 
   const filteredPosts = posts.filter(post => 
-    post.category?.includes('prenatal') && post.isPublished
+    post.category?.includes('0-6-months') && post.isPublished
   );
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-coral/10 via-white to-lavender/10">
+      <div className="min-h-screen bg-gradient-to-br from-sage/10 via-white to-lavender/10">
         <div className="container mx-auto px-4 py-8">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
@@ -33,12 +35,12 @@ export default function BlogPrenatal() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-coral/10 via-white to-lavender/10">
+    <div className="min-h-screen bg-gradient-to-br from-sage/10 via-white to-lavender/10">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <Link href="/blog">
-            <Button variant="ghost" className="mb-4 text-coral hover:text-coral/80">
+            <Button variant="ghost" className="mb-4 text-sage hover:text-coral">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </Button>
@@ -46,17 +48,17 @@ export default function BlogPrenatal() {
           
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-coral/20 to-coral/40 flex items-center justify-center">
-                <Heart className="w-8 h-8 text-coral" />
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sage/20 to-sage/40 flex items-center justify-center">
+                <Baby className="w-8 h-8 text-sage" />
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold font-poppins text-teal-dark mb-4">
-              Pre-natal Guide
+              0-6 Months Guide
             </h1>
             <p className="text-lg text-sage max-w-2xl mx-auto">
-              Pregnancy tips, preparation for baby, and getting ready for parenthood.
+              Essential guidance for your newborn's first six months - from understanding cries to establishing routines.
             </p>
-            <Badge variant="secondary" className="mt-4 bg-coral/10 text-coral">
+            <Badge variant="secondary" className="mt-4 bg-sage/10 text-sage">
               {filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'}
             </Badge>
           </div>
@@ -66,9 +68,9 @@ export default function BlogPrenatal() {
         <div className="grid gap-8 md:gap-12">
           {filteredPosts.length === 0 ? (
             <div className="text-center py-12">
-              <Heart className="w-16 h-16 text-coral/40 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-sage mb-2">Coming Soon</h3>
-              <p className="text-sage/60">We're preparing valuable pregnancy and pre-natal content for you.</p>
+              <Baby className="w-16 h-16 text-sage/40 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-sage mb-2">No articles yet</h3>
+              <p className="text-sage/60">We're working on adding more content for this age group.</p>
             </div>
           ) : (
             filteredPosts.map((post) => (

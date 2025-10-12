@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import type { BlogPost } from "@shared/schema";
 
+// This file is not used as a route by Astro. See blog.astro for the actual page.
+
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [forceRender, setForceRender] = useState(0);

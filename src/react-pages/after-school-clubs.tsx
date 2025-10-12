@@ -277,3 +277,5 @@ export default function AfterSchoolClubsPage() {
     </div>
   );
 }
+
+// This file is not used as a route by Astro. See after-school-clubs.astro for the actual page.
